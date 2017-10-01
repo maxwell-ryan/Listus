@@ -11,20 +11,20 @@ import Foundation
 class Event {
     
     var name: String
+    var id: String
     var description: String?
-    var organizer: String
+    var organizer: [User] = []
     var authorizedUsers: [User] = []
     var date: Date
     
     var items: [Item] = []
-    //var messages: [Message] = []
+    var messages: [Message] = []
     
-    init(name: String, organizer: String, date: Date) {
+    init(name: String, id: String, date: Date) {
         
         self.name = name
-        self.organizer = organizer
+        self.id = id
         self.date = date
-        
     }
     
     

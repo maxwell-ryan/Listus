@@ -9,6 +9,7 @@ class User {
     var email: String       //serves as user's 'username' during login
     var id: String
     var password: String
+    var events: [Event] = []
     
     //initalize new user with all information already collected
     init(firstName: String, lastName: String, email: String, id: String, password: String){
