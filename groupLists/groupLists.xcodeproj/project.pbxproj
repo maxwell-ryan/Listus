@@ -14,6 +14,10 @@
 		0798B60E1F815660002185C5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0798B60C1F815660002185C5 /* LaunchScreen.storyboard */; };
 		0798B6191F815660002185C5 /* groupListsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0798B6181F815660002185C5 /* groupListsTests.swift */; };
 		0798B6241F815660002185C5 /* groupListsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0798B6231F815660002185C5 /* groupListsUITests.swift */; };
+		0798B6341F81596D002185C5 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0798B6331F81596D002185C5 /* Item.swift */; };
+		0798B6361F8159CC002185C5 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0798B6351F8159CC002185C5 /* User.swift */; };
+		0798B6381F815BE1002185C5 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0798B6371F815BE1002185C5 /* Event.swift */; };
+		0798B63A1F815DBE002185C5 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0798B6391F815DBE002185C5 /* Message.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +51,10 @@
 		0798B61F1F815660002185C5 /* groupListsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = groupListsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0798B6231F815660002185C5 /* groupListsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = groupListsUITests.swift; sourceTree = "<group>"; };
 		0798B6251F815660002185C5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0798B6331F81596D002185C5 /* Item.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
+		0798B6351F8159CC002185C5 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		0798B6371F815BE1002185C5 /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
+		0798B6391F815DBE002185C5 /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,6 +105,10 @@
 		0798B6021F815660002185C5 /* groupLists */ = {
 			isa = PBXGroup;
 			children = (
+				0798B6351F8159CC002185C5 /* User.swift */,
+				0798B6331F81596D002185C5 /* Item.swift */,
+				0798B6371F815BE1002185C5 /* Event.swift */,
+				0798B6391F815DBE002185C5 /* Message.swift */,
 				0798B6031F815660002185C5 /* AppDelegate.swift */,
 				0798B6051F815660002185C5 /* ViewController.swift */,
 				0798B6071F815660002185C5 /* Main.storyboard */,
@@ -259,8 +271,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0798B6361F8159CC002185C5 /* User.swift in Sources */,
+				0798B6341F81596D002185C5 /* Item.swift in Sources */,
 				0798B6061F815660002185C5 /* ViewController.swift in Sources */,
+				0798B63A1F815DBE002185C5 /* Message.swift in Sources */,
 				0798B6041F815660002185C5 /* AppDelegate.swift in Sources */,
+				0798B6381F815BE1002185C5 /* Event.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
