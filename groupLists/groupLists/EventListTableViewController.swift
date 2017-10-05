@@ -27,12 +27,6 @@ class EventListTableViewController: UITableViewController {
         
         self.ref = Database.database().reference()
         
-        //self.ref.child("users").childByAutoId().setValue(["firstName": "John", "lastName": "Cross"])
-        
-        
-        
-        
-        
         
         testEvent.items = testItems
         
