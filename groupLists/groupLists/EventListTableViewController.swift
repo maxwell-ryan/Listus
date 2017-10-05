@@ -7,11 +7,11 @@
 //
 
 import UIKit
-
-
-
+import FirebaseDatabase
 
 class EventListTableViewController: UITableViewController {
+    var ref: DatabaseReference!
+    
     
     @IBOutlet var eventListTableView: UITableView!
     @IBOutlet weak var itemNameLabel: UILabel!
@@ -24,6 +24,9 @@ class EventListTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.ref = Database.database().reference()
+        
         
         testEvent.items = testItems
         
