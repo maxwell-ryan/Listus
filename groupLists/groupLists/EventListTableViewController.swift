@@ -9,6 +9,12 @@
 import UIKit
 import FirebaseDatabase
 
+//var model = DataModel()
+//let testItems: [Item] = [Item(name: "name1", id: "id1", userID: "userID1"), Item(name: "name2", id: "id2", userID: "userID2"), Item(name: "name3", id: "id3", userID: "userID3")]
+//
+//let testEvent = Event(name: "testEvent", id: "eventID", date: Date())
+
+
 class EventListTableViewController: UITableViewController {
     var ref: DatabaseReference!
     
@@ -17,16 +23,21 @@ class EventListTableViewController: UITableViewController {
     @IBOutlet weak var itemNameLabel: UILabel!
     @IBOutlet weak var itemIDLabel: UILabel!
     
-    
-    let testItems: [Item] = [Item(name: "name1", id: "id1", userID: "userID1"), Item(name: "name2", id: "id2", userID: "userID2"), Item(name: "name3", id: "id3", userID: "userID3")]
-    
-    let testEvent = Event(name: "testEvent", id: "eventID", date: Date())
-    
+  
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view.backgroundColor = UIColor.init(red: 31.0/255.0, green: 40.0/255.0, blue: 51.0/255.0, alpha: 1)
         
-        self.ref = Database.database().reference()
+        //this will be removed once model creation is moved to actual app launch screen
+        testItems[0].description = "An undoubtedly needed item"
+        testItems[1].description = "A likely needed item"
+        testItems[2].description = "A silly item to bring to this event"
         
+        
+        model.addEvent(name: "testEvent", id: "eventID", date: Date())
+        model.events[0].items = testItems
+        
+        //self.ref = Database.database().reference()
         
         testEvent.items = testItems
         
@@ -44,7 +55,7 @@ class EventListTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
+        // return a single section containing all list items
         return 1
     }
 
@@ -53,16 +64,23 @@ class EventListTableViewController: UITableViewController {
         return testEvent.items.count
     }
 
-    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) ->
         
         UITableViewCell {
-        let cell = eventListTableView.dequeueReusableCell(withIdentifier: "itemCell", for: indexPath)
-
-        cell.textLabel?.text = testEvent.items[indexPath.row].name
-        cell.detailTextLabel?.text = testEvent.items[indexPath.row].id
+        let listItemCell = eventListTableView.dequeueReusableCell(withIdentifier: "itemCell", for: indexPath) as! ListItemTableViewCell
         
-        return cell
+        listItemCell.itemNameLabel.text = model.events[0].items[indexPath.row].name
+        listItemCell.itemDescriptionLabel.text = model.events[0].items[indexPath.row].description
+        listItemCell.itemUserLabel.text = "| Suggested by \(model.events[0].items[indexPath.row].userID) |"
+            
+        listItemCell.backgroundColor = UIColor.init(red: 31.0/255.0, green: 40.0/255.0, blue: 51.0/255.0, alpha: 1)
+        listItemCell.itemNameLabel.textColor = UIColor.init(red: 197.0/255.0, green: 198.0/255.0, blue: 199.0/255.0, alpha: 1)
+        listItemCell.itemDescriptionLabel.textColor = UIColor.init(red: 197.0/255.0, green: 198.0/255.0, blue: 199.0/255.0, alpha: 1)
+
+        listItemCell.itemUserLabel.textColor = UIColor.init(red: 102.0/255.0, green: 252.0/255.0, blue: 241.0/255.0, alpha: 1)
+
+        
+        return listItemCell
     }
 
 

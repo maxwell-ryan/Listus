@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		07135D9C1F8BE65900E0A6F5 /* ListItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07135D9B1F8BE65900E0A6F5 /* ListItemTableViewCell.swift */; };
+		07135D9E1F8BF1C100E0A6F5 /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07135D9D1F8BF1C100E0A6F5 /* DataModel.swift */; };
+		071CFF971F8BFFA500080C81 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 071CFF961F8BFFA500080C81 /* ListViewController.swift */; };
 		0798B6041F815660002185C5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0798B6031F815660002185C5 /* AppDelegate.swift */; };
 		0798B60B1F815660002185C5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0798B60A1F815660002185C5 /* Assets.xcassets */; };
 		0798B6191F815660002185C5 /* groupListsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0798B6181F815660002185C5 /* groupListsTests.swift */; };
@@ -44,6 +47,9 @@
 
 /* Begin PBXFileReference section */
 		023762F5233DDB4DC2B47DED /* Pods-groupListsUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-groupListsUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-groupListsUITests/Pods-groupListsUITests.release.xcconfig"; sourceTree = "<group>"; };
+		07135D9B1F8BE65900E0A6F5 /* ListItemTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListItemTableViewCell.swift; sourceTree = "<group>"; };
+		07135D9D1F8BF1C100E0A6F5 /* DataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataModel.swift; sourceTree = "<group>"; };
+		071CFF961F8BFFA500080C81 /* ListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		0798B6001F815660002185C5 /* groupLists.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = groupLists.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0798B6031F815660002185C5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0798B60A1F815660002185C5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -161,6 +167,7 @@
 				0798B63B1F816196002185C5 /* ColorScheme.swift */,
 				0798B6581F816584002185C5 /* LaunchScreen.storyboard */,
 				0798B65A1F816584002185C5 /* Main.storyboard */,
+				07135D9B1F8BE65900E0A6F5 /* ListItemTableViewCell.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -168,6 +175,7 @@
 		0798B6461F816482002185C5 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				07135D9D1F8BF1C100E0A6F5 /* DataModel.swift */,
 				0798B64E1F816515002185C5 /* Item.swift */,
 				0798B6521F81655F002185C5 /* Event.swift */,
 				0798B6531F81655F002185C5 /* User.swift */,
@@ -179,6 +187,7 @@
 		0798B6471F816488002185C5 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				071CFF961F8BFFA500080C81 /* ListViewController.swift */,
 				0798B65E1F8166E8002185C5 /* EventListTableViewController.swift */,
 			);
 			name = Controller;
@@ -509,9 +518,12 @@
 				0798B65F1F8166E8002185C5 /* EventListTableViewController.swift in Sources */,
 				0798B6511F81651F002185C5 /* Message.swift in Sources */,
 				0798B6551F81655F002185C5 /* User.swift in Sources */,
+				07135D9C1F8BE65900E0A6F5 /* ListItemTableViewCell.swift in Sources */,
 				0798B64F1F816515002185C5 /* Item.swift in Sources */,
 				0798B6041F815660002185C5 /* AppDelegate.swift in Sources */,
 				0798B6541F81655F002185C5 /* Event.swift in Sources */,
+				071CFF971F8BFFA500080C81 /* ListViewController.swift in Sources */,
+				07135D9E1F8BF1C100E0A6F5 /* DataModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -664,6 +676,7 @@
 			baseConfigurationReference = 93293FB2409A2916E9BBD2D3 /* Pods-groupLists.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = groupLists/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = capstone.groupLists;
@@ -677,6 +690,7 @@
 			baseConfigurationReference = 685B3C73CF9994FCD6C66149 /* Pods-groupLists.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = groupLists/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = capstone.groupLists;

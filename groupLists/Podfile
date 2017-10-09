@@ -9,6 +9,7 @@ target 'groupLists' do
 
 pod 'Firebase/Core'
 pod 'Firebase/Database'
+pod 'GoogleToolboxForMac', '~> 2.1'
 
   target 'groupListsTests' do
     inherit! :search_paths
