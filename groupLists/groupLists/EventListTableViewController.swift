@@ -37,7 +37,7 @@ class EventListTableViewController: UITableViewController {
         model.addEvent(name: "testEvent", id: "eventID", date: Date())
         model.events[0].items = testItems
         
-        //self.ref = Database.database().reference()
+        self.ref = Database.database().reference()
         
         testEvent.items = testItems
         

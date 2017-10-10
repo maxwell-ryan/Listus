@@ -25,6 +25,15 @@ class Item {
         self.userID = userID
     }
     
+    init(name: String, id: String, userID: String, description: String, quantity: Int) {
+        
+        self.name = name
+        self.id = id
+        self.userID = userID
+        self.description = description
+        self.quantity = quantity
+    }
+    
     
     
 }

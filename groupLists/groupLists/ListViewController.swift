@@ -7,15 +7,17 @@
 //
 
 import UIKit
+import FirebaseDatabase
 
 var model = DataModel()
-let testItems: [Item] = [Item(name: "name1", id: "id1", userID: "userID1"), Item(name: "name2", id: "id2", userID: "userID2"), Item(name: "name3", id: "id3", userID: "userID3")]
+var testItems: [Item] = [Item(name: "name1", id: "id1", userID: "userID1"), Item(name: "name2", id: "id2", userID: "userID2"), Item(name: "name3", id: "id3", userID: "userID3")]
 var testOrganizer = User(firstName: "John", lastName: "Doe", email: "john.doe@gmail.com", id: "1", password: "password")
 
 let testEvent = Event(name: "testEvent", id: "eventID", date: Date())
 
 class ListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
+    var ref: DatabaseReference!
     
     @IBOutlet weak var addListItemBtn: UIButton!
     @IBOutlet weak var listItemTableView: UITableView!
@@ -26,12 +28,16 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        self.ref = Database.database().reference()
+        
+        listItemTableView.reloadData()
         self.view.backgroundColor = UIColor.white  //UIColor.init(red: 31.0/255.0, green: 40.0/255.0, blue: 51.0/255.0, alpha: 1)
         
         addListItemBtn.setTitleColor(UIColor.init(red: 102.0/255.0, green: 252.0/255.0, blue: 241.0/255.0, alpha: 1), for: UIControlState.normal)
         addListItemBtn.backgroundColor = UIColor.init(red: 197.0/255.0, green: 198.0/255.0, blue: 199.0/255.0, alpha: 1)
         addListItemBtn.layer.cornerRadius = 10
+        addListItemBtn.addTarget(self, action: #selector(newItemSegue), for: UIControlEvents.touchUpInside)
         
         //this will be removed once model creation is moved to actual app launch screen
         testItems[0].description = "An undoubtedly needed item"
@@ -44,6 +50,8 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
         model.events[0].items = testItems
         
         listItemTableView.dataSource = self
+        listItemTableView.delegate = self
+        
         listItemTableView.backgroundColor = UIColor.init(red: 31.0/255.0, green: 40.0/255.0, blue: 51.0/255.0, alpha: 1)
         
         listInfoLabel.textColor = UIColor.init(red: 11.0/255.0, green: 12.0/255.0, blue: 16.0/255.0, alpha: 1)
@@ -52,10 +60,18 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
         listNameLabel.textColor = UIColor.init(red: 11.0/255.0, green: 12.0/255.0, blue: 16.0/255.0, alpha: 1)
         listNameLabel.text = model.events[0].name
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        listItemTableView.reloadData()
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func newItemSegue() {
+        performSegue(withIdentifier: "addItem", sender: self)
     }
     
 
@@ -96,6 +112,7 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //no implementation of row selection yet
         //could be used for detailed view of item information
+        print("Selected row: \(indexPath.row)")
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -104,13 +121,22 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         
-        var edit = UITableViewRowAction(style: .default, title: "Edit") { (action: UITableViewRowAction, index: IndexPath) in
+        let edit = UITableViewRowAction(style: .default, title: "Edit") { (action: UITableViewRowAction, index: IndexPath) in
             print("Edit button pressed")
         }
+        edit.backgroundColor = UIColor.cyan
         
-        edit.backgroundColor = UIColor.yellow
+        let concur = UITableViewRowAction(style: .default, title: "Concur") { (action: UITableViewRowAction, index: IndexPath) in
+            print("Concur button presss")
+        }
+        concur.backgroundColor = UIColor.green
         
-        return [edit]
+        let disagree = UITableViewRowAction(style: .default, title: "Disagree") { (action: UITableViewRowAction, index: IndexPath) in
+            print("Disagree button presss")
+        }
+        disagree.backgroundColor = UIColor.red
+        
+        return [disagree, concur, edit]
     }
 
 }
