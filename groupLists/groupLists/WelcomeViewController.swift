@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class WelcomeViewController: UIViewController {
 
@@ -14,6 +15,16 @@ class WelcomeViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        // Skip login and register views if already logged in
+        // Will uncomment when a sign out button is created
+        /*
+        if Auth.auth().currentUser != nil {
+            self.performSegue(withIdentifier: "showUser", sender: nil)
+        }
+         */
     }
 
     override func didReceiveMemoryWarning() {

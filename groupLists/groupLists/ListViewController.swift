@@ -7,11 +7,11 @@
 //
 
 import UIKit
-import FirebaseDatabase
+import Firebase
 
 var model = DataModel()
 var testItems: [Item] = [Item(name: "name1", id: "id1", userID: "userID1"), Item(name: "name2", id: "id2", userID: "userID2"), Item(name: "name3", id: "id3", userID: "userID3")]
-var testOrganizer = User(firstName: "John", lastName: "Doe", email: "john.doe@gmail.com", id: "1", password: "password")
+var testOrganizer = User(firstName: "John", lastName: "Doe", email: "john.doe@gmail.com", id: "1")
 
 let testEvent = Event(name: "testEvent", id: "eventID", date: Date())
 
@@ -31,6 +31,40 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         self.ref = Database.database().reference()
         
+        let userID = Auth.auth().currentUser?.uid
+        ref.child("users").child(userID!).observeSingleEvent(of: .value, with: { (snapshot) in
+            // Get user values
+            let value = snapshot.value as? NSDictionary
+            let firstName = value?["firstName"] as? String ?? ""
+            let lastName = value?["lastName"] as? String ?? ""
+            let email = value?["email"] as? String ?? ""
+            testOrganizer = User(firstName: firstName, lastName: lastName, email: email, id: snapshot.key)
+            
+            print(testOrganizer.email)
+            
+            self.formerlyInViewDidLoad()
+            
+        }) { (error) in
+            print(error.localizedDescription)
+        }
+        
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        listItemTableView.reloadData()
+    }
+
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    func newItemSegue() {
+        performSegue(withIdentifier: "addItem", sender: self)
+    }
+    
+    func formerlyInViewDidLoad() {
         listItemTableView.reloadData()
         self.view.backgroundColor = UIColor.white  //UIColor.init(red: 31.0/255.0, green: 40.0/255.0, blue: 51.0/255.0, alpha: 1)
         
@@ -59,19 +93,6 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         listNameLabel.textColor = UIColor.init(red: 11.0/255.0, green: 12.0/255.0, blue: 16.0/255.0, alpha: 1)
         listNameLabel.text = model.events[0].name
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        listItemTableView.reloadData()
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    func newItemSegue() {
-        performSegue(withIdentifier: "addItem", sender: self)
     }
     
 
