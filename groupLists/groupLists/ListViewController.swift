@@ -66,10 +66,10 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func formerlyInViewDidLoad() {
         listItemTableView.reloadData()
-        self.view.backgroundColor = UIColor.white  //UIColor.init(red: 31.0/255.0, green: 40.0/255.0, blue: 51.0/255.0, alpha: 1)
+        self.view.backgroundColor = UIColor.white  //colors.primaryColor1
         
-        addListItemBtn.setTitleColor(UIColor.init(red: 102.0/255.0, green: 252.0/255.0, blue: 241.0/255.0, alpha: 1), for: UIControlState.normal)
-        addListItemBtn.backgroundColor = UIColor.init(red: 197.0/255.0, green: 198.0/255.0, blue: 199.0/255.0, alpha: 1)
+        addListItemBtn.setTitleColor(colors.accentColor1, for: UIControlState.normal)
+        addListItemBtn.backgroundColor = colors.primaryColor2
         addListItemBtn.layer.cornerRadius = 10
         addListItemBtn.addTarget(self, action: #selector(newItemSegue), for: UIControlEvents.touchUpInside)
         
@@ -86,7 +86,7 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
         listItemTableView.dataSource = self
         listItemTableView.delegate = self
         
-        listItemTableView.backgroundColor = UIColor.init(red: 31.0/255.0, green: 40.0/255.0, blue: 51.0/255.0, alpha: 1)
+        listItemTableView.backgroundColor = colors.primaryColor1
         
         listInfoLabel.textColor = UIColor.init(red: 11.0/255.0, green: 12.0/255.0, blue: 16.0/255.0, alpha: 1)
         listInfoLabel.text = "Organized by \(model.events[0].organizer[0].firstName) \(model.events[0].organizer[0].lastName)    |    \(model.events[0].items.count) items suggested"
@@ -120,11 +120,11 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
             listItemCell.itemDescriptionLabel.text = model.events[0].items[indexPath.row].description
             listItemCell.itemUserLabel.text = "| Suggested by \(model.events[0].items[indexPath.row].userID) |"
             
-            listItemCell.backgroundColor = UIColor.init(red: 31.0/255.0, green: 40.0/255.0, blue: 51.0/255.0, alpha: 1)
-            listItemCell.itemNameLabel.textColor = UIColor.init(red: 197.0/255.0, green: 198.0/255.0, blue: 199.0/255.0, alpha: 1)
-            listItemCell.itemDescriptionLabel.textColor = UIColor.init(red: 197.0/255.0, green: 198.0/255.0, blue: 199.0/255.0, alpha: 1)
+            listItemCell.backgroundColor = colors.primaryColor1
+            listItemCell.itemNameLabel.textColor = colors.primaryColor2
+            listItemCell.itemDescriptionLabel.textColor = colors.primaryColor2
             
-            listItemCell.itemUserLabel.textColor = UIColor.init(red: 102.0/255.0, green: 252.0/255.0, blue: 241.0/255.0, alpha: 1)
+            listItemCell.itemUserLabel.textColor = colors.accentColor1
             
             
             return listItemCell

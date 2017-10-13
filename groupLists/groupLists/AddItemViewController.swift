@@ -33,28 +33,28 @@ class AddItemViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = UIColor.init(red: 31.0/255.0, green: 40.0/255.0, blue: 51.0/255.0, alpha: 1)
+        view.backgroundColor = colors.primaryColor1
         
-        submitNewItemBtn.setTitleColor(UIColor.init(red: 102.0/255.0, green: 252.0/255.0, blue: 241.0/255.0, alpha: 1), for: UIControlState.normal)
-        submitNewItemBtn.backgroundColor = UIColor.init(red: 197.0/255.0, green: 198.0/255.0, blue: 199.0/255.0, alpha: 1)
+        submitNewItemBtn.setTitleColor(colors.accentColor1, for: UIControlState.normal)
+        submitNewItemBtn.backgroundColor = colors.primaryColor2
         submitNewItemBtn.layer.cornerRadius = 10
         submitNewItemBtn.addTarget(self, action: #selector(verifyValidAddition), for: .touchUpInside)
         
-        backBtn.setTitleColor(UIColor.init(red: 102.0/255.0, green: 252.0/255.0, blue: 241.0/255.0, alpha: 1), for: UIControlState.normal)
-        backBtn.backgroundColor = UIColor.init(red: 197.0/255.0, green: 198.0/255.0, blue: 199.0/255.0, alpha: 1)
+        backBtn.setTitleColor(colors.accentColor1, for: UIControlState.normal)
+        backBtn.backgroundColor = colors.primaryColor2
         backBtn.layer.cornerRadius = 10
         backBtn.addTarget(self, action: #selector(returnToList), for: .touchUpInside)
         
         quantityStepper.value = 1.0
         quantityStepper.addTarget(self, action: #selector(updateStepperLabel), for: .touchUpInside)
-        quantityStepper.tintColor = UIColor.init(red: 102.0/255.0, green: 252.0/255.0, blue: 241.0/255.0, alpha: 1)
+        quantityStepper.tintColor = colors.accentColor1
         
-        quantityStepperLabel.textColor = UIColor.init(red: 197.0/255.0, green: 198.0/255.0, blue: 199.0/255.0, alpha: 1)
-        quantityLabel.textColor = UIColor.init(red: 197.0/255.0, green: 198.0/255.0, blue: 199.0/255.0, alpha: 1)
-        userLabel.textColor = UIColor.init(red: 197.0/255.0, green: 198.0/255.0, blue: 199.0/255.0, alpha: 1)
-        idLabel.textColor = UIColor.init(red: 197.0/255.0, green: 198.0/255.0, blue: 199.0/255.0, alpha: 1)
-        itemNameLabel.textColor = UIColor.init(red: 197.0/255.0, green: 198.0/255.0, blue: 199.0/255.0, alpha: 1)
-        descriptionLabel.textColor = UIColor.init(red: 197.0/255.0, green: 198.0/255.0, blue: 199.0/255.0, alpha: 1)
+        quantityStepperLabel.textColor = colors.primaryColor2
+        quantityLabel.textColor = colors.primaryColor2
+        userLabel.textColor = colors.primaryColor2
+        idLabel.textColor = colors.primaryColor2
+        itemNameLabel.textColor = colors.primaryColor2
+        descriptionLabel.textColor = colors.primaryColor2
         
         quantityStepperLabel.text = String(Int(quantityStepper.value))
     }
