@@ -11,6 +11,8 @@
 		07135D9E1F8BF1C100E0A6F5 /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07135D9D1F8BF1C100E0A6F5 /* DataModel.swift */; };
 		071CFF971F8BFFA500080C81 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 071CFF961F8BFFA500080C81 /* ListViewController.swift */; };
 		071CFF991F8C415600080C81 /* AddItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 071CFF981F8C415600080C81 /* AddItemViewController.swift */; };
+		0788FEEA1F9120E200D71A50 /* EventCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0788FEE91F9120E200D71A50 /* EventCollectionViewController.swift */; };
+		0788FEEC1F91216200D71A50 /* EventCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0788FEEB1F91216200D71A50 /* EventCollectionViewCell.swift */; };
 		0798B6041F815660002185C5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0798B6031F815660002185C5 /* AppDelegate.swift */; };
 		0798B60B1F815660002185C5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0798B60A1F815660002185C5 /* Assets.xcassets */; };
 		0798B6191F815660002185C5 /* groupListsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0798B6181F815660002185C5 /* groupListsTests.swift */; };
@@ -55,6 +57,8 @@
 		07135D9D1F8BF1C100E0A6F5 /* DataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataModel.swift; sourceTree = "<group>"; };
 		071CFF961F8BFFA500080C81 /* ListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		071CFF981F8C415600080C81 /* AddItemViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddItemViewController.swift; sourceTree = "<group>"; };
+		0788FEE91F9120E200D71A50 /* EventCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventCollectionViewController.swift; sourceTree = "<group>"; };
+		0788FEEB1F91216200D71A50 /* EventCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventCollectionViewCell.swift; sourceTree = "<group>"; };
 		0798B6001F815660002185C5 /* groupLists.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = groupLists.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0798B6031F815660002185C5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0798B60A1F815660002185C5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -176,6 +180,7 @@
 				0798B6581F816584002185C5 /* LaunchScreen.storyboard */,
 				0798B65A1F816584002185C5 /* Main.storyboard */,
 				07135D9B1F8BE65900E0A6F5 /* ListItemTableViewCell.swift */,
+				0788FEEB1F91216200D71A50 /* EventCollectionViewCell.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -201,6 +206,7 @@
 				240574E51F8D8092007EC0F0 /* WelcomeViewController.swift */,
 				240574E71F8D80F9007EC0F0 /* LogInViewController.swift */,
 				2494B7971F8ECBDF005C5B92 /* RegisterViewController.swift */,
+				0788FEE91F9120E200D71A50 /* EventCollectionViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -532,6 +538,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0798B63C1F816196002185C5 /* ColorScheme.swift in Sources */,
+				0788FEEC1F91216200D71A50 /* EventCollectionViewCell.swift in Sources */,
 				0798B65F1F8166E8002185C5 /* EventListTableViewController.swift in Sources */,
 				0798B6511F81651F002185C5 /* Message.swift in Sources */,
 				0798B6551F81655F002185C5 /* User.swift in Sources */,
@@ -544,6 +551,7 @@
 				071CFF971F8BFFA500080C81 /* ListViewController.swift in Sources */,
 				240574E61F8D8092007EC0F0 /* WelcomeViewController.swift in Sources */,
 				07135D9E1F8BF1C100E0A6F5 /* DataModel.swift in Sources */,
+				0788FEEA1F9120E200D71A50 /* EventCollectionViewController.swift in Sources */,
 				071CFF991F8C415600080C81 /* AddItemViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

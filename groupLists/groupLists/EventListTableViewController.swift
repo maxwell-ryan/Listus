@@ -11,8 +11,8 @@ import FirebaseDatabase
 
 //var model = DataModel()
 //let testItems: [Item] = [Item(name: "name1", id: "id1", userID: "userID1"), Item(name: "name2", id: "id2", userID: "userID2"), Item(name: "name3", id: "id3", userID: "userID3")]
-//
-//let testEvent = Event(name: "testEvent", id: "eventID", date: Date())
+
+let testEvent = Event(name: "testEvent", id: "eventID", date: Date())
 
 
 class EventListTableViewController: UITableViewController {

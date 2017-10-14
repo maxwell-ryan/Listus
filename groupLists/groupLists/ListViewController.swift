@@ -9,15 +9,12 @@
 import UIKit
 import Firebase
 
-var model = DataModel()
-var testItems: [Item] = [Item(name: "name1", id: "id1", userID: "userID1"), Item(name: "name2", id: "id2", userID: "userID2"), Item(name: "name3", id: "id3", userID: "userID3")]
-var testOrganizer = User(firstName: "John", lastName: "Doe", email: "john.doe@gmail.com", id: "1")
 
-let testEvent = Event(name: "testEvent", id: "eventID", date: Date())
 
 class ListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     var ref: DatabaseReference!
+    var currentEventIdx: Int! //unwrapped optional required to prevent Xcode mandating this class have an initializer - let's discuss best practice, I am unsure
     
     @IBOutlet weak var addListItemBtn: UIButton!
     @IBOutlet weak var listItemTableView: UITableView!
@@ -29,30 +26,32 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.ref = Database.database().reference()
-        
-        let userID = Auth.auth().currentUser?.uid
-        ref.child("users").child(userID!).observeSingleEvent(of: .value, with: { (snapshot) in
-            // Get user values
-            let value = snapshot.value as? NSDictionary
-            let firstName = value?["firstName"] as? String ?? ""
-            let lastName = value?["lastName"] as? String ?? ""
-            let email = value?["email"] as? String ?? ""
-            testOrganizer = User(firstName: firstName, lastName: lastName, email: email, id: snapshot.key)
-            
-            print(testOrganizer.email)
-            
+        //self.ref = Database.database().reference()
+
+//        let userID = Auth.auth().currentUser?.uid
+//        ref.child("users").child(userID!).observeSingleEvent(of: .value, with: { (snapshot) in
+//            // Get user values
+//            let value = snapshot.value as? NSDictionary
+//            let firstName = value?["firstName"] as? String ?? ""
+//            let lastName = value?["lastName"] as? String ?? ""
+//            let email = value?["email"] as? String ?? ""
+//
+//            testOrganizer = User(firstName: firstName, lastName: lastName, email: email, id: snapshot.key)
+//
+//            print(testOrganizer.email)
+
             self.formerlyInViewDidLoad()
-            
-        }) { (error) in
-            print(error.localizedDescription)
-        }
+
+//        }) { (error) in
+//            print(error.localizedDescription)
+//        }
         
         
     }
     
     override func viewWillAppear(_ animated: Bool) {
         listItemTableView.reloadData()
+        print(currentEventIdx)
     }
 
     override func didReceiveMemoryWarning() {
@@ -89,10 +88,10 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
         listItemTableView.backgroundColor = colors.primaryColor1
         
         listInfoLabel.textColor = UIColor.init(red: 11.0/255.0, green: 12.0/255.0, blue: 16.0/255.0, alpha: 1)
-        listInfoLabel.text = "Organized by \(model.events[0].organizer[0].firstName) \(model.events[0].organizer[0].lastName)    |    \(model.events[0].items.count) items suggested"
+        listInfoLabel.text = "Organized by \(model.events[currentEventIdx].organizer[0].firstName) \(model.events[currentEventIdx].organizer[0].lastName)    |    \(model.events[currentEventIdx].items.count) items suggested"
         
         listNameLabel.textColor = UIColor.init(red: 11.0/255.0, green: 12.0/255.0, blue: 16.0/255.0, alpha: 1)
-        listNameLabel.text = model.events[0].name
+        listNameLabel.text = model.events[currentEventIdx].name
     }
     
 
@@ -109,16 +108,16 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
     //implement UITableViewDelegate and UITableViewDataSource
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return model.events[0].items.count
+        return model.events[currentEventIdx].items.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) ->
         UITableViewCell {
             let listItemCell = listItemTableView.dequeueReusableCell(withIdentifier: "itemCell", for: indexPath) as! ListItemTableViewCell
             
-            listItemCell.itemNameLabel.text = model.events[0].items[indexPath.row].name
-            listItemCell.itemDescriptionLabel.text = model.events[0].items[indexPath.row].description
-            listItemCell.itemUserLabel.text = "| Suggested by \(model.events[0].items[indexPath.row].userID) |"
+            listItemCell.itemNameLabel.text = model.events[currentEventIdx].items[indexPath.row].name
+            listItemCell.itemDescriptionLabel.text = model.events[currentEventIdx].items[indexPath.row].description
+            listItemCell.itemUserLabel.text = "| Suggested by \(model.events[currentEventIdx].items[indexPath.row].userID) |"
             
             listItemCell.backgroundColor = colors.primaryColor1
             listItemCell.itemNameLabel.textColor = colors.primaryColor2
