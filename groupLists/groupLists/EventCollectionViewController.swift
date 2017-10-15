@@ -17,9 +17,18 @@ var testOrganizer = User(firstName: "John", lastName: "Doe", email: "john.doe@gm
 
 
 class EventCollectionViewController: UICollectionViewController {
-
+    
+    let backgroundImages: [UIImage] = [UIImage.init(named: "camera")!,
+                                       UIImage.init(named: "coffee")!,
+                                       UIImage.init(named: "concert")!,
+                                       UIImage.init(named: "guitar")!,
+                                       UIImage.init(named: "hallway")!,
+                                       UIImage.init(named: "lightning")!,
+                                       UIImage.init(named: "roadway")!]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -40,17 +49,17 @@ class EventCollectionViewController: UICollectionViewController {
         
         //events.events[idx]
         
-        model.addEvent(name: "testEvent1", id: "eventID1", date: Date())
-        model.addEvent(name: "testEvent2", id: "eventID2", date: Date.init(timeIntervalSinceNow: 5000.0))
-        model.addEvent(name: "testEvent3", id: "eventID3", date: Date.init(timeIntervalSinceNow: 8000.0))
-        model.addEvent(name: "testEvent4", id: "eventID4", date: Date.init(timeIntervalSinceNow: 9000.0))
-        model.addEvent(name: "testEvent5", id: "eventID5", date: Date.init(timeIntervalSinceNow: 20000.0))
-        model.addEvent(name: "testEvent6", id: "eventID6", date: Date.init(timeIntervalSinceNow: 80000.0))
-        model.addEvent(name: "testEvent7", id: "eventID7", date: Date.init(timeIntervalSinceNow: 90000.0))
-        model.addEvent(name: "testEvent8", id: "eventID8", date: Date.init(timeIntervalSinceNow: 109000.0))
-        model.addEvent(name: "testEvent9", id: "eventID9", date: Date.init(timeIntervalSinceNow: 11235000.0))
-        model.addEvent(name: "testEvent10", id: "eventID10", date: Date.init(timeIntervalSinceNow: 4355000.0))
-        model.addEvent(name: "testEvent11", id: "eventID11", date: Date.init(timeIntervalSinceNow: 54645645000.0))
+        model.addEvent(name: "testEvent1", id: "eventID1", date: Date.init(timeIntervalSinceNow: 86400.0))
+        model.addEvent(name: "testEvent2", id: "eventID2", date: Date.init(timeIntervalSinceNow: 86400.0))
+        model.addEvent(name: "testEvent3", id: "eventID3", date: Date.init(timeIntervalSinceNow: 86400.0 * 2.0))
+        model.addEvent(name: "testEvent4", id: "eventID4", date: Date.init(timeIntervalSinceNow: 86400.0 * 3.0))
+        model.addEvent(name: "testEvent5", id: "eventID5", date: Date.init(timeIntervalSinceNow: 86400.0 * 4.0))
+        model.addEvent(name: "testEvent6", id: "eventID6", date: Date.init(timeIntervalSinceNow: 86400.0 * 5.0))
+        model.addEvent(name: "testEvent7", id: "eventID7", date: Date.init(timeIntervalSinceNow: 86400.0 * 6.0))
+        model.addEvent(name: "testEvent8", id: "eventID8", date: Date.init(timeIntervalSinceNow: 86400.0 * 12.0))
+        model.addEvent(name: "testEvent9", id: "eventID9", date: Date.init(timeIntervalSinceNow: 86400.0 * 20.0))
+        model.addEvent(name: "testEvent10", id: "eventID10", date: Date.init(timeIntervalSinceNow: 86400.0 * 31.0))
+        model.addEvent(name: "testEvent11", id: "eventID11", date: Date.init(timeIntervalSinceNow: 86400.0 * 90.0))
         print("EventCollectionView about to appear with \(model.events.count) events in the data model")
         
         let testOrganizer = User.init(firstName: "John", lastName: "Johnson", email: "testemail.com", id: "12")
@@ -107,10 +116,40 @@ class EventCollectionViewController: UICollectionViewController {
         //populate custom cell with event information
         cell.eventNameLabel.text = model.events[indexPath.item].name
         cell.eventNameLabel.font = UIFont.boldSystemFont(ofSize: 20)
-        cell.eventNameLabel.textColor = colors.primaryColor2
-        cell.eventDateLabel.text = model.events[indexPath.item].date.description
-        cell.eventDateLabel.textColor = colors.primaryColor2
-        cell.eventOrganizerLabel.textColor = colors.primaryColor2
+        cell.eventNameLabel.textColor = UIColor.white
+        
+        var eventDate = model.events[indexPath.item].date
+        var todayDate = Date()
+        
+        //format event and current date
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .long
+        dateFormatter.timeStyle = .none
+        dateFormatter.locale = Locale(identifier: "en_US")
+        
+        //calculate and format date interval between two dates
+        var dateUntilEvent = DateInterval.init(start: todayDate, end: eventDate)
+        let dateIntervalFormatter = DateIntervalFormatter()
+        dateIntervalFormatter.dateStyle = .none
+        dateIntervalFormatter.timeStyle = .short
+        dateIntervalFormatter.locale = Locale(identifier: "en_US")
+        
+        var countdownTimeInterval = eventDate.timeIntervalSince(todayDate)
+        
+        cell.eventDateLabel.lineBreakMode = .byWordWrapping
+        cell.eventDateLabel.numberOfLines = 0
+        cell.eventDateLabel.text = "\(dateFormatter.string(from: eventDate))\nin \(convertTimeIntervalToDaysHoursMinutesSeconds(timeInterval: countdownTimeInterval))"
+        cell.eventDateLabel.textColor = UIColor.white
+        cell.eventDateLabel.font = UIFont.boldSystemFont(ofSize: 16)
+        
+        cell.eventOrganizerLabel.textColor = UIColor.white
+        cell.eventOrganizerLabel.font = UIFont.systemFont(ofSize: 12)
+        
+        //populate image assets in background
+        //generate random number no larger than number of images in image asset folder (Note: arc4random is not inclusive)
+        var randomValue = arc4random_uniform(UInt32(backgroundImages.count))
+        var backgroundView = UIImageView.init(image: backgroundImages[Int(randomValue)])
+        cell.backgroundView = backgroundView
         
         //NOTE: ADD ORGANIZER NAME ONCE DATA MODEL INFORMATION/STRUCTURE IMPLEMENTED FULLY
         //cell.eventOrganizerLabel.text = "\(model.events[indexPath.item].organizer[0].firstName) \(model.events[indexPath.item].organizer[0].lastName)"
@@ -133,6 +172,28 @@ class EventCollectionViewController: UICollectionViewController {
             let selectedIndexPath = sender as! IndexPath
             let listVC = segue.destination as! ListViewController
             listVC.currentEventIdx = selectedIndexPath.item
+        }
+    }
+    
+    func convertTimeIntervalToDaysHoursMinutesSeconds(timeInterval: TimeInterval) -> String {
+        
+        let totalSeconds = Int(timeInterval)
+        
+        let seconds = totalSeconds % 60
+        var minutes = totalSeconds % 3600
+        minutes = minutes / 60
+        let hours = totalSeconds / 3600
+        
+        if (hours <= 24) {
+            return "\(hours) hrs. \(minutes) min. \(seconds) sec"
+        } else {
+            let days = (totalSeconds / 86400)
+            
+            if (days == 1) {
+                return "\(days) day"
+            } else {
+               return "\(days) days"
+            }
         }
     }
     
