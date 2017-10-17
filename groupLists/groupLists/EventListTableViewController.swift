@@ -29,13 +29,13 @@ class EventListTableViewController: UITableViewController {
         self.view.backgroundColor = UIColor.init(red: 31.0/255.0, green: 40.0/255.0, blue: 51.0/255.0, alpha: 1)
         
         //this will be removed once model creation is moved to actual app launch screen
-        testItems[0].description = "An undoubtedly needed item"
-        testItems[1].description = "A likely needed item"
-        testItems[2].description = "A silly item to bring to this event"
+        //testItems[0].description = "An undoubtedly needed item"
+        //testItems[1].description = "A likely needed item"
+        //testItems[2].description = "A silly item to bring to this event"
         
         
-        model.addEvent(name: "testEvent", id: "eventID", date: Date())
-        model.events[0].items = testItems
+        //model.addEvent(name: "testEvent", id: "eventID", date: Date())
+        //model.events[0].items = testItems
         
         self.ref = Database.database().reference()
         

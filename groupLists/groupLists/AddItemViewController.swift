@@ -30,6 +30,9 @@ class AddItemViewController: UIViewController {
     
     @IBOutlet weak var submitNewItemBtn: UIButton!
     
+    var currentEventIdx: Int! //unwrapped optional required to prevent Xcode mandating this class have an initializer - let's discuss best practice, I am unsure
+    var editIdx: Int?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -38,6 +41,7 @@ class AddItemViewController: UIViewController {
         submitNewItemBtn.setTitleColor(colors.accentColor1, for: UIControlState.normal)
         submitNewItemBtn.backgroundColor = colors.primaryColor2
         submitNewItemBtn.layer.cornerRadius = 10
+        submitNewItemBtn.setTitle("Add Item", for: .normal)
         submitNewItemBtn.addTarget(self, action: #selector(verifyValidAddition), for: .touchUpInside)
         
         backBtn.setTitleColor(colors.accentColor1, for: UIControlState.normal)
@@ -57,6 +61,19 @@ class AddItemViewController: UIViewController {
         descriptionLabel.textColor = colors.primaryColor2
         
         quantityStepperLabel.text = String(Int(quantityStepper.value))
+        
+        if let editIdxPassed = self.editIdx {
+            print(editIdx)
+            //pre-populate the selected item (by row/tag) with the existing item information
+            self.itemNameTextField!.text = model.events[currentEventIdx].items[editIdxPassed].name
+            self.descriptionTextField!.text = "test desc."//model.events[currentEventIdx].items[selectedRow.tag].description
+            self.userTextField!.text = "test user"//model.events[currentEventIdx].items[selectedRow.tag].userID
+            self.idTextField!.text = "test id"//model.events[currentEventIdx].items[selectedRow.tag].id
+            self.quantityStepper!.value = 12.0//Double(model.events[currentEventIdx].items[selectedRow.tag].quantity!)
+            self.updateStepperLabel()
+            //adjust add item button to state: update item
+            self.submitNewItemBtn.setTitle("Update Item", for: .normal)
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -95,8 +112,13 @@ class AddItemViewController: UIViewController {
             //instantiate new item with information provided by user
             let newItem = Item(name: itemNameTextField.text!, id: idTextField.text!, userID: idTextField.text!, description: descriptionTextField.text!, quantity: Int(quantityStepper.value))
             
+            if let updateIdx = editIdx {
+                model.events[currentEventIdx].items.remove(at: updateIdx)
+                model.events[currentEventIdx].items.insert(newItem, at: updateIdx)
+            } else {
             //add new item to corresponding event
-            testItems.append(newItem)
+                model.events[currentEventIdx].items.append(newItem)
+            }
             
             //print new list item count for debugging
             print(model.events[0].items.count)
@@ -108,6 +130,14 @@ class AddItemViewController: UIViewController {
     
     func returnToList(){
         performSegue(withIdentifier: "returnToList", sender: self)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if segue.identifier == "returnToList" {
+            let destinationVC = segue.destination as! ListViewController
+            destinationVC.currentEventIdx = self.currentEventIdx
+        }
     }
     
 

@@ -365,6 +365,7 @@
                         <outlet property="listItemTableView" destination="Nr1-GO-6rS" id="0iy-eS-4zR"/>
                         <outlet property="listNameLabel" destination="QJf-3P-TEZ" id="gKM-dv-npd"/>
                         <segue destination="C7i-as-Xzr" kind="show" identifier="addItem" id="97d-xq-ual"/>
+                        <segue destination="C7i-as-Xzr" kind="show" identifier="editItem" id="5zl-6E-tFj"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sAG-WH-jbb" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -493,6 +494,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
+        <segue reference="5zl-6E-tFj"/>
         <segue reference="7YG-dN-cP7"/>
     </inferredMetricsTieBreakers>
 </document>

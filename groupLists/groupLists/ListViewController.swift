@@ -51,7 +51,7 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     override func viewWillAppear(_ animated: Bool) {
         listItemTableView.reloadData()
-        print(currentEventIdx)
+        print("ListViewController scoped on event idx: \(currentEventIdx!)")
     }
 
     override func didReceiveMemoryWarning() {
@@ -72,16 +72,6 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
         addListItemBtn.layer.cornerRadius = 10
         addListItemBtn.addTarget(self, action: #selector(newItemSegue), for: UIControlEvents.touchUpInside)
         
-        //this will be removed once model creation is moved to actual app launch screen
-        testItems[0].description = "An undoubtedly needed item"
-        testItems[1].description = "A likely needed item"
-        testItems[2].description = "A silly item to bring to this event"
-        
-        
-        model.addEvent(name: "testEvent", id: "eventID", date: Date())
-        model.events[0].organizer.append(testOrganizer)
-        model.events[0].items = testItems
-        
         listItemTableView.dataSource = self
         listItemTableView.delegate = self
         
@@ -93,17 +83,6 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
         listNameLabel.textColor = UIColor.init(red: 11.0/255.0, green: 12.0/255.0, blue: 16.0/255.0, alpha: 1)
         listNameLabel.text = model.events[currentEventIdx].name
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
     
     //implement UITableViewDelegate and UITableViewDataSource
     
@@ -142,8 +121,11 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         
         let edit = UITableViewRowAction(style: .default, title: "Edit") { (action: UITableViewRowAction, index: IndexPath) in
-            print("Edit button pressed")
+            let cell = tableView.cellForRow(at: indexPath)!
+            cell.tag = indexPath.row
+            self.performSegue(withIdentifier: "editItem", sender: cell)
         }
+        
         edit.backgroundColor = UIColor.cyan
         
         let concur = UITableViewRowAction(style: .default, title: "Concur") { (action: UITableViewRowAction, index: IndexPath) in
@@ -157,6 +139,34 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
         disagree.backgroundColor = UIColor.red
         
         return [disagree, concur, edit]
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if segue.identifier == "editItem" {
+            let selectedRow = sender as! ListItemTableViewCell
+            print("selectedRow cell tag is: \(selectedRow.tag)")
+            let destinationVC = segue.destination as! AddItemViewController
+            
+            //maintain current event scope/idx
+            destinationVC.currentEventIdx = self.currentEventIdx
+            destinationVC.editIdx = selectedRow.tag
+            print("In prepare sugue, currentEventIdx is scoped on: \(currentEventIdx)")
+            //pre-populate the selected item (by row/tag) with the existing item information
+            //destinationVC.itemNameTextField!.text = "test name"//model.events[currentEventIdx].items[selectedRow.tag].name
+            //destinationVC.descriptionTextField!.text = "test desc."//model.events[currentEventIdx].items[selectedRow.tag].description
+            //destinationVC.userTextField!.text = "test user"//model.events[currentEventIdx].items[selectedRow.tag].userID
+            //destinationVC.idTextField!.text = "test id"//model.events[currentEventIdx].items[selectedRow.tag].id
+            //destinationVC.quantityStepper!.value = 12.0//Double(model.events[currentEventIdx].items[selectedRow.tag].quantity!)
+            
+            //adjust add item button to state: update item
+            //destinationVC.submitNewItemBtn.setTitle("Update Item", for: .normal)
+
+        } else if segue.identifier == "addItem" {
+            
+            let destinationVC = segue.destination as! AddItemViewController
+            destinationVC.currentEventIdx = self.currentEventIdx
+        }
     }
 
 }
