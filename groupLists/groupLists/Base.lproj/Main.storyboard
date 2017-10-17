@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="oiN-m0-0Pu">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="tet-kg-Zd1">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -58,7 +58,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="agD-HZ-iCS"/>
                     <connections>
-                        <segue destination="x7N-US-s63" kind="showDetail" identifier="showUser" id="XUf-el-SdL"/>
+                        <segue destination="oiN-m0-0Pu" kind="showDetail" identifier="showUser" id="Y4n-4r-3eG"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="v7p-se-4IX" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -124,7 +124,7 @@
                     <connections>
                         <outlet property="emailField" destination="fiu-QK-cZl" id="Oz0-I2-0a2"/>
                         <outlet property="passwordField" destination="Tnh-p2-maU" id="qkE-Pc-6GO"/>
-                        <segue destination="x7N-US-s63" kind="showDetail" identifier="showUser" id="zxE-X6-k8h"/>
+                        <segue destination="oiN-m0-0Pu" kind="showDetail" identifier="showUser" id="8N3-Ke-hdc"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rFf-b5-Ohm" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -210,7 +210,7 @@
                         <outlet property="firstNameField" destination="ide-di-CZr" id="7Xm-lN-zka"/>
                         <outlet property="lastNameField" destination="wv2-Z0-5e5" id="Dmi-XZ-GJZ"/>
                         <outlet property="passwordField" destination="cDH-Li-uxN" id="Mv6-1f-bcO"/>
-                        <segue destination="x7N-US-s63" kind="showDetail" identifier="showUser" id="B4l-Tc-SBM"/>
+                        <segue destination="oiN-m0-0Pu" kind="showDetail" identifier="showUser" id="2Jx-Pu-SHI"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5cn-rp-Xfa" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -509,6 +509,7 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="5zl-6E-tFj"/>
-        <segue reference="L5j-2X-8Oy"/>
+        <segue reference="ND4-HF-t1Y"/>
+        <segue reference="Y4n-4r-3eG"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -10,6 +10,9 @@ import UIKit
 import Firebase
 
 class LogInViewController: UIViewController {
+    
+    var user : User!
+    var ref: DatabaseReference!
 
     @IBOutlet weak var emailField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
@@ -17,16 +20,13 @@ class LogInViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        self.ref = Database.database().reference()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         // Skip login and register views if already logged in
         // Will place in welcomeViewController when sign out button is created
         
-        if Auth.auth().currentUser != nil {
-            self.performSegue(withIdentifier: "showUser", sender: nil)
-        }
         
     }
 
@@ -52,11 +52,30 @@ class LogInViewController: UIViewController {
                     
                     return
                 }
-                print(user!.email!)
-                self.performSegue(withIdentifier: "showUser", sender: nil)
+                
+                self.ref.child("users").child(user!.uid).observeSingleEvent(of: .value, with: { (snapshot) in
+                    // Get user name
+                    
+                    let value = snapshot.value as? NSDictionary
+                    let firstName = value?["firstName"] as? String ?? ""
+                    let lastName = value?["lastName"] as? String ?? ""
+                    
+                    let userController = UserController()
+                    self.user = userController.createUser(firstName: firstName, lastName: lastName, email: email, id: user!.uid)
+                    
+                    self.performSegue(withIdentifier: "showUser", sender: nil)
+                }) { (error) in
+                    print(error.localizedDescription)
+                }
             }
         }
-        
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if (segue.identifier == "showUser") {
+            let destinationVC = segue.destination as! EventCollectionViewController
+            destinationVC.user = user
+        }
     }
     
 

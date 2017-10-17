@@ -11,6 +11,8 @@ import Firebase
 
 class RegisterViewController: UIViewController {
     
+    var user : User!
+    
     var ref: DatabaseReference!
     
     @IBOutlet weak var firstNameField: UITextField!
@@ -54,10 +56,20 @@ class RegisterViewController: UIViewController {
                 
                 self.ref.child("users").child(user!.uid).setValue(["firstName": firstName, "lastName": lastName, "email": email, "events": []])
                 
+                let userController = UserController()
+                self.user = userController.createUser(firstName: firstName, lastName: lastName, email: email, id: user!.uid)
+                
                 self.performSegue(withIdentifier: "showUser", sender: nil)
             }
         }
         
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if (segue.identifier == "showUser") {
+            let destinationVC = segue.destination as! EventCollectionViewController
+            destinationVC.user = user
+        }
     }
     
     /*

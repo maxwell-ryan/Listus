@@ -19,6 +19,8 @@ var testOrganizer = User(firstName: "John", lastName: "Doe", email: "john.doe@gm
 
 class EventCollectionViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     
+    var user : User!
+    
     @IBOutlet weak var eventCollectionView: UICollectionView!
     @IBOutlet weak var menuBtn: UIButton!
     
@@ -35,18 +37,14 @@ class EventCollectionViewController: UIViewController, UICollectionViewDelegate,
         
         eventCollectionView.delegate = self
         eventCollectionView.dataSource = self
+        
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        
-        //var eventController: EventController = EventController.init()
-        
+     
         //fill app model with test events
-        
-        //events.addEvent
-        
-        //events.events[idx]
-        
+
         model.addEvent(name: "testEvent1", id: "eventID1", date: Date.init(timeIntervalSinceNow: 86400.0))
         model.addEvent(name: "testEvent2", id: "eventID2", date: Date.init(timeIntervalSinceNow: 86400.0))
         model.addEvent(name: "testEvent3", id: "eventID3", date: Date.init(timeIntervalSinceNow: 86400.0 * 2.0))
