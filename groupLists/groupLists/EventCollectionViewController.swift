@@ -17,7 +17,10 @@ var testOrganizer = User(firstName: "John", lastName: "Doe", email: "john.doe@gm
 
 
 
-class EventCollectionViewController: UICollectionViewController {
+class EventCollectionViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
+    
+    @IBOutlet weak var eventCollectionView: UICollectionView!
+    @IBOutlet weak var menuBtn: UIButton!
     
     let backgroundImages: [UIImage] = [UIImage.init(named: "camera")!,
                                        UIImage.init(named: "coffee")!,
@@ -30,14 +33,8 @@ class EventCollectionViewController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Register cell classes
-        //self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
-
-        // Do any additional setup after loading the view.
+        eventCollectionView.delegate = self
+        eventCollectionView.dataSource = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -91,18 +88,18 @@ class EventCollectionViewController: UICollectionViewController {
 
     // MARK: UICollectionViewDataSource
 
-    override func numberOfSections(in collectionView: UICollectionView) -> Int {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
 
-    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of items
         return model.events.count
     }
 
-    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         //cast cell as custom EventCollectionViewCell
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "eventCell", for: indexPath) as! EventCollectionViewCell
@@ -161,7 +158,7 @@ class EventCollectionViewController: UICollectionViewController {
         return cell
     }
     
-    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         print("Selected cell at path \(indexPath.item)")
         self.performSegue(withIdentifier: "displayList", sender: indexPath)

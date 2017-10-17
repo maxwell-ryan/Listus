@@ -66,10 +66,10 @@ class AddItemViewController: UIViewController {
             print(editIdx)
             //pre-populate the selected item (by row/tag) with the existing item information
             self.itemNameTextField!.text = model.events[currentEventIdx].items[editIdxPassed].name
-            self.descriptionTextField!.text = "test desc."//model.events[currentEventIdx].items[selectedRow.tag].description
-            self.userTextField!.text = "test user"//model.events[currentEventIdx].items[selectedRow.tag].userID
-            self.idTextField!.text = "test id"//model.events[currentEventIdx].items[selectedRow.tag].id
-            self.quantityStepper!.value = 12.0//Double(model.events[currentEventIdx].items[selectedRow.tag].quantity!)
+            self.descriptionTextField!.text = model.events[currentEventIdx].items[editIdxPassed].description
+            self.userTextField!.text = model.events[currentEventIdx].items[editIdxPassed].userID
+            self.idTextField!.text = model.events[currentEventIdx].items[editIdxPassed].id
+            self.quantityStepper!.value = Double(model.events[currentEventIdx].items[editIdxPassed].quantity!)
             self.updateStepperLabel()
             //adjust add item button to state: update item
             self.submitNewItemBtn.setTitle("Update Item", for: .normal)
