@@ -31,6 +31,7 @@
 		24631AF91F969EFB005068E7 /* EventController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24631AF81F969EFB005068E7 /* EventController.swift */; };
 		24631AFB1F969F26005068E7 /* MessageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24631AFA1F969F26005068E7 /* MessageController.swift */; };
 		24631AFD1F96A54C005068E7 /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24631AFC1F96A54C005068E7 /* DataModel.swift */; };
+		24631AFF1F971235005068E7 /* FirebaseConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24631AFE1F971235005068E7 /* FirebaseConstants.swift */; };
 		2494B7981F8ECBDF005C5B92 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2494B7971F8ECBDF005C5B92 /* RegisterViewController.swift */; };
 		C89B5FE44C8787ECABC5FD91 /* Pods_groupListsUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D910BF6516C030AF3BC251A2 /* Pods_groupListsUITests.framework */; };
 		D8BF4F9501BECC04F5E76F93 /* Pods_groupLists.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 796F019AD2161C02F0670071 /* Pods_groupLists.framework */; };
@@ -87,6 +88,7 @@
 		24631AF81F969EFB005068E7 /* EventController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventController.swift; sourceTree = "<group>"; };
 		24631AFA1F969F26005068E7 /* MessageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageController.swift; sourceTree = "<group>"; };
 		24631AFC1F96A54C005068E7 /* DataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataModel.swift; sourceTree = "<group>"; };
+		24631AFE1F971235005068E7 /* FirebaseConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseConstants.swift; sourceTree = "<group>"; };
 		2494B7971F8ECBDF005C5B92 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		3023561F6761B744A911031B /* Pods-groupListsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-groupListsTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-groupListsTests/Pods-groupListsTests.debug.xcconfig"; sourceTree = "<group>"; };
 		3953D3EFF17189AAB147B5C5 /* Pods-groupListsTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-groupListsTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-groupListsTests/Pods-groupListsTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -158,6 +160,7 @@
 				0798B60A1F815660002185C5 /* Assets.xcassets */,
 				0798B60F1F815660002185C5 /* Info.plist */,
 				244290E01F83339B001B0E23 /* GoogleService-Info.plist */,
+				24631AFE1F971235005068E7 /* FirebaseConstants.swift */,
 			);
 			path = groupLists;
 			sourceTree = "<group>";
@@ -562,6 +565,7 @@
 				0798B6551F81655F002185C5 /* User.swift in Sources */,
 				07135D9C1F8BE65900E0A6F5 /* ListItemTableViewCell.swift in Sources */,
 				0798B64F1F816515002185C5 /* Item.swift in Sources */,
+				24631AFF1F971235005068E7 /* FirebaseConstants.swift in Sources */,
 				240574E81F8D80F9007EC0F0 /* LogInViewController.swift in Sources */,
 				24631AFB1F969F26005068E7 /* MessageController.swift in Sources */,
 				0798B6041F815660002185C5 /* AppDelegate.swift in Sources */,

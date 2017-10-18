@@ -11,25 +11,22 @@ import Firebase
 
 class RegisterViewController: UIViewController {
     
-    var user : User!
-    
-    var ref: DatabaseReference!
+    var userController : UserController!
     
     @IBOutlet weak var firstNameField: UITextField!
     @IBOutlet weak var lastNameField: UITextField!
     @IBOutlet weak var emailField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
-        self.ref = Database.database().reference()
     }
 
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     
@@ -54,32 +51,18 @@ class RegisterViewController: UIViewController {
                     return
                 }
                 
-                self.ref.child("users").child(user!.uid).setValue(["firstName": firstName, "lastName": lastName, "email": email, "events": []])
-                
-                let userController = UserController()
-                self.user = userController.createUser(firstName: firstName, lastName: lastName, email: email, id: user!.uid)
+                self.userController.createUser(firstName: firstName, lastName: lastName, email: email, id: user!.uid)
                 
                 self.performSegue(withIdentifier: "showUser", sender: nil)
             }
         }
-        
     }
+    
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if (segue.identifier == "showUser") {
             let destinationVC = segue.destination as! EventCollectionViewController
-            destinationVC.user = user
+            destinationVC.userController = userController
         }
     }
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

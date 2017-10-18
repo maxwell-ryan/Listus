@@ -42,7 +42,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Log In"/>
                                 <connections>
-                                    <segue destination="LZN-cI-vpp" kind="show" identifier="showLogIn" id="p6f-cP-XWj"/>
+                                    <action selector="logInButtonTapped:" destination="ky3-pf-gWi" eventType="touchUpInside" id="azx-t9-qGc"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sd5-Om-AyH">
@@ -50,7 +50,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Register"/>
                                 <connections>
-                                    <segue destination="kD4-tn-7RQ" kind="show" identifier="showRegister" id="aXn-jB-T51"/>
+                                    <action selector="registerButtonTapped:" destination="ky3-pf-gWi" eventType="touchUpInside" id="50C-S6-eye"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -59,6 +59,8 @@
                     <navigationItem key="navigationItem" id="agD-HZ-iCS"/>
                     <connections>
                         <segue destination="oiN-m0-0Pu" kind="showDetail" identifier="showUser" id="Y4n-4r-3eG"/>
+                        <segue destination="kD4-tn-7RQ" kind="show" identifier="showRegister" id="JEx-aD-niO"/>
+                        <segue destination="LZN-cI-vpp" kind="show" identifier="showLogIn" id="ARP-fk-MU0"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="v7p-se-4IX" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -509,7 +511,7 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="5zl-6E-tFj"/>
-        <segue reference="ND4-HF-t1Y"/>
+        <segue reference="L5j-2X-8Oy"/>
         <segue reference="Y4n-4r-3eG"/>
     </inferredMetricsTieBreakers>
 </document>

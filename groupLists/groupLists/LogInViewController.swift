@@ -11,30 +11,20 @@ import Firebase
 
 class LogInViewController: UIViewController {
     
-    var user : User!
-    var ref: DatabaseReference!
+    var userController: UserController!
 
     @IBOutlet weak var emailField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        self.ref = Database.database().reference()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        // Skip login and register views if already logged in
-        // Will place in welcomeViewController when sign out button is created
-        
-        
-    }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
-    
     
     
     @IBAction func logInButtonTapped(_ sender: UIButton) {
@@ -53,20 +43,7 @@ class LogInViewController: UIViewController {
                     return
                 }
                 
-                self.ref.child("users").child(user!.uid).observeSingleEvent(of: .value, with: { (snapshot) in
-                    // Get user name
-                    
-                    let value = snapshot.value as? NSDictionary
-                    let firstName = value?["firstName"] as? String ?? ""
-                    let lastName = value?["lastName"] as? String ?? ""
-                    
-                    let userController = UserController()
-                    self.user = userController.createUser(firstName: firstName, lastName: lastName, email: email, id: user!.uid)
-                    
-                    self.performSegue(withIdentifier: "showUser", sender: nil)
-                }) { (error) in
-                    print(error.localizedDescription)
-                }
+                self.userController.createUser(logInViewController: self, userId: Auth.auth().currentUser!.uid)
             }
         }
     }
@@ -74,19 +51,7 @@ class LogInViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if (segue.identifier == "showUser") {
             let destinationVC = segue.destination as! EventCollectionViewController
-            destinationVC.user = user
+            destinationVC.userController = userController
         }
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

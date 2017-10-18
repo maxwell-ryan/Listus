@@ -13,13 +13,13 @@ private let reuseIdentifier = "eventCell"
 var model = DataModel()
 var testItems: [Item] = [Item(name: "Backpack", id: "ID#12", userID: "USERID#34343", description: "A container to hold items", quantity: 1), Item(name: "Crock Pot", id: "ID#32", userID: "USERID#543", description: "Cookware", quantity: 1), Item(name: "Plates", id: "ID#68", userID: "USERID#99973", description: "For all attendees to eat off of...", quantity: 15), Item(name: "Gas Grill", id: "ID#8", userID: "USERID#87", description: "So we can cook the meat", quantity: 2)]
 
-var testOrganizer = User(firstName: "John", lastName: "Doe", email: "john.doe@gmail.com", id: "1")
+var testOrganizer = User(firstName: "John", lastName: "Doe", email: "john.doe@gmail.com", id: "1", events: [])
 
 
 
 class EventCollectionViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     
-    var user : User!
+    var userController : UserController!
     
     @IBOutlet weak var eventCollectionView: UICollectionView!
     @IBOutlet weak var menuBtn: UIButton!
@@ -37,12 +37,11 @@ class EventCollectionViewController: UIViewController, UICollectionViewDelegate,
         
         eventCollectionView.delegate = self
         eventCollectionView.dataSource = self
-        
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
-     
+        
+        
         //fill app model with test events
 
         model.addEvent(name: "testEvent1", id: "eventID1", date: Date.init(timeIntervalSinceNow: 86400.0))
@@ -56,15 +55,15 @@ class EventCollectionViewController: UIViewController, UICollectionViewDelegate,
         model.addEvent(name: "testEvent9", id: "eventID9", date: Date.init(timeIntervalSinceNow: 86400.0 * 20.0))
         model.addEvent(name: "testEvent10", id: "eventID10", date: Date.init(timeIntervalSinceNow: 86400.0 * 31.0))
         model.addEvent(name: "testEvent11", id: "eventID11", date: Date.init(timeIntervalSinceNow: 86400.0 * 90.0))
-        print("EventCollectionView about to appear with \(model.events.count) events in the data model")
+        //print("EventCollectionView about to appear with \(model.events.count) events in the data model")
         
-        let testOrganizer = User.init(firstName: "John", lastName: "Johnson", email: "testemail.com", id: "12")
+        let testOrganizer = User.init(firstName: "John", lastName: "Johnson", email: "testemail.com", id: "12", events: [])
         //fill each test event with test items
         for x in model.events {
             x.items = testItems
             x.organizer.append(testOrganizer)
             for y in x.items {
-                print(y.name)
+                //print(y.name)
             }
         }
     }
