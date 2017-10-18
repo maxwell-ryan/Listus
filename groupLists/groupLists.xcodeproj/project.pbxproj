@@ -10,6 +10,8 @@
 		07135D9C1F8BE65900E0A6F5 /* ListItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07135D9B1F8BE65900E0A6F5 /* ListItemTableViewCell.swift */; };
 		071CFF971F8BFFA500080C81 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 071CFF961F8BFFA500080C81 /* ListViewController.swift */; };
 		071CFF991F8C415600080C81 /* AddItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 071CFF981F8C415600080C81 /* AddItemViewController.swift */; };
+		078852EC1F97DB0500858A0B /* MenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 078852EB1F97DB0500858A0B /* MenuCell.swift */; };
+		078852EE1F97DC9200858A0B /* MenuLauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 078852ED1F97DC9200858A0B /* MenuLauncher.swift */; };
 		0788FEEA1F9120E200D71A50 /* EventCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0788FEE91F9120E200D71A50 /* EventCollectionViewController.swift */; };
 		0788FEEC1F91216200D71A50 /* EventCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0788FEEB1F91216200D71A50 /* EventCollectionViewCell.swift */; };
 		0798B6041F815660002185C5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0798B6031F815660002185C5 /* AppDelegate.swift */; };
@@ -60,6 +62,8 @@
 		07135D9B1F8BE65900E0A6F5 /* ListItemTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListItemTableViewCell.swift; sourceTree = "<group>"; };
 		071CFF961F8BFFA500080C81 /* ListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		071CFF981F8C415600080C81 /* AddItemViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddItemViewController.swift; sourceTree = "<group>"; };
+		078852EB1F97DB0500858A0B /* MenuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuCell.swift; sourceTree = "<group>"; };
+		078852ED1F97DC9200858A0B /* MenuLauncher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuLauncher.swift; sourceTree = "<group>"; };
 		0788FEE91F9120E200D71A50 /* EventCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventCollectionViewController.swift; sourceTree = "<group>"; };
 		0788FEEB1F91216200D71A50 /* EventCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventCollectionViewCell.swift; sourceTree = "<group>"; };
 		0798B6001F815660002185C5 /* groupLists.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = groupLists.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -191,6 +195,7 @@
 				0798B65A1F816584002185C5 /* Main.storyboard */,
 				07135D9B1F8BE65900E0A6F5 /* ListItemTableViewCell.swift */,
 				0788FEEB1F91216200D71A50 /* EventCollectionViewCell.swift */,
+				078852EB1F97DB0500858A0B /* MenuCell.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -216,6 +221,7 @@
 				240574E71F8D80F9007EC0F0 /* LogInViewController.swift */,
 				2494B7971F8ECBDF005C5B92 /* RegisterViewController.swift */,
 				0788FEE91F9120E200D71A50 /* EventCollectionViewController.swift */,
+				078852ED1F97DC9200858A0B /* MenuLauncher.swift */,
 			);
 			name = ViewController;
 			sourceTree = "<group>";
@@ -571,9 +577,11 @@
 				0798B6041F815660002185C5 /* AppDelegate.swift in Sources */,
 				24631AF71F969ED3005068E7 /* ItemController.swift in Sources */,
 				0798B6541F81655F002185C5 /* Event.swift in Sources */,
+				078852EC1F97DB0500858A0B /* MenuCell.swift in Sources */,
 				2494B7981F8ECBDF005C5B92 /* RegisterViewController.swift in Sources */,
 				24631AFD1F96A54C005068E7 /* DataModel.swift in Sources */,
 				071CFF971F8BFFA500080C81 /* ListViewController.swift in Sources */,
+				078852EE1F97DC9200858A0B /* MenuLauncher.swift in Sources */,
 				240574E61F8D8092007EC0F0 /* WelcomeViewController.swift in Sources */,
 				0788FEEA1F9120E200D71A50 /* EventCollectionViewController.swift in Sources */,
 				071CFF991F8C415600080C81 /* AddItemViewController.swift in Sources */,
