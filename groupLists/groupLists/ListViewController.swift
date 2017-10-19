@@ -7,13 +7,9 @@
 //
 
 import UIKit
-import Firebase
-
-
 
 class ListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-    var ref: DatabaseReference!
     var eventController: EventController!
     var userController: UserController!
     var currentEventIdx: Int! //unwrapped optional required to prevent Xcode mandating this class have an initializer - let's discuss best practice, I am unsure
@@ -45,7 +41,7 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
         listInfoLabel.text = "Organized by \(eventController.events[currentEventIdx].organizer[0].firstName) \(eventController.events[currentEventIdx].organizer[0].lastName)    |    \(eventController.events[currentEventIdx].items.count) items suggested"
         
         listNameLabel.textColor = UIColor.init(red: 11.0/255.0, green: 12.0/255.0, blue: 16.0/255.0, alpha: 1)
-        listNameLabel.text = eventController.events[currentEventIdx].name        //self.ref = Database.database().reference()
+        listNameLabel.text = eventController.events[currentEventIdx].name
 
     }
     
