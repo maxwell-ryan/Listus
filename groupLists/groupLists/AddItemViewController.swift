@@ -24,7 +24,7 @@ class AddItemViewController: UIViewController {
     
     @IBOutlet weak var submitNewItemBtn: UIButton!
     
-    var eventController: EventController!
+    var userEventsController: UserEventsController!
     var itemController: ItemController!
     var userController: UserController!
     var currentEventIdx: Int! //unwrapped optional required to prevent Xcode mandating this class have an initializer - let's discuss best practice, I am unsure
@@ -69,10 +69,10 @@ class AddItemViewController: UIViewController {
             print("Edit index set as: \(editIdx)")
 
             //pre-populate the selected item (by row/tag) with the existing item information
-            self.itemNameTextField!.text = eventController.events[currentEventIdx].items[editIdxPassed].name
-            self.descriptionTextField!.text = eventController.events[currentEventIdx].items[editIdxPassed].description
+            self.itemNameTextField!.text = userEventsController.events[currentEventIdx].items[editIdxPassed].name
+            self.descriptionTextField!.text = userEventsController.events[currentEventIdx].items[editIdxPassed].description
 
-            self.quantityStepper!.value = Double(eventController.events[currentEventIdx].items[editIdxPassed].quantity!)
+            self.quantityStepper!.value = Double(userEventsController.events[currentEventIdx].items[editIdxPassed].quantity!)
             self.updateStepperLabel()
             //adjust add item button to state: update item
             self.submitNewItemBtn.setTitle("Update Item", for: .normal)
@@ -106,19 +106,17 @@ class AddItemViewController: UIViewController {
             
             //if editIdx not nil, user requsted edit to existing item
             if let updateIdx = editIdx {
-                itemController.removeItem(fromEvent: eventController.events[currentEventIdx], itemIndex: updateIdx)
+                itemController.removeItem(fromEvent: userEventsController.events[currentEventIdx], itemIndex: updateIdx)
                 
                 let editedItem = Item(name: itemNameTextField.text!, id: self.id, userID: self.userID, description: descriptionTextField.text!, quantity: Int(quantityStepper.value))
                 
-                itemController.addItem(toEventItemList: eventController.events[currentEventIdx], item: editedItem, atIndex: updateIdx)
+                itemController.addItem(toEventItemList: userEventsController.events[currentEventIdx], item: editedItem, atIndex: updateIdx)
                 
             } else {
                 //add new item to corresponding event
-                itemController.addItem(toEventItemList: eventController.events[currentEventIdx], item: itemController.createItem(name: itemNameTextField.text!, id: self.id, userID: self.userID, description: descriptionTextField.text!, quantity: Int(quantityStepper.value)))
+                itemController.addItem(toEventItemList: userEventsController.events[currentEventIdx], item: itemController.createItem(name: itemNameTextField.text!, id: self.id, userID: self.userID, description: descriptionTextField.text!, quantity: Int(quantityStepper.value)))
             }
             
-            //print new list item count for debugging
-            print(eventController.getItemListCount(forEventIndex: currentEventIdx, inEventController: eventController))
             
             //return to list which will now display recently added item
             performSegue(withIdentifier: "returnToList", sender: self)
@@ -134,7 +132,7 @@ class AddItemViewController: UIViewController {
         if segue.identifier == "returnToList" {
             let destinationVC = segue.destination as! ListViewController
             destinationVC.currentEventIdx = self.currentEventIdx
-            destinationVC.eventController = self.eventController
+            destinationVC.userEventsController = self.userEventsController
         }
     }
     

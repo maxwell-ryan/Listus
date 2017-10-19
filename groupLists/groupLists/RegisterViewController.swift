@@ -12,6 +12,7 @@ import Firebase
 class RegisterViewController: UIViewController {
     
     var userController : UserController!
+    var userEventsController: UserEventsController!
     
     @IBOutlet weak var firstNameField: UITextField!
     @IBOutlet weak var lastNameField: UITextField!
@@ -63,6 +64,7 @@ class RegisterViewController: UIViewController {
         if (segue.identifier == "showUser") {
             let destinationVC = segue.destination as! EventCollectionViewController
             destinationVC.userController = userController
+            destinationVC.userEventsController = userEventsController
         }
     }
 }

@@ -10,8 +10,9 @@ import UIKit
 
 class ListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-    var eventController: EventController!
     var userController: UserController!
+    var userEventsController: UserEventsController!
+    var eventItemsController = EventItemsController()
     var currentEventIdx: Int! //unwrapped optional required to prevent Xcode mandating this class have an initializer - let's discuss best practice, I am unsure
     
     @IBOutlet weak var addListItemBtn: UIButton!
@@ -38,10 +39,10 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
         listItemTableView.backgroundColor = colors.primaryColor1
         
         listInfoLabel.textColor = UIColor.init(red: 11.0/255.0, green: 12.0/255.0, blue: 16.0/255.0, alpha: 1)
-        listInfoLabel.text = "Organized by \(eventController.events[currentEventIdx].organizer[0].firstName) \(eventController.events[currentEventIdx].organizer[0].lastName)    |    \(eventController.events[currentEventIdx].items.count) items suggested"
+        listInfoLabel.text = "Organized by \(userEventsController.events[currentEventIdx].organizer[0].firstName) \(userEventsController.events[currentEventIdx].organizer[0].lastName)    |    \(userEventsController.events[currentEventIdx].items.count) items suggested"
         
         listNameLabel.textColor = UIColor.init(red: 11.0/255.0, green: 12.0/255.0, blue: 16.0/255.0, alpha: 1)
-        listNameLabel.text = eventController.events[currentEventIdx].name
+        listNameLabel.text = userEventsController.events[currentEventIdx].name
 
     }
     
@@ -63,16 +64,16 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
     //implement UITableViewDelegate and UITableViewDataSource
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return eventController.events[currentEventIdx].items.count
+        return userEventsController.events[currentEventIdx].items.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) ->
         UITableViewCell {
             let listItemCell = listItemTableView.dequeueReusableCell(withIdentifier: "itemCell", for: indexPath) as! ListItemTableViewCell
             
-            listItemCell.itemNameLabel.text = eventController.events[currentEventIdx].items[indexPath.row].name
-            listItemCell.itemDescriptionLabel.text = eventController.events[currentEventIdx].items[indexPath.row].description
-            listItemCell.itemUserLabel.text = "| Suggested by \(eventController.events[currentEventIdx].items[indexPath.row].userID) |"
+            listItemCell.itemNameLabel.text = userEventsController.events[currentEventIdx].items[indexPath.row].name
+            listItemCell.itemDescriptionLabel.text = userEventsController.events[currentEventIdx].items[indexPath.row].description
+            listItemCell.itemUserLabel.text = "| Suggested by \(userEventsController.events[currentEventIdx].items[indexPath.row].userID) |"
             
             listItemCell.backgroundColor = colors.primaryColor1
             listItemCell.itemNameLabel.textColor = colors.primaryColor2
@@ -124,7 +125,7 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
             print("selectedRow cell tag is: \(selectedRow.tag)")
             let destinationVC = segue.destination as! AddItemViewController
             
-            destinationVC.eventController = self.eventController
+            destinationVC.userEventsController = self.userEventsController
             destinationVC.userController = self.userController
             destinationVC.id = self.userController.user.id
             destinationVC.userID = self.userController.user.id
@@ -138,7 +139,7 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
             
             let destinationVC = segue.destination as! AddItemViewController
             destinationVC.currentEventIdx = self.currentEventIdx
-            destinationVC.eventController = self.eventController
+            destinationVC.userEventsController = self.userEventsController
             destinationVC.userController = self.userController
             destinationVC.id = self.userController.user.id
             destinationVC.userID = self.userController.user.id

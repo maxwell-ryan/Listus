@@ -30,10 +30,11 @@
 		244290E11F8333A0001B0E23 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 244290E01F83339B001B0E23 /* GoogleService-Info.plist */; };
 		24631AF51F969EC2005068E7 /* UserController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24631AF41F969EC2005068E7 /* UserController.swift */; };
 		24631AF71F969ED3005068E7 /* ItemController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24631AF61F969ED3005068E7 /* ItemController.swift */; };
-		24631AF91F969EFB005068E7 /* EventController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24631AF81F969EFB005068E7 /* EventController.swift */; };
-		24631AFB1F969F26005068E7 /* MessageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24631AFA1F969F26005068E7 /* MessageController.swift */; };
 		24631AFD1F96A54C005068E7 /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24631AFC1F96A54C005068E7 /* DataModel.swift */; };
 		24631AFF1F971235005068E7 /* FirebaseConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24631AFE1F971235005068E7 /* FirebaseConstants.swift */; };
+		2494B60F1F994D7400794F76 /* UserEventsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2494B60E1F994D7400794F76 /* UserEventsController.swift */; };
+		2494B6131F994DBB00794F76 /* EventItemsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2494B6121F994DBB00794F76 /* EventItemsController.swift */; };
+		2494B6151F994DD500794F76 /* EventMessagesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2494B6141F994DD500794F76 /* EventMessagesController.swift */; };
 		2494B7981F8ECBDF005C5B92 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2494B7971F8ECBDF005C5B92 /* RegisterViewController.swift */; };
 		C89B5FE44C8787ECABC5FD91 /* Pods_groupListsUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D910BF6516C030AF3BC251A2 /* Pods_groupListsUITests.framework */; };
 		D8BF4F9501BECC04F5E76F93 /* Pods_groupLists.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 796F019AD2161C02F0670071 /* Pods_groupLists.framework */; };
@@ -89,10 +90,11 @@
 		244290E01F83339B001B0E23 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		24631AF41F969EC2005068E7 /* UserController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserController.swift; sourceTree = "<group>"; };
 		24631AF61F969ED3005068E7 /* ItemController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemController.swift; sourceTree = "<group>"; };
-		24631AF81F969EFB005068E7 /* EventController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventController.swift; sourceTree = "<group>"; };
-		24631AFA1F969F26005068E7 /* MessageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageController.swift; sourceTree = "<group>"; };
 		24631AFC1F96A54C005068E7 /* DataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataModel.swift; sourceTree = "<group>"; };
 		24631AFE1F971235005068E7 /* FirebaseConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseConstants.swift; sourceTree = "<group>"; };
+		2494B60E1F994D7400794F76 /* UserEventsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserEventsController.swift; sourceTree = "<group>"; };
+		2494B6121F994DBB00794F76 /* EventItemsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventItemsController.swift; sourceTree = "<group>"; };
+		2494B6141F994DD500794F76 /* EventMessagesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventMessagesController.swift; sourceTree = "<group>"; };
 		2494B7971F8ECBDF005C5B92 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		3023561F6761B744A911031B /* Pods-groupListsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-groupListsTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-groupListsTests/Pods-groupListsTests.debug.xcconfig"; sourceTree = "<group>"; };
 		3953D3EFF17189AAB147B5C5 /* Pods-groupListsTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-groupListsTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-groupListsTests/Pods-groupListsTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -156,7 +158,7 @@
 		0798B6021F815660002185C5 /* groupLists */ = {
 			isa = PBXGroup;
 			children = (
-				24631AF31F969E49005068E7 /* DataController */,
+				24631AF31F969E49005068E7 /* ModelController */,
 				24631AF21F969E26005068E7 /* ViewController */,
 				0798B6461F816482002185C5 /* Model */,
 				0798B6451F81647A002185C5 /* View */,
@@ -215,26 +217,35 @@
 		24631AF21F969E26005068E7 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				2494B6161F9956CD00794F76 /* Authentication */,
 				071CFF981F8C415600080C81 /* AddItemViewController.swift */,
 				071CFF961F8BFFA500080C81 /* ListViewController.swift */,
-				240574E51F8D8092007EC0F0 /* WelcomeViewController.swift */,
-				240574E71F8D80F9007EC0F0 /* LogInViewController.swift */,
-				2494B7971F8ECBDF005C5B92 /* RegisterViewController.swift */,
 				0788FEE91F9120E200D71A50 /* EventCollectionViewController.swift */,
 				078852ED1F97DC9200858A0B /* MenuLauncher.swift */,
 			);
 			name = ViewController;
 			sourceTree = "<group>";
 		};
-		24631AF31F969E49005068E7 /* DataController */ = {
+		24631AF31F969E49005068E7 /* ModelController */ = {
 			isa = PBXGroup;
 			children = (
 				24631AF41F969EC2005068E7 /* UserController.swift */,
 				24631AF61F969ED3005068E7 /* ItemController.swift */,
-				24631AF81F969EFB005068E7 /* EventController.swift */,
-				24631AFA1F969F26005068E7 /* MessageController.swift */,
+				2494B60E1F994D7400794F76 /* UserEventsController.swift */,
+				2494B6121F994DBB00794F76 /* EventItemsController.swift */,
+				2494B6141F994DD500794F76 /* EventMessagesController.swift */,
 			);
-			name = DataController;
+			name = ModelController;
+			sourceTree = "<group>";
+		};
+		2494B6161F9956CD00794F76 /* Authentication */ = {
+			isa = PBXGroup;
+			children = (
+				240574E51F8D8092007EC0F0 /* WelcomeViewController.swift */,
+				240574E71F8D80F9007EC0F0 /* LogInViewController.swift */,
+				2494B7971F8ECBDF005C5B92 /* RegisterViewController.swift */,
+			);
+			name = Authentication;
 			sourceTree = "<group>";
 		};
 		D2019EA80F647BD55C5E1E59 /* Pods */ = {
@@ -563,9 +574,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2494B60F1F994D7400794F76 /* UserEventsController.swift in Sources */,
 				0798B63C1F816196002185C5 /* ColorScheme.swift in Sources */,
 				0788FEEC1F91216200D71A50 /* EventCollectionViewCell.swift in Sources */,
-				24631AF91F969EFB005068E7 /* EventController.swift in Sources */,
 				24631AF51F969EC2005068E7 /* UserController.swift in Sources */,
 				0798B6511F81651F002185C5 /* Message.swift in Sources */,
 				0798B6551F81655F002185C5 /* User.swift in Sources */,
@@ -573,9 +584,10 @@
 				0798B64F1F816515002185C5 /* Item.swift in Sources */,
 				24631AFF1F971235005068E7 /* FirebaseConstants.swift in Sources */,
 				240574E81F8D80F9007EC0F0 /* LogInViewController.swift in Sources */,
-				24631AFB1F969F26005068E7 /* MessageController.swift in Sources */,
 				0798B6041F815660002185C5 /* AppDelegate.swift in Sources */,
+				2494B6131F994DBB00794F76 /* EventItemsController.swift in Sources */,
 				24631AF71F969ED3005068E7 /* ItemController.swift in Sources */,
+				2494B6151F994DD500794F76 /* EventMessagesController.swift in Sources */,
 				0798B6541F81655F002185C5 /* Event.swift in Sources */,
 				078852EC1F97DB0500858A0B /* MenuCell.swift in Sources */,
 				2494B7981F8ECBDF005C5B92 /* RegisterViewController.swift in Sources */,

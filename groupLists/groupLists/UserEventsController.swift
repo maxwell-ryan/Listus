@@ -1,20 +1,36 @@
 //
-//  EventController.swift
+//  UserEventsController.swift
 //  groupLists
 //
-//  Created by Kyle Cross on 10/17/17.
+//  Created by Kyle Cross on 10/19/17.
 //  Copyright © 2017 bergerMacPro. All rights reserved.
 //
 
 import Foundation
+import Firebase
 
-class EventController {
+class UserEventsController {
     
     var events: [Event] = []
     
-    init() {
+    func initUserEvents(welcomeViewController: WelcomeViewController, userId: String) {
         
+        // Init array of events from DB here
+        
+        
+        // Segue to inital view after logging in
+        welcomeViewController.performSegue(withIdentifier: "showUser", sender: nil)
     }
+    
+    func initUserEvents(logInViewController: LogInViewController, userId: String) {
+        
+        // Init array of events from DB here
+        
+        
+        // Segue to inital view after logging in
+        logInViewController.performSegue(withIdentifier: "showUser", sender: nil)
+    }
+    
     
     //creates an event, appends it to events array, and returns idx of appended event
     func createEvent(name: String, id: String, date: Date) -> Int {
@@ -38,10 +54,10 @@ class EventController {
     
     //returns a tuple type, first value indicates if index passed was valid, if true, the second value gives the count requested
     //if first value is false, index passed was invalid, second value always equal 0 in this instance
-    func getItemListCount(forEventIndex eventIdx: Int, inEventController eventController: EventController) -> (successful: Bool, listCount: Int) {
+    func getItemListCount(forEventIndex eventIdx: Int, inUserEventsController userEventsController: UserEventsController) -> (successful: Bool, listCount: Int) {
         
-        if eventIdx <= eventController.events.count {
-            return (true, eventController.events[eventIdx].items.count)
+        if eventIdx <= userEventsController.events.count {
+            return (true, userEventsController.events[eventIdx].items.count)
         } else {
             return (false, 0)
         }
