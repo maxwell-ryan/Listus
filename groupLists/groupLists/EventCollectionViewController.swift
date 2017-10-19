@@ -117,8 +117,8 @@ class EventCollectionViewController: UIViewController, UICollectionViewDelegate,
         cell.eventNameLabel.font = UIFont.boldSystemFont(ofSize: 20)
         cell.eventNameLabel.textColor = UIColor.white
         
-        var eventDate = eventController.events[indexPath.item].date
-        var todayDate = Date()
+        let eventDate = eventController.events[indexPath.item].date
+        let todayDate = Date()
         
         //format event and current date
         let dateFormatter = DateFormatter()
@@ -127,13 +127,13 @@ class EventCollectionViewController: UIViewController, UICollectionViewDelegate,
         dateFormatter.locale = Locale(identifier: "en_US")
         
         //calculate and format date interval between two dates
-        var dateUntilEvent = DateInterval.init(start: todayDate, end: eventDate)
+        let dateUntilEvent = DateInterval.init(start: todayDate, end: eventDate)
         let dateIntervalFormatter = DateIntervalFormatter()
         dateIntervalFormatter.dateStyle = .none
         dateIntervalFormatter.timeStyle = .short
         dateIntervalFormatter.locale = Locale(identifier: "en_US")
         
-        var countdownTimeInterval = eventDate.timeIntervalSince(todayDate)
+        let countdownTimeInterval = eventDate.timeIntervalSince(todayDate)
         
         cell.eventDateLabel.lineBreakMode = .byWordWrapping
         cell.eventDateLabel.numberOfLines = 0
@@ -146,8 +146,8 @@ class EventCollectionViewController: UIViewController, UICollectionViewDelegate,
         
         //populate image assets in background
         //generate random number no larger than number of images in image asset folder (Note: arc4random is not inclusive)
-        var randomValue = arc4random_uniform(UInt32(backgroundImages.count))
-        var backgroundView = UIImageView.init(image: backgroundImages[Int(randomValue)])
+        let randomValue = arc4random_uniform(UInt32(backgroundImages.count))
+        let backgroundView = UIImageView.init(image: backgroundImages[Int(randomValue)])
         cell.backgroundView = backgroundView
         
         //NOTE: ADD ORGANIZER NAME ONCE DATA MODEL INFORMATION/STRUCTURE IMPLEMENTED FULLY
