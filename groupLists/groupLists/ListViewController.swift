@@ -59,26 +59,6 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
         performSegue(withIdentifier: "addItem", sender: self)
     }
     
-//    func formerlyInViewDidLoad() {
-//        listItemTableView.reloadData()
-//        self.view.backgroundColor = UIColor.white  //colors.primaryColor1
-//
-//        addListItemBtn.setTitleColor(colors.accentColor1, for: UIControlState.normal)
-//        addListItemBtn.backgroundColor = colors.primaryColor2
-//        addListItemBtn.layer.cornerRadius = 10
-//        addListItemBtn.addTarget(self, action: #selector(newItemSegue), for: UIControlEvents.touchUpInside)
-//
-//        listItemTableView.dataSource = self
-//        listItemTableView.delegate = self
-//
-//        listItemTableView.backgroundColor = colors.primaryColor1
-//
-//        listInfoLabel.textColor = UIColor.init(red: 11.0/255.0, green: 12.0/255.0, blue: 16.0/255.0, alpha: 1)
-//        listInfoLabel.text = "Organized by \(eventController.events[currentEventIdx].organizer[0].firstName) \(eventController.events[currentEventIdx].organizer[0].lastName)    |    \(eventController.events[currentEventIdx].items.count) items suggested"
-//
-//        listNameLabel.textColor = UIColor.init(red: 11.0/255.0, green: 12.0/255.0, blue: 16.0/255.0, alpha: 1)
-//        listNameLabel.text = eventController.events[currentEventIdx].name
-//    }
     
     //implement UITableViewDelegate and UITableViewDataSource
     
