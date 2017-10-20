@@ -17,8 +17,8 @@ class Event {
     var authorizedUsers: [User] = []
     var date: Date
     
-    var items: [Item] = []
-    var messages: [Message] = []
+    //var items: [Item] = []
+    //var messages: [Message] = []
     
     init(name: String, id: String, date: Date) {
         
