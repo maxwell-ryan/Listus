@@ -15,7 +15,7 @@ class UserController {
     var ref : DatabaseReference!
     
     
-    func createUser(welcomeViewController: WelcomeViewController, userId: String) {
+    func initUser(welcomeViewController: WelcomeViewController, userEventsController: UserEventsController, userId: String) {
         self.ref = Database.database().reference()
             
         self.ref.child(DB.users).child(userId).observeSingleEvent(of: .value, with: { (snapshot) in
@@ -24,11 +24,10 @@ class UserController {
             let firstName = value?[DB.firstName] as? String ?? ""
             let lastName = value?[DB.lastName] as? String ?? ""
             let email = value?[DB.email] as? String ?? ""
-            let events = value![DB.events] as? [Event] ?? []
         
-            self.user = User(firstName: firstName, lastName: lastName, email: email, id: userId, events: events)
+            self.user = User(firstName: firstName, lastName: lastName, email: email, id: userId)
             
-            welcomeViewController.performSegue(withIdentifier: "showUser", sender: nil)
+            userEventsController.initUserEvents(welcomeViewController: welcomeViewController, userId: userId)
             
         }) { (error) in
             print(error.localizedDescription)
@@ -36,7 +35,7 @@ class UserController {
     }
     
     
-    func createUser(logInViewController: LogInViewController, userId: String) {
+    func initUser(logInViewController: LogInViewController, userEventsController: UserEventsController, userId: String) {
         self.ref = Database.database().reference()
         
         self.ref.child(DB.users).child(userId).observeSingleEvent(of: .value, with: { (snapshot) in
@@ -45,11 +44,10 @@ class UserController {
             let firstName = value?[DB.firstName] as? String ?? ""
             let lastName = value?[DB.lastName] as? String ?? ""
             let email = value?[DB.email] as? String ?? ""
-            let events = value![DB.events] as? [Event] ?? []
             
-            self.user = User(firstName: firstName, lastName: lastName, email: email, id: userId, events: events)
+            self.user = User(firstName: firstName, lastName: lastName, email: email, id: userId)
             
-            logInViewController.performSegue(withIdentifier: "showUser", sender: nil)
+            userEventsController.initUserEvents(logInViewController: logInViewController, userId: userId)
             
         }) { (error) in
             print(error.localizedDescription)
@@ -61,6 +59,6 @@ class UserController {
         
         self.ref.child(DB.users).child(id).setValue([DB.firstName: firstName, DB.lastName: lastName, DB.email: email, DB.events: []])
         
-        self.user = User(firstName: firstName, lastName: lastName, email: email, id: id, events: [])
+        self.user = User(firstName: firstName, lastName: lastName, email: email, id: id)
     }
 }

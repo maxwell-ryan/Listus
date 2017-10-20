@@ -12,6 +12,7 @@ import Firebase
 class WelcomeViewController: UIViewController {
     
     var userController = UserController()
+    var userEventsController = UserEventsController()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,7 +22,8 @@ class WelcomeViewController: UIViewController {
         
         // Skip login and register views if already logged in
         if Auth.auth().currentUser != nil {
-            self.userController.createUser(welcomeViewController: self, userId: Auth.auth().currentUser!.uid)
+            let currentUserId = Auth.auth().currentUser!.uid
+            userController.initUser(welcomeViewController: self, userEventsController: userEventsController, userId: currentUserId)
         }
     }
     
@@ -40,14 +42,17 @@ class WelcomeViewController: UIViewController {
         if (segue.identifier == "showUser") {
             let destinationVC = segue.destination as! EventCollectionViewController
             destinationVC.userController = userController
+            destinationVC.userEventsController = userEventsController
         }
         else if (segue.identifier == "showLogIn") {
             let destinationVC = segue.destination as! LogInViewController
             destinationVC.userController = userController
+            destinationVC.userEventsController = userEventsController
         }
         else if (segue.identifier == "showRegister") {
             let destinationVC = segue.destination as! RegisterViewController
             destinationVC.userController = userController
+            destinationVC.userEventsController = userEventsController
         }
     }
 

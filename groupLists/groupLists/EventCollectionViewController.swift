@@ -10,17 +10,17 @@ import UIKit
 
 private let reuseIdentifier = "eventCell"
 
-var model = DataModel()
+
 var testItems: [Item] = [Item(name: "Backpack", id: "ID#12", userID: "USERID#34343", description: "A container to hold items", quantity: 1), Item(name: "Crock Pot", id: "ID#32", userID: "USERID#543", description: "Cookware", quantity: 1), Item(name: "Plates", id: "ID#68", userID: "USERID#99973", description: "For all attendees to eat off of...", quantity: 15), Item(name: "Gas Grill", id: "ID#8", userID: "USERID#87", description: "So we can cook the meat", quantity: 2)]
 
-var testOrganizer = User(firstName: "John", lastName: "Doe", email: "john.doe@gmail.com", id: "1", events: [])
+var testOrganizer = User(firstName: "John", lastName: "Doe", email: "john.doe@gmail.com", id: "1")
 
 
 
 class EventCollectionViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     
     var userController : UserController!
-    var eventController: EventController!
+    var userEventsController: UserEventsController!
     let menuLauncher = MenuLauncher()
     
     @IBOutlet weak var eventCollectionView: UICollectionView!
@@ -36,7 +36,7 @@ class EventCollectionViewController: UIViewController, UICollectionViewDelegate,
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        eventController = EventController()
+
         eventCollectionView.delegate = self
         eventCollectionView.dataSource = self
         menuBtn.setImage(UIImage(named: "menu2x"), for: UIControlState.normal)
@@ -44,28 +44,17 @@ class EventCollectionViewController: UIViewController, UICollectionViewDelegate,
         menuBtn.tintColor = UIColor.darkGray
         menuBtn.addTarget(self, action: #selector(displayMenu), for: .touchUpInside)
         
-        eventController.createEvent(name: "testEvent1", id: "eventID1", date: Date.init(timeIntervalSinceNow: 86400.0))
-        eventController.createEvent(name: "testEvent2", id: "eventID2", date: Date.init(timeIntervalSinceNow: 86400.0))
-        eventController.createEvent(name: "testEvent3", id: "eventID3", date: Date.init(timeIntervalSinceNow: 86400.0 * 2.0))
-        eventController.createEvent(name: "testEvent4", id: "eventID4", date: Date.init(timeIntervalSinceNow: 86400.0 * 3.0))
-        eventController.createEvent(name: "testEvent5", id: "eventID5", date: Date.init(timeIntervalSinceNow: 86400.0 * 4.0))
-        eventController.createEvent(name: "testEvent6", id: "eventID6", date: Date.init(timeIntervalSinceNow: 86400.0 * 5.0))
-        eventController.createEvent(name: "testEvent7", id: "eventID7", date: Date.init(timeIntervalSinceNow: 86400.0 * 6.0))
-        eventController.createEvent(name: "testEvent8", id: "eventID8", date: Date.init(timeIntervalSinceNow: 86400.0 * 12.0))
-        eventController.createEvent(name: "testEvent9", id: "eventID9", date: Date.init(timeIntervalSinceNow: 86400.0 * 20.0))
-        eventController.createEvent(name: "testEvent10", id: "eventID10", date: Date.init(timeIntervalSinceNow: 86400.0 * 31.0))
-        eventController.createEvent(name: "testEvent11", id: "eventID11", date: Date.init(timeIntervalSinceNow: 86400.0 * 90.0))
-    
-        let testOrganizer = User.init(firstName: "John", lastName: "Johnson", email: "testemail.com", id: "12", events: [])
-        //fill each test event with test items
-        for x in eventController.events {
-            x.items = testItems
-            x.organizer.append(testOrganizer)
-            for y in x.items {
-                //print(y.name)
-            }
-        }
-    
+        userEventsController.createEvent(name: "testEvent1", id: "eventID1", date: Date.init(timeIntervalSinceNow: 86400.0))
+        userEventsController.createEvent(name: "testEvent2", id: "eventID2", date: Date.init(timeIntervalSinceNow: 86400.0))
+        userEventsController.createEvent(name: "testEvent3", id: "eventID3", date: Date.init(timeIntervalSinceNow: 86400.0 * 2.0))
+        userEventsController.createEvent(name: "testEvent4", id: "eventID4", date: Date.init(timeIntervalSinceNow: 86400.0 * 3.0))
+        userEventsController.createEvent(name: "testEvent5", id: "eventID5", date: Date.init(timeIntervalSinceNow: 86400.0 * 4.0))
+        userEventsController.createEvent(name: "testEvent6", id: "eventID6", date: Date.init(timeIntervalSinceNow: 86400.0 * 5.0))
+        userEventsController.createEvent(name: "testEvent7", id: "eventID7", date: Date.init(timeIntervalSinceNow: 86400.0 * 6.0))
+        userEventsController.createEvent(name: "testEvent8", id: "eventID8", date: Date.init(timeIntervalSinceNow: 86400.0 * 12.0))
+        userEventsController.createEvent(name: "testEvent9", id: "eventID9", date: Date.init(timeIntervalSinceNow: 86400.0 * 20.0))
+        userEventsController.createEvent(name: "testEvent10", id: "eventID10", date: Date.init(timeIntervalSinceNow: 86400.0 * 31.0))
+        userEventsController.createEvent(name: "testEvent11", id: "eventID11", date: Date.init(timeIntervalSinceNow: 86400.0 * 90.0))
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -77,15 +66,6 @@ class EventCollectionViewController: UIViewController, UICollectionViewDelegate,
         // Dispose of any resources that can be recreated.
     }
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using [segue destinationViewController].
-        // Pass the selected object to the new view controller.
-    }
-    */
 
     // MARK: UICollectionViewDataSource
 
@@ -97,7 +77,7 @@ class EventCollectionViewController: UIViewController, UICollectionViewDelegate,
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of items
-        return eventController.events.count
+        return userEventsController.events.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -113,11 +93,11 @@ class EventCollectionViewController: UIViewController, UICollectionViewDelegate,
         }
         
         //populate custom cell with event information
-        cell.eventNameLabel.text = eventController.events[indexPath.item].name
+        cell.eventNameLabel.text = userEventsController.events[indexPath.item].name
         cell.eventNameLabel.font = UIFont.boldSystemFont(ofSize: 20)
         cell.eventNameLabel.textColor = UIColor.white
         
-        let eventDate = eventController.events[indexPath.item].date
+        let eventDate = userEventsController.events[indexPath.item].date
         let todayDate = Date()
         
         //format event and current date
@@ -169,11 +149,10 @@ class EventCollectionViewController: UIViewController, UICollectionViewDelegate,
         
         if segue.identifier == "displayList" {
             let selectedIndexPath = sender as! IndexPath
-            let destinationVC = segue.destination as! ListViewController
+            let destinationVC = segue.destination as! ItemListViewController
             destinationVC.currentEventIdx = selectedIndexPath.item
-            destinationVC.eventController = self.eventController
+            destinationVC.userEventsController = self.userEventsController
             destinationVC.userController = self.userController
-            
         }
     }
     

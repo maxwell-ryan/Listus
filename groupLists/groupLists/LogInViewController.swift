@@ -12,6 +12,7 @@ import Firebase
 class LogInViewController: UIViewController {
     
     var userController: UserController!
+    var userEventsController: UserEventsController!
 
     @IBOutlet weak var emailField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
@@ -43,7 +44,9 @@ class LogInViewController: UIViewController {
                     return
                 }
                 
-                self.userController.createUser(logInViewController: self, userId: Auth.auth().currentUser!.uid)
+                let userId = Auth.auth().currentUser!.uid
+                
+                self.userController.initUser(logInViewController: self, userEventsController: self.userEventsController, userId: userId)
             }
         }
     }
@@ -52,6 +55,7 @@ class LogInViewController: UIViewController {
         if (segue.identifier == "showUser") {
             let destinationVC = segue.destination as! EventCollectionViewController
             destinationVC.userController = userController
+            destinationVC.userEventsController = userEventsController
         }
     }
 }

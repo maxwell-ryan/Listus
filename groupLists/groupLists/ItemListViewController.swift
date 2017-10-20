@@ -8,10 +8,11 @@
 
 import UIKit
 
-class ListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class ItemListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-    var eventController: EventController!
     var userController: UserController!
+    var userEventsController: UserEventsController!
+    var eventItemsController = EventItemsController()
     var currentEventIdx: Int! //unwrapped optional required to prevent Xcode mandating this class have an initializer - let's discuss best practice, I am unsure
     
     @IBOutlet weak var addListItemBtn: UIButton!
@@ -24,7 +25,13 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        listItemTableView.dataSource = self
+        listItemTableView.delegate = self
+        
+        listItemTableView.backgroundColor = colors.primaryColor1
+        
         listItemTableView.reloadData()
+        
         self.view.backgroundColor = UIColor.white  //colors.primaryColor1
         
         addListItemBtn.setTitleColor(colors.accentColor1, for: UIControlState.normal)
@@ -32,16 +39,13 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
         addListItemBtn.layer.cornerRadius = 10
         addListItemBtn.addTarget(self, action: #selector(newItemSegue), for: UIControlEvents.touchUpInside)
         
-        listItemTableView.dataSource = self
-        listItemTableView.delegate = self
         
-        listItemTableView.backgroundColor = colors.primaryColor1
         
         listInfoLabel.textColor = UIColor.init(red: 11.0/255.0, green: 12.0/255.0, blue: 16.0/255.0, alpha: 1)
-        listInfoLabel.text = "Organized by \(eventController.events[currentEventIdx].organizer[0].firstName) \(eventController.events[currentEventIdx].organizer[0].lastName)    |    \(eventController.events[currentEventIdx].items.count) items suggested"
+        listInfoLabel.text = "Organized by \("John") \("Williams")    |    \(eventItemsController.items.count) items suggested"
         
         listNameLabel.textColor = UIColor.init(red: 11.0/255.0, green: 12.0/255.0, blue: 16.0/255.0, alpha: 1)
-        listNameLabel.text = eventController.events[currentEventIdx].name
+        listNameLabel.text = userEventsController.events[currentEventIdx].name
 
     }
     
@@ -63,16 +67,16 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
     //implement UITableViewDelegate and UITableViewDataSource
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return eventController.events[currentEventIdx].items.count
+        return eventItemsController.items.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) ->
         UITableViewCell {
             let listItemCell = listItemTableView.dequeueReusableCell(withIdentifier: "itemCell", for: indexPath) as! ListItemTableViewCell
             
-            listItemCell.itemNameLabel.text = eventController.events[currentEventIdx].items[indexPath.row].name
-            listItemCell.itemDescriptionLabel.text = eventController.events[currentEventIdx].items[indexPath.row].description
-            listItemCell.itemUserLabel.text = "| Suggested by \(eventController.events[currentEventIdx].items[indexPath.row].userID) |"
+            listItemCell.itemNameLabel.text = eventItemsController.items[indexPath.row].name
+            listItemCell.itemDescriptionLabel.text = eventItemsController.items[indexPath.row].description
+            listItemCell.itemUserLabel.text = "| Suggested by \(eventItemsController.items[indexPath.row].userID) |"
             
             listItemCell.backgroundColor = colors.primaryColor1
             listItemCell.itemNameLabel.textColor = colors.primaryColor2
@@ -122,12 +126,13 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
         if segue.identifier == "editItem" {
             let selectedRow = sender as! ListItemTableViewCell
             print("selectedRow cell tag is: \(selectedRow.tag)")
-            let destinationVC = segue.destination as! AddItemViewController
+            let destinationVC = segue.destination as! ItemViewController
             
-            destinationVC.eventController = self.eventController
+            destinationVC.userEventsController = self.userEventsController
             destinationVC.userController = self.userController
             destinationVC.id = self.userController.user.id
             destinationVC.userID = self.userController.user.id
+            destinationVC.eventItemsController = self.eventItemsController
             
             //maintain current event scope/idx
             destinationVC.currentEventIdx = self.currentEventIdx
@@ -136,12 +141,13 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
 
         } else if segue.identifier == "addItem" {
             
-            let destinationVC = segue.destination as! AddItemViewController
+            let destinationVC = segue.destination as! ItemViewController
             destinationVC.currentEventIdx = self.currentEventIdx
-            destinationVC.eventController = self.eventController
+            destinationVC.userEventsController = self.userEventsController
             destinationVC.userController = self.userController
             destinationVC.id = self.userController.user.id
             destinationVC.userID = self.userController.user.id
+            destinationVC.eventItemsController = self.eventItemsController
         }
     }
 
