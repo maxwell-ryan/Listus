@@ -10,10 +10,10 @@ import UIKit
 
 private let reuseIdentifier = "eventCell"
 
-var model = DataModel()
+
 var testItems: [Item] = [Item(name: "Backpack", id: "ID#12", userID: "USERID#34343", description: "A container to hold items", quantity: 1), Item(name: "Crock Pot", id: "ID#32", userID: "USERID#543", description: "Cookware", quantity: 1), Item(name: "Plates", id: "ID#68", userID: "USERID#99973", description: "For all attendees to eat off of...", quantity: 15), Item(name: "Gas Grill", id: "ID#8", userID: "USERID#87", description: "So we can cook the meat", quantity: 2)]
 
-var testOrganizer = User(firstName: "John", lastName: "Doe", email: "john.doe@gmail.com", id: "1", events: [])
+var testOrganizer = User(firstName: "John", lastName: "Doe", email: "john.doe@gmail.com", id: "1")
 
 
 
@@ -55,17 +55,6 @@ class EventCollectionViewController: UIViewController, UICollectionViewDelegate,
         userEventsController.createEvent(name: "testEvent9", id: "eventID9", date: Date.init(timeIntervalSinceNow: 86400.0 * 20.0))
         userEventsController.createEvent(name: "testEvent10", id: "eventID10", date: Date.init(timeIntervalSinceNow: 86400.0 * 31.0))
         userEventsController.createEvent(name: "testEvent11", id: "eventID11", date: Date.init(timeIntervalSinceNow: 86400.0 * 90.0))
-    
-        let testOrganizer = User.init(firstName: "John", lastName: "Johnson", email: "testemail.com", id: "12", events: [])
-        //fill each test event with test items
-        for x in userEventsController.events {
-            x.items = testItems
-            x.organizer.append(testOrganizer)
-            for y in x.items {
-                //print(y.name)
-            }
-        }
-    
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -77,15 +66,6 @@ class EventCollectionViewController: UIViewController, UICollectionViewDelegate,
         // Dispose of any resources that can be recreated.
     }
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using [segue destinationViewController].
-        // Pass the selected object to the new view controller.
-    }
-    */
 
     // MARK: UICollectionViewDataSource
 
@@ -169,11 +149,10 @@ class EventCollectionViewController: UIViewController, UICollectionViewDelegate,
         
         if segue.identifier == "displayList" {
             let selectedIndexPath = sender as! IndexPath
-            let destinationVC = segue.destination as! ListViewController
+            let destinationVC = segue.destination as! ItemListViewController
             destinationVC.currentEventIdx = selectedIndexPath.item
             destinationVC.userEventsController = self.userEventsController
             destinationVC.userController = self.userController
-            
         }
     }
     
