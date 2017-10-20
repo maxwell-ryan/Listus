@@ -1,5 +1,5 @@
 //
-//  AddItemViewController.swift
+//  ItemViewController.swift
 //  groupLists
 //
 //  Created by bergerMacPro on 10/9/17.
@@ -25,7 +25,6 @@ class ItemViewController: UIViewController {
     @IBOutlet weak var submitNewItemBtn: UIButton!
     
     var userEventsController: UserEventsController!
-    var userController: UserController!
     var eventItemsController: EventItemsController!
     var currentEventIdx: Int! //unwrapped optional required to prevent Xcode mandating this class have an initializer - let's discuss best practice, I am unsure
     var editIdx: Int?
@@ -35,12 +34,7 @@ class ItemViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        //for debugging proper user is registered
-        print("UserID set as: \(userID)")
-        print("id set as: \(id)")
     
-        
         view.backgroundColor = colors.primaryColor1
         
         submitNewItemBtn.setTitleColor(colors.accentColor1, for: UIControlState.normal)
@@ -66,7 +60,6 @@ class ItemViewController: UIViewController {
         quantityStepperLabel.text = String(Int(quantityStepper.value))
         
         if let editIdxPassed = self.editIdx {
-            print("Edit index set as: \(editIdx)")
 
             //pre-populate the selected item (by row/tag) with the existing item information
             self.itemNameTextField!.text = eventItemsController.items[editIdxPassed].name
@@ -117,35 +110,13 @@ class ItemViewController: UIViewController {
                 eventItemsController.addItem(item: eventItemsController.createItem(name: itemNameTextField.text!, id: self.id, userID: self.userID, description: descriptionTextField.text!, quantity: Int(quantityStepper.value)))
             }
             
-            
             //return to list which will now display recently added item
-            performSegue(withIdentifier: "returnToList", sender: self)
+            dismiss(animated: true) {}
+            
         }
     }
     
     func returnToList(){
-        performSegue(withIdentifier: "returnToList", sender: self)
+        dismiss(animated: true) {}
     }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
-        if segue.identifier == "returnToList" {
-            let destinationVC = segue.destination as! ItemListViewController
-            destinationVC.currentEventIdx = self.currentEventIdx
-            destinationVC.userEventsController = self.userEventsController
-            destinationVC.eventItemsController = self.eventItemsController
-        }
-    }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

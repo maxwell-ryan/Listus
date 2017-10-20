@@ -129,7 +129,6 @@ class ItemListViewController: UIViewController, UITableViewDelegate, UITableView
             let destinationVC = segue.destination as! ItemViewController
             
             destinationVC.userEventsController = self.userEventsController
-            destinationVC.userController = self.userController
             destinationVC.id = self.userController.user.id
             destinationVC.userID = self.userController.user.id
             destinationVC.eventItemsController = self.eventItemsController
@@ -144,7 +143,6 @@ class ItemListViewController: UIViewController, UITableViewDelegate, UITableView
             let destinationVC = segue.destination as! ItemViewController
             destinationVC.currentEventIdx = self.currentEventIdx
             destinationVC.userEventsController = self.userEventsController
-            destinationVC.userController = self.userController
             destinationVC.id = self.userController.user.id
             destinationVC.userID = self.userController.user.id
             destinationVC.eventItemsController = self.eventItemsController
