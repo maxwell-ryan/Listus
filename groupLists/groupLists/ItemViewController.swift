@@ -8,7 +8,7 @@
 
 import UIKit
 
-class AddItemViewController: UIViewController {
+class ItemViewController: UIViewController {
 
     @IBOutlet weak var itemNameLabel: UILabel!
     @IBOutlet weak var itemNameTextField: UITextField!
@@ -25,8 +25,8 @@ class AddItemViewController: UIViewController {
     @IBOutlet weak var submitNewItemBtn: UIButton!
     
     var userEventsController: UserEventsController!
-    var itemController: ItemController!
     var userController: UserController!
+    var eventItemsController: EventItemsController!
     var currentEventIdx: Int! //unwrapped optional required to prevent Xcode mandating this class have an initializer - let's discuss best practice, I am unsure
     var editIdx: Int?
     
@@ -39,8 +39,8 @@ class AddItemViewController: UIViewController {
         //for debugging proper user is registered
         print("UserID set as: \(userID)")
         print("id set as: \(id)")
+    
         
-        itemController = ItemController()
         view.backgroundColor = colors.primaryColor1
         
         submitNewItemBtn.setTitleColor(colors.accentColor1, for: UIControlState.normal)
@@ -69,10 +69,10 @@ class AddItemViewController: UIViewController {
             print("Edit index set as: \(editIdx)")
 
             //pre-populate the selected item (by row/tag) with the existing item information
-            self.itemNameTextField!.text = userEventsController.events[currentEventIdx].items[editIdxPassed].name
-            self.descriptionTextField!.text = userEventsController.events[currentEventIdx].items[editIdxPassed].description
+            self.itemNameTextField!.text = eventItemsController.items[editIdxPassed].name
+            self.descriptionTextField!.text = eventItemsController.items[editIdxPassed].description
 
-            self.quantityStepper!.value = Double(userEventsController.events[currentEventIdx].items[editIdxPassed].quantity!)
+            self.quantityStepper!.value = Double(eventItemsController.items[editIdxPassed].quantity!)
             self.updateStepperLabel()
             //adjust add item button to state: update item
             self.submitNewItemBtn.setTitle("Update Item", for: .normal)
@@ -106,15 +106,15 @@ class AddItemViewController: UIViewController {
             
             //if editIdx not nil, user requsted edit to existing item
             if let updateIdx = editIdx {
-                itemController.removeItem(fromEvent: userEventsController.events[currentEventIdx], itemIndex: updateIdx)
+                eventItemsController.removeItem(itemIndex: updateIdx)
                 
                 let editedItem = Item(name: itemNameTextField.text!, id: self.id, userID: self.userID, description: descriptionTextField.text!, quantity: Int(quantityStepper.value))
                 
-                itemController.addItem(toEventItemList: userEventsController.events[currentEventIdx], item: editedItem, atIndex: updateIdx)
+                eventItemsController.addItem(item: editedItem, atIndex: updateIdx)
                 
             } else {
                 //add new item to corresponding event
-                itemController.addItem(toEventItemList: userEventsController.events[currentEventIdx], item: itemController.createItem(name: itemNameTextField.text!, id: self.id, userID: self.userID, description: descriptionTextField.text!, quantity: Int(quantityStepper.value)))
+                eventItemsController.addItem(item: eventItemsController.createItem(name: itemNameTextField.text!, id: self.id, userID: self.userID, description: descriptionTextField.text!, quantity: Int(quantityStepper.value)))
             }
             
             
@@ -130,7 +130,7 @@ class AddItemViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if segue.identifier == "returnToList" {
-            let destinationVC = segue.destination as! ListViewController
+            let destinationVC = segue.destination as! ItemListViewController
             destinationVC.currentEventIdx = self.currentEventIdx
             destinationVC.userEventsController = self.userEventsController
         }

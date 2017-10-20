@@ -24,9 +24,8 @@ class UserController {
             let firstName = value?[DB.firstName] as? String ?? ""
             let lastName = value?[DB.lastName] as? String ?? ""
             let email = value?[DB.email] as? String ?? ""
-            let events = value?[DB.events] as? [Event] ?? []
         
-            self.user = User(firstName: firstName, lastName: lastName, email: email, id: userId, events: events)
+            self.user = User(firstName: firstName, lastName: lastName, email: email, id: userId)
             
             userEventsController.initUserEvents(welcomeViewController: welcomeViewController, userId: userId)
             
@@ -45,9 +44,8 @@ class UserController {
             let firstName = value?[DB.firstName] as? String ?? ""
             let lastName = value?[DB.lastName] as? String ?? ""
             let email = value?[DB.email] as? String ?? ""
-            let events = value?[DB.events] as? [Event] ?? []
             
-            self.user = User(firstName: firstName, lastName: lastName, email: email, id: userId, events: events)
+            self.user = User(firstName: firstName, lastName: lastName, email: email, id: userId)
             
             userEventsController.initUserEvents(logInViewController: logInViewController, userId: userId)
             
@@ -61,6 +59,6 @@ class UserController {
         
         self.ref.child(DB.users).child(id).setValue([DB.firstName: firstName, DB.lastName: lastName, DB.email: email, DB.events: []])
         
-        self.user = User(firstName: firstName, lastName: lastName, email: email, id: id, events: [])
+        self.user = User(firstName: firstName, lastName: lastName, email: email, id: id)
     }
 }

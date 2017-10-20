@@ -8,8 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		07135D9C1F8BE65900E0A6F5 /* ListItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07135D9B1F8BE65900E0A6F5 /* ListItemTableViewCell.swift */; };
-		071CFF971F8BFFA500080C81 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 071CFF961F8BFFA500080C81 /* ListViewController.swift */; };
-		071CFF991F8C415600080C81 /* AddItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 071CFF981F8C415600080C81 /* AddItemViewController.swift */; };
+		071CFF971F8BFFA500080C81 /* ItemListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 071CFF961F8BFFA500080C81 /* ItemListViewController.swift */; };
+		071CFF991F8C415600080C81 /* ItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 071CFF981F8C415600080C81 /* ItemViewController.swift */; };
 		078852EC1F97DB0500858A0B /* MenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 078852EB1F97DB0500858A0B /* MenuCell.swift */; };
 		078852EE1F97DC9200858A0B /* MenuLauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 078852ED1F97DC9200858A0B /* MenuLauncher.swift */; };
 		0788FEEA1F9120E200D71A50 /* EventCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0788FEE91F9120E200D71A50 /* EventCollectionViewController.swift */; };
@@ -29,8 +29,6 @@
 		240574E81F8D80F9007EC0F0 /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 240574E71F8D80F9007EC0F0 /* LogInViewController.swift */; };
 		244290E11F8333A0001B0E23 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 244290E01F83339B001B0E23 /* GoogleService-Info.plist */; };
 		24631AF51F969EC2005068E7 /* UserController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24631AF41F969EC2005068E7 /* UserController.swift */; };
-		24631AF71F969ED3005068E7 /* ItemController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24631AF61F969ED3005068E7 /* ItemController.swift */; };
-		24631AFD1F96A54C005068E7 /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24631AFC1F96A54C005068E7 /* DataModel.swift */; };
 		24631AFF1F971235005068E7 /* FirebaseConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24631AFE1F971235005068E7 /* FirebaseConstants.swift */; };
 		2494B60F1F994D7400794F76 /* UserEventsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2494B60E1F994D7400794F76 /* UserEventsController.swift */; };
 		2494B6131F994DBB00794F76 /* EventItemsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2494B6121F994DBB00794F76 /* EventItemsController.swift */; };
@@ -61,8 +59,8 @@
 /* Begin PBXFileReference section */
 		023762F5233DDB4DC2B47DED /* Pods-groupListsUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-groupListsUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-groupListsUITests/Pods-groupListsUITests.release.xcconfig"; sourceTree = "<group>"; };
 		07135D9B1F8BE65900E0A6F5 /* ListItemTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListItemTableViewCell.swift; sourceTree = "<group>"; };
-		071CFF961F8BFFA500080C81 /* ListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
-		071CFF981F8C415600080C81 /* AddItemViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddItemViewController.swift; sourceTree = "<group>"; };
+		071CFF961F8BFFA500080C81 /* ItemListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemListViewController.swift; sourceTree = "<group>"; };
+		071CFF981F8C415600080C81 /* ItemViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemViewController.swift; sourceTree = "<group>"; };
 		078852EB1F97DB0500858A0B /* MenuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuCell.swift; sourceTree = "<group>"; };
 		078852ED1F97DC9200858A0B /* MenuLauncher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuLauncher.swift; sourceTree = "<group>"; };
 		0788FEE91F9120E200D71A50 /* EventCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventCollectionViewController.swift; sourceTree = "<group>"; };
@@ -89,8 +87,6 @@
 		240574E71F8D80F9007EC0F0 /* LogInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
 		244290E01F83339B001B0E23 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		24631AF41F969EC2005068E7 /* UserController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserController.swift; sourceTree = "<group>"; };
-		24631AF61F969ED3005068E7 /* ItemController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemController.swift; sourceTree = "<group>"; };
-		24631AFC1F96A54C005068E7 /* DataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataModel.swift; sourceTree = "<group>"; };
 		24631AFE1F971235005068E7 /* FirebaseConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseConstants.swift; sourceTree = "<group>"; };
 		2494B60E1F994D7400794F76 /* UserEventsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserEventsController.swift; sourceTree = "<group>"; };
 		2494B6121F994DBB00794F76 /* EventItemsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventItemsController.swift; sourceTree = "<group>"; };
@@ -205,7 +201,6 @@
 		0798B6461F816482002185C5 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				24631AFC1F96A54C005068E7 /* DataModel.swift */,
 				0798B64E1F816515002185C5 /* Item.swift */,
 				0798B6521F81655F002185C5 /* Event.swift */,
 				0798B6531F81655F002185C5 /* User.swift */,
@@ -218,8 +213,8 @@
 			isa = PBXGroup;
 			children = (
 				2494B6161F9956CD00794F76 /* Authentication */,
-				071CFF981F8C415600080C81 /* AddItemViewController.swift */,
-				071CFF961F8BFFA500080C81 /* ListViewController.swift */,
+				071CFF981F8C415600080C81 /* ItemViewController.swift */,
+				071CFF961F8BFFA500080C81 /* ItemListViewController.swift */,
 				0788FEE91F9120E200D71A50 /* EventCollectionViewController.swift */,
 				078852ED1F97DC9200858A0B /* MenuLauncher.swift */,
 			);
@@ -230,7 +225,6 @@
 			isa = PBXGroup;
 			children = (
 				24631AF41F969EC2005068E7 /* UserController.swift */,
-				24631AF61F969ED3005068E7 /* ItemController.swift */,
 				2494B60E1F994D7400794F76 /* UserEventsController.swift */,
 				2494B6121F994DBB00794F76 /* EventItemsController.swift */,
 				2494B6141F994DD500794F76 /* EventMessagesController.swift */,
@@ -586,17 +580,15 @@
 				240574E81F8D80F9007EC0F0 /* LogInViewController.swift in Sources */,
 				0798B6041F815660002185C5 /* AppDelegate.swift in Sources */,
 				2494B6131F994DBB00794F76 /* EventItemsController.swift in Sources */,
-				24631AF71F969ED3005068E7 /* ItemController.swift in Sources */,
 				2494B6151F994DD500794F76 /* EventMessagesController.swift in Sources */,
 				0798B6541F81655F002185C5 /* Event.swift in Sources */,
 				078852EC1F97DB0500858A0B /* MenuCell.swift in Sources */,
 				2494B7981F8ECBDF005C5B92 /* RegisterViewController.swift in Sources */,
-				24631AFD1F96A54C005068E7 /* DataModel.swift in Sources */,
-				071CFF971F8BFFA500080C81 /* ListViewController.swift in Sources */,
+				071CFF971F8BFFA500080C81 /* ItemListViewController.swift in Sources */,
 				078852EE1F97DC9200858A0B /* MenuLauncher.swift in Sources */,
 				240574E61F8D8092007EC0F0 /* WelcomeViewController.swift in Sources */,
 				0788FEEA1F9120E200D71A50 /* EventCollectionViewController.swift in Sources */,
-				071CFF991F8C415600080C81 /* AddItemViewController.swift in Sources */,
+				071CFF991F8C415600080C81 /* ItemViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
