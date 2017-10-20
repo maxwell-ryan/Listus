@@ -12,6 +12,7 @@ import Firebase
 class UserEventsController {
     
     var events: [Event] = []
+    var ref : DatabaseReference!
     
     func initUserEvents(welcomeViewController: WelcomeViewController, userId: String) {
         
@@ -50,16 +51,5 @@ class UserEventsController {
             return false
         }
         
-    }
-    
-    //returns a tuple type, first value indicates if index passed was valid, if true, the second value gives the count requested
-    //if first value is false, index passed was invalid, second value always equal 0 in this instance
-    func getItemListCount(forEventIndex eventIdx: Int, inUserEventsController userEventsController: UserEventsController) -> (successful: Bool, listCount: Int) {
-        
-        if eventIdx <= userEventsController.events.count {
-            return (true, userEventsController.events[eventIdx].items.count)
-        } else {
-            return (false, 0)
-        }
     }
 }

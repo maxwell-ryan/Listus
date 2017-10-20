@@ -7,7 +7,9 @@
 //
 
 import Foundation
+import Firebase
 
 class EventMessagesController {
+    var ref : DatabaseReference!
     
 }
