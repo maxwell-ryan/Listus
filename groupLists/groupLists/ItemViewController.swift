@@ -133,6 +133,7 @@ class ItemViewController: UIViewController {
             let destinationVC = segue.destination as! ItemListViewController
             destinationVC.currentEventIdx = self.currentEventIdx
             destinationVC.userEventsController = self.userEventsController
+            destinationVC.eventItemsController = self.eventItemsController
         }
     }
     
