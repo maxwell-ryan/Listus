@@ -53,9 +53,9 @@ class EventCollectionViewController: UIViewController, UICollectionViewDelegate,
         menuBtn.addTarget(self, action: #selector(displayMenu), for: .touchUpInside)
         
         //Create event, move to add event action
-        userEventsController.createEvent(name: "testEvent1", description: "some description", date: Date.init(timeIntervalSinceNow: 86400.0), userController: userController, eventCollectionView: eventCollectionView)
+        //userEventsController.createEvent(name: "testEvent1", description: "some description", date: Date.init(timeIntervalSinceNow: 86400.0), userController: userController, eventCollectionView: eventCollectionView)
         
-        //userEventsController.getDBEvents(userId: userController.user.id, eventCollectionView: eventCollectionView)
+        userEventsController.getDBEvents(userId: userController.user.id, eventCollectionView: eventCollectionView)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -91,7 +91,7 @@ class EventCollectionViewController: UIViewController, UICollectionViewDelegate,
         if (indexPath.item % 2 == 0) {
             cell.backgroundColor = colors.primaryColor1
         } else {
-            cell.backgroundColor = UIColor.white
+            cell.backgroundColor = colors.primaryColor1
         }
         
         //populate custom cell with event information
@@ -151,7 +151,8 @@ class EventCollectionViewController: UIViewController, UICollectionViewDelegate,
         
         if segue.identifier == "displayList" {
             let selectedIndexPath = sender as! IndexPath
-            let destinationVC = segue.destination as! ItemListViewController
+            let tabBarViewControllers = segue.destination as! UITabBarController
+            let destinationVC = tabBarViewControllers.viewControllers![0] as! ItemListViewController
             destinationVC.currentEventIdx = selectedIndexPath.item
             destinationVC.userEventsController = self.userEventsController
             destinationVC.userController = self.userController
