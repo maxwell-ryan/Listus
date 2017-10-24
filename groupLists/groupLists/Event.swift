@@ -12,7 +12,7 @@ class Event {
     
     var name: String
     var id: String
-    var description: String?
+    var description: String
     var organizer: [User] = []
     var authorizedUsers: [User] = []
     var date: Date
@@ -20,11 +20,12 @@ class Event {
     //var items: [Item] = []
     //var messages: [Message] = []
     
-    init(name: String, id: String, date: Date) {
+    init(name: String, id: String, date: Date, description: String) {
         
         self.name = name
         self.id = id
         self.date = date
+        self.description = description
     }
     
     
