@@ -18,10 +18,13 @@ class EventCollectionViewController: UIViewController, UICollectionViewDelegate,
     
     var userController : UserController!
     var userEventsController: UserEventsController!
+    let navigationLauncher = NavigationLauncher()
     let menuLauncher = MenuLauncher()
     
     @IBOutlet weak var eventCollectionView: UICollectionView!
     @IBOutlet weak var menuBtn: UIButton!
+    @IBOutlet weak var navBtn: UIButton!
+    
     
     let backgroundImages: [UIImage] = [UIImage.init(named: "camera")!,
                                        UIImage.init(named: "coffee")!,
@@ -36,9 +39,17 @@ class EventCollectionViewController: UIViewController, UICollectionViewDelegate,
 
         eventCollectionView.delegate = self
         eventCollectionView.dataSource = self
-        menuBtn.setImage(UIImage(named: "menu2x"), for: UIControlState.normal)
+
+        navBtn.setImage(UIImage(named: "menu2x"), for: UIControlState.normal)
+        navBtn.showsTouchWhenHighlighted = true
+        navBtn.tintColor = UIColor.darkGray
+        navBtn.addTarget(self, action: #selector(displayNav), for: .touchUpInside)
+        
+        menuBtn.setImage(UIImage(named: "filledeclipse"), for: UIControlState.normal)
         menuBtn.showsTouchWhenHighlighted = true
-        menuBtn.tintColor = UIColor.darkGray
+        menuBtn.setImage(UIImage(named: "eclipse"), for: UIControlState.highlighted)
+        menuBtn.showsTouchWhenHighlighted = true
+        menuBtn.tintColor = UIColor.black
         menuBtn.addTarget(self, action: #selector(displayMenu), for: .touchUpInside)
         
         //Create event, move to add event action
@@ -48,7 +59,8 @@ class EventCollectionViewController: UIViewController, UICollectionViewDelegate,
     }
     
     override func viewWillAppear(_ animated: Bool) {
-
+        navBtn.setTitle("", for: UIControlState.normal)
+        menuBtn.setTitle("", for: UIControlState.normal)
     }
 
     override func didReceiveMemoryWarning() {
@@ -116,13 +128,13 @@ class EventCollectionViewController: UIViewController, UICollectionViewDelegate,
         
         //populate image assets in background
         //generate random number no larger than number of images in image asset folder (Note: arc4random is not inclusive)
-        let randomValue = arc4random_uniform(UInt32(backgroundImages.count))
-        let backgroundView = UIImageView.init(image: backgroundImages[Int(randomValue)])
-        cell.backgroundView = backgroundView
+        //let randomValue = arc4random_uniform(UInt32(backgroundImages.count))
+        //let backgroundView = UIImageView.init(image: backgroundImages[Int(randomValue)])
+        //cell.backgroundView = backgroundView
         
         //NOTE: ADD ORGANIZER NAME ONCE DATA MODEL INFORMATION/STRUCTURE IMPLEMENTED FULLY
         //cell.eventOrganizerLabel.text = "\(model.events[indexPath.item].organizer[0].firstName) \(model.events[indexPath.item].organizer[0].lastName)"
-        
+
         cell.layer.borderColor = colors.accentColor1.cgColor
         cell.layer.borderWidth = 1
         
@@ -169,8 +181,13 @@ class EventCollectionViewController: UIViewController, UICollectionViewDelegate,
     }
     
     func displayMenu() {
-       
+        
         menuLauncher.showMenu()
+    }
+    
+    func displayNav() {
+        
+        navigationLauncher.showMenu()
     }
     
 

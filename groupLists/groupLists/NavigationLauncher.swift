@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class MenuLauncher: UICollectionViewFlowLayout, UICollectionViewDataSource, UICollectionViewDelegate {
+class NavigationLauncher: UICollectionViewFlowLayout, UICollectionViewDataSource, UICollectionViewDelegate {
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -31,7 +31,6 @@ class MenuLauncher: UICollectionViewFlowLayout, UICollectionViewDataSource, UICo
         let layout = UICollectionViewFlowLayout()
         let collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
         collectionView.backgroundColor = UIColor.white
-        collectionView.layer.cornerRadius = 10
         
         return collectionView
     }()
@@ -49,14 +48,16 @@ class MenuLauncher: UICollectionViewFlowLayout, UICollectionViewDataSource, UICo
             fullWindow.addSubview(menuCollectionView)
             
             let height: CGFloat = 350
-            let yValue: CGFloat = fullWindow.frame.height - (height - 45)
-            menuCollectionView.frame = CGRect(x: 5, y: fullWindow.frame.height, width: fullWindow.frame.width - 10, height: height)
+            let y = fullWindow.frame.height - height
+            let x = fullWindow.frame.width - 50
+            //menuCollectionView.frame = CGRect(x: 0, y: fullWindow.frame.height, width: fullWindow.frame.width, height: height)
+            menuCollectionView.frame = CGRect(x: -fullWindow.frame.width, y: 0, width: 200, height: fullWindow.frame.height)
             blurView.frame = fullWindow.frame
             //blurView.alpha = 0
             
             UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
                 self.blurView.alpha = 0.5
-                self.menuCollectionView.frame = CGRect(x: 5, y: (fullWindow.frame.height - yValue), width: self.menuCollectionView.frame.width, height: self.menuCollectionView.frame.height)
+                self.menuCollectionView.frame = CGRect(x: 0, y: 0, width: self.menuCollectionView.frame.width, height: self.menuCollectionView.frame.height)
             } ,completion: nil)
             
         }
@@ -68,7 +69,7 @@ class MenuLauncher: UICollectionViewFlowLayout, UICollectionViewDataSource, UICo
             self.blurView.alpha = 0
             
             if let fullWindow = UIApplication.shared.keyWindow {
-                self.menuCollectionView.frame = CGRect(x: 5, y: fullWindow.frame.height, width: fullWindow.frame.width - 10, height: self.menuCollectionView.frame.height)
+                self.menuCollectionView.frame = CGRect(x: -fullWindow.frame.width, y: 0, width: 200, height: fullWindow.frame.height)
             }
         })
     }
@@ -85,3 +86,4 @@ class MenuLauncher: UICollectionViewFlowLayout, UICollectionViewDataSource, UICo
     }
     
 }
+
