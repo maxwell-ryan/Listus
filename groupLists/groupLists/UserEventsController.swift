@@ -32,7 +32,7 @@ class UserEventsController {
     
     
     //creates an event, appends it to events array, and returns idx of appended event
-    func createEvent(name: String, id: String, date: Date) -> Int {
+    func createEvent(name: String, userId: String, date: Date) -> Int {
         //////////////////////////////////////////////////////////////////////////
         // id should be set by database?                                        //
         // what about event description?                                        //
@@ -46,12 +46,13 @@ class UserEventsController {
         let eventRef = ref.child(DB.events).childByAutoId()
         //set values of item
         //do we really need to have an id property within the event?
-        eventRef.setValue(["name": name, "date": date, "description": "some description", "id": eventRef.key])
+        eventRef.setValue(["name": name, "date": String(describing: date), "description": "some description", "id": eventRef.key])
         
         //add the event to the users events list
-        ref.child(DB.users).child(/*userId*/).child(DB.events).setValue(["name": eventRef.key, "value": 1])
+        let idx = ref.child(DB.users).child(userId).child(DB.events).childByAutoId()
+        idx.setValue(["id": eventRef.key])
         
-        events.append(Event(name: name, id: id, date: date))
+        events.append(Event(name: name, id: eventRef.key, date: date))
         
         return events.count - 1
     }
@@ -78,16 +79,18 @@ class UserEventsController {
             let user_events = snapshot.value as? NSDictionary
             for event in user_events! {
                 if event.key as? String == "events" {
-                    for e in (event.value as? NSDictionary)! {
-                        events_list.append(e.key as! String)
+                    for (_, id) in (event.value as? NSDictionary)! {
+//                        print((id as? NSDictionary)!["id"]!)
+                        events_list.append((id as? NSDictionary)!["id"]! as! String)
                     }
                 }
             }
-            
-            //then append the events to the events array
+ //           print(events_list)
+            //then append the events to the user's events list in the app to be displayed
             for e in events_list {
                 self.ref.child(DB.events).child(e).observeSingleEvent(of: .value, with: { (snapshot) in
                     let event = snapshot.value as? NSDictionary
+                    
                     let id = event!["key"] as? String ?? ""
                     let description = event!["description"] as? String ?? ""
                     let name = event!["name"] as? String ?? ""

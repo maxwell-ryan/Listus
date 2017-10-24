@@ -44,17 +44,19 @@ class EventCollectionViewController: UIViewController, UICollectionViewDelegate,
         menuBtn.tintColor = UIColor.darkGray
         menuBtn.addTarget(self, action: #selector(displayMenu), for: .touchUpInside)
         
-        userEventsController.createEvent(name: "testEvent1", id: "eventID1", date: Date.init(timeIntervalSinceNow: 86400.0))
-        userEventsController.createEvent(name: "testEvent2", id: "eventID2", date: Date.init(timeIntervalSinceNow: 86400.0))
-        userEventsController.createEvent(name: "testEvent3", id: "eventID3", date: Date.init(timeIntervalSinceNow: 86400.0 * 2.0))
-        userEventsController.createEvent(name: "testEvent4", id: "eventID4", date: Date.init(timeIntervalSinceNow: 86400.0 * 3.0))
-        userEventsController.createEvent(name: "testEvent5", id: "eventID5", date: Date.init(timeIntervalSinceNow: 86400.0 * 4.0))
-        userEventsController.createEvent(name: "testEvent6", id: "eventID6", date: Date.init(timeIntervalSinceNow: 86400.0 * 5.0))
-        userEventsController.createEvent(name: "testEvent7", id: "eventID7", date: Date.init(timeIntervalSinceNow: 86400.0 * 6.0))
-        userEventsController.createEvent(name: "testEvent8", id: "eventID8", date: Date.init(timeIntervalSinceNow: 86400.0 * 12.0))
-        userEventsController.createEvent(name: "testEvent9", id: "eventID9", date: Date.init(timeIntervalSinceNow: 86400.0 * 20.0))
-        userEventsController.createEvent(name: "testEvent10", id: "eventID10", date: Date.init(timeIntervalSinceNow: 86400.0 * 31.0))
-        userEventsController.createEvent(name: "testEvent11", id: "eventID11", date: Date.init(timeIntervalSinceNow: 86400.0 * 90.0))
+        let uid = userController.user.id
+        
+        userEventsController.createEvent(name: "testEvent1", userId: uid, date: Date.init(timeIntervalSinceNow: 86400.0))
+//        userEventsController.createEvent(name: "testEvent2", userId: "eventID2", date: Date.init(timeIntervalSinceNow: 86400.0))
+//        userEventsController.createEvent(name: "testEvent3", userId: "eventID3", date: Date.init(timeIntervalSinceNow: 86400.0 * 2.0))
+//        userEventsController.createEvent(name: "testEvent4", userId: "eventID4", date: Date.init(timeIntervalSinceNow: 86400.0 * 3.0))
+//        userEventsController.createEvent(name: "testEvent5", userId: "eventID5", date: Date.init(timeIntervalSinceNow: 86400.0 * 4.0))
+//        userEventsController.createEvent(name: "testEvent6", userId: "eventID6", date: Date.init(timeIntervalSinceNow: 86400.0 * 5.0))
+//        userEventsController.createEvent(name: "testEvent7", userId: "eventID7", date: Date.init(timeIntervalSinceNow: 86400.0 * 6.0))
+//        userEventsController.createEvent(name: "testEvent8", userId: "eventID8", date: Date.init(timeIntervalSinceNow: 86400.0 * 12.0))
+//        userEventsController.createEvent(name: "testEvent9", userId: "eventID9", date: Date.init(timeIntervalSinceNow: 86400.0 * 20.0))
+//        userEventsController.createEvent(name: "testEvent10", userId: "eventID10", date: Date.init(timeIntervalSinceNow: 86400.0 * 31.0))
+//        userEventsController.createEvent(name: "testEvent11", userId: "eventID11", date: Date.init(timeIntervalSinceNow: 86400.0 * 90.0))
     }
     
     override func viewWillAppear(_ animated: Bool) {
