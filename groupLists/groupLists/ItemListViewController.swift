@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class ItemListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
@@ -15,12 +16,17 @@ class ItemListViewController: UIViewController, UITableViewDelegate, UITableView
     var eventItemsController = EventItemsController()
     var currentEventIdx: Int! //unwrapped optional required to prevent Xcode mandating this class have an initializer - let's discuss best practice, I am unsure
     
+    let navigationLauncher = NavigationLauncher()
+    let menuLauncher = MenuLauncher()
+    
     @IBOutlet weak var addListItemBtn: UIButton!
     @IBOutlet weak var listItemTableView: UITableView!
 
     @IBOutlet weak var listInfoLabel: UILabel!
     @IBOutlet weak var listNameLabel: UILabel!
 
+    @IBOutlet weak var menuBtn: UIButton!
+    @IBOutlet weak var navBtn: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,20 +44,38 @@ class ItemListViewController: UIViewController, UITableViewDelegate, UITableView
         addListItemBtn.backgroundColor = colors.primaryColor2
         addListItemBtn.layer.cornerRadius = 10
         addListItemBtn.addTarget(self, action: #selector(newItemSegue), for: UIControlEvents.touchUpInside)
+        addListItemBtn.isHidden = true
         
+        navBtn.setImage(UIImage(named: "menu2x"), for: UIControlState.normal)
+        navBtn.showsTouchWhenHighlighted = true
+        navBtn.tintColor = UIColor.darkGray
+        navBtn.addTarget(self, action: #selector(displayNav), for: .touchUpInside)
         
+        menuBtn.setImage(UIImage(named: "filledeclipse"), for: UIControlState.normal)
+        menuBtn.showsTouchWhenHighlighted = true
+        menuBtn.setImage(UIImage(named: "eclipse"), for: UIControlState.highlighted)
+        menuBtn.showsTouchWhenHighlighted = true
+        menuBtn.tintColor = UIColor.black
+        menuBtn.addTarget(self, action: #selector(displayMenu), for: .touchUpInside)
         
         listInfoLabel.textColor = UIColor.init(red: 11.0/255.0, green: 12.0/255.0, blue: 16.0/255.0, alpha: 1)
         listInfoLabel.text = "Organized by \("John") \("Williams")    |    \(eventItemsController.items.count) items suggested"
         
         listNameLabel.textColor = UIColor.init(red: 11.0/255.0, green: 12.0/255.0, blue: 16.0/255.0, alpha: 1)
         listNameLabel.text = userEventsController.events[currentEventIdx].name
+        
+        //add contextual options to bottom fly-in menu bar
+        menuLauncher.menuOptions.insert(MenuOption(name: "Back", iconName: "back"), at: 0)
+        menuLauncher.menuOptions.insert(MenuOption(name: "Add", iconName: "add"), at: 1)
 
     }
     
     override func viewWillAppear(_ animated: Bool) {
         listItemTableView.reloadData()
         print("ListViewController scoped on event idx: \(currentEventIdx!)")
+        
+        navBtn.setTitle("", for: UIControlState.normal)
+        menuBtn.setTitle("", for: UIControlState.normal)
     }
 
     override func didReceiveMemoryWarning() {
@@ -146,7 +170,57 @@ class ItemListViewController: UIViewController, UITableViewDelegate, UITableView
             destinationVC.id = self.userController.user.id
             destinationVC.userID = self.userController.user.id
             destinationVC.eventItemsController = self.eventItemsController
+        
+        } else if segue.identifier == "returnToEvents" {
+            
+            let destinationVC = segue.destination as! EventCollectionViewController
+            destinationVC.userEventsController = self.userEventsController
+            destinationVC.userController = self.userController
         }
+    }
+    
+    func displayMenu() {
+        
+        menuLauncher.baseItemListVC = self
+        menuLauncher.showMenu()
+    }
+    
+    func executeMenuOption(option: MenuOption) {
+        
+        if option.name == "Cancel" {
+           //cancel selected, do nothing
+        } else if option.name == "Back" {
+            //back requested, inititate back segue
+            performSegue(withIdentifier: "returnToEvents", sender: self)
+        } else if option.name == "Add" {
+            //add requested, fire add event
+            addListItemBtn.sendActions(for: .touchUpInside)
+        }
+    }
+    
+    func executeNavOption(option: NavOption) {
+        
+        if option.name == "Cancel" {
+            //cancel selected, do nothing
+        }
+        else if option.name == "My Events" {
+            //go to events view
+            performSegue(withIdentifier: "returnToEvents", sender: self)
+        } else if option.name == "Logout" {
+            //logout via firebase
+            do {
+                try Auth.auth().signOut()
+                performSegue(withIdentifier: "returnToLogin", sender: self)
+            } catch {
+                print("A logout error occured")
+            }
+        }
+    }
+    
+    func displayNav() {
+        
+        navigationLauncher.baseItemListVC = self
+        navigationLauncher.showMenu()
     }
 
 }

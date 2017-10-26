@@ -10,6 +10,7 @@
 		07135D9C1F8BE65900E0A6F5 /* ListItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07135D9B1F8BE65900E0A6F5 /* ListItemTableViewCell.swift */; };
 		071CFF971F8BFFA500080C81 /* ItemListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 071CFF961F8BFFA500080C81 /* ItemListViewController.swift */; };
 		071CFF991F8C415600080C81 /* ItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 071CFF981F8C415600080C81 /* ItemViewController.swift */; };
+		0742AD391FA161CD00F7BE20 /* NavCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0742AD381FA161CD00F7BE20 /* NavCell.swift */; };
 		078852EC1F97DB0500858A0B /* MenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 078852EB1F97DB0500858A0B /* MenuCell.swift */; };
 		078852EE1F97DC9200858A0B /* MenuLauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 078852ED1F97DC9200858A0B /* MenuLauncher.swift */; };
 		0788FEEA1F9120E200D71A50 /* EventCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0788FEE91F9120E200D71A50 /* EventCollectionViewController.swift */; };
@@ -62,6 +63,7 @@
 		07135D9B1F8BE65900E0A6F5 /* ListItemTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListItemTableViewCell.swift; sourceTree = "<group>"; };
 		071CFF961F8BFFA500080C81 /* ItemListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemListViewController.swift; sourceTree = "<group>"; };
 		071CFF981F8C415600080C81 /* ItemViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemViewController.swift; sourceTree = "<group>"; };
+		0742AD381FA161CD00F7BE20 /* NavCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavCell.swift; sourceTree = "<group>"; };
 		078852EB1F97DB0500858A0B /* MenuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuCell.swift; sourceTree = "<group>"; };
 		078852ED1F97DC9200858A0B /* MenuLauncher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuLauncher.swift; sourceTree = "<group>"; };
 		0788FEE91F9120E200D71A50 /* EventCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventCollectionViewController.swift; sourceTree = "<group>"; };
@@ -196,6 +198,7 @@
 				07135D9B1F8BE65900E0A6F5 /* ListItemTableViewCell.swift */,
 				0788FEEB1F91216200D71A50 /* EventCollectionViewCell.swift */,
 				078852EB1F97DB0500858A0B /* MenuCell.swift */,
+				0742AD381FA161CD00F7BE20 /* NavCell.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -575,6 +578,7 @@
 				0798B63C1F816196002185C5 /* ColorScheme.swift in Sources */,
 				0788FEEC1F91216200D71A50 /* EventCollectionViewCell.swift in Sources */,
 				24631AF51F969EC2005068E7 /* UserController.swift in Sources */,
+				0742AD391FA161CD00F7BE20 /* NavCell.swift in Sources */,
 				0798B6511F81651F002185C5 /* Message.swift in Sources */,
 				0798B6551F81655F002185C5 /* User.swift in Sources */,
 				07135D9C1F8BE65900E0A6F5 /* ListItemTableViewCell.swift in Sources */,
@@ -747,7 +751,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = groupLists/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = capstone.groupLists;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -762,7 +766,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = groupLists/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = capstone.groupLists;
 				PRODUCT_NAME = "$(TARGET_NAME)";

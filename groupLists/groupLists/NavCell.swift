@@ -1,20 +1,20 @@
 //
-//  MenuCell.swift
+//  NavCell.swift
 //  groupLists
 //
-//  Created by bergerMacPro on 10/18/17.
+//  Created by bergerMacPro on 10/25/17.
 //  Copyright © 2017 bergerMacPro. All rights reserved.
 //
 
 import Foundation
 import UIKit
 
-class MenuCell: UICollectionViewCell {
+class NavCell: UICollectionViewCell {
     
-    var option: MenuOption? {
+    var option: NavOption? {
         didSet {
             nameLabel.text = option?.name
-
+            
             if let iconName = option?.iconName {
                 iconImageView.image = UIImage(named: iconName)?.withRenderingMode(UIImageRenderingMode.alwaysTemplate)
                 iconImageView.tintColor = UIColor.black
