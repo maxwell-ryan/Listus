@@ -53,9 +53,9 @@ class EventCollectionViewController: UIViewController, UICollectionViewDelegate,
         menuBtn.addTarget(self, action: #selector(displayMenu), for: .touchUpInside)
         
         //Create event, move to add event action
-        //userEventsController.createEvent(name: "testEvent1", description: "some description", date: Date.init(timeIntervalSinceNow: 86400.0), userController: userController, eventCollectionView: eventCollectionView)
+        userEventsController.createEvent(name: "testEvent1", description: "some description", date: Date.init(timeIntervalSinceNow: 86400.0), userController: userController, eventCollectionView: eventCollectionView)
         
-        userEventsController.getDBEvents(userId: userController.user.id, eventCollectionView: eventCollectionView)
+        //userEventsController.getDBEvents(userId: userController.user.id, eventCollectionView: eventCollectionView)
     }
     
     override func viewWillAppear(_ animated: Bool) {

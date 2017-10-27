@@ -381,7 +381,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Items" image="menu2x" id="HeX-uN-C2K"/>
+                    <tabBarItem key="tabBarItem" title="Items" image="ic_view_list_36pt" id="HeX-uN-C2K"/>
                     <connections>
                         <outlet property="addListItemBtn" destination="Vno-Fz-DhQ" id="hyO-uo-PuN"/>
                         <outlet property="listInfoLabel" destination="Vly-AF-0jQ" id="VYb-ED-nSg"/>
@@ -488,6 +488,7 @@
                 <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="rZU-IT-4fc" sceneMemberID="viewController">
                     <toolbarItems/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="giZ-Uv-9Kd">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
@@ -513,7 +514,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Messages" image="menu2x" id="Zdv-Yn-3ye"/>
+                    <tabBarItem key="tabBarItem" title="Messages" image="ic_chat_bubble_36pt" id="Zdv-Yn-3ye"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6nI-Uk-cF1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -521,7 +522,8 @@
         </scene>
     </scenes>
     <resources>
-        <image name="menu2x" width="52" height="52"/>
+        <image name="ic_chat_bubble_36pt" width="36" height="36"/>
+        <image name="ic_view_list_36pt" width="36" height="36"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="97d-xq-ual"/>
