@@ -151,7 +151,8 @@ class EventCollectionViewController: UIViewController, UICollectionViewDelegate,
         
         if segue.identifier == "displayList" {
             let selectedIndexPath = sender as! IndexPath
-            let destinationVC = segue.destination as! ItemListViewController
+            let tabBarViewControllers = segue.destination as! UITabBarController
+            let destinationVC = tabBarViewControllers.viewControllers![0] as! ItemListViewController
             destinationVC.currentEventIdx = selectedIndexPath.item
             destinationVC.userEventsController = self.userEventsController
             destinationVC.userController = self.userController
