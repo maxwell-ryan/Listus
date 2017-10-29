@@ -52,19 +52,10 @@ class EventCollectionViewController: UIViewController, UICollectionViewDelegate,
         menuBtn.tintColor = UIColor.black
         menuBtn.addTarget(self, action: #selector(displayMenu), for: .touchUpInside)
         
-        let uid = userController.user.id
+        //Create event, move to add event action
+        userEventsController.createEvent(name: "testEvent1", description: "some description", date: Date.init(timeIntervalSinceNow: 86400.0 * 60), userController: userController, eventCollectionView: eventCollectionView)
         
-        userEventsController.createEvent(name: "testEvent1", userId: uid, date: Date.init(timeIntervalSinceNow: 86400.0))
-//        userEventsController.createEvent(name: "testEvent2", userId: "eventID2", date: Date.init(timeIntervalSinceNow: 86400.0))
-//        userEventsController.createEvent(name: "testEvent3", userId: "eventID3", date: Date.init(timeIntervalSinceNow: 86400.0 * 2.0))
-//        userEventsController.createEvent(name: "testEvent4", userId: "eventID4", date: Date.init(timeIntervalSinceNow: 86400.0 * 3.0))
-//        userEventsController.createEvent(name: "testEvent5", userId: "eventID5", date: Date.init(timeIntervalSinceNow: 86400.0 * 4.0))
-//        userEventsController.createEvent(name: "testEvent6", userId: "eventID6", date: Date.init(timeIntervalSinceNow: 86400.0 * 5.0))
-//        userEventsController.createEvent(name: "testEvent7", userId: "eventID7", date: Date.init(timeIntervalSinceNow: 86400.0 * 6.0))
-//        userEventsController.createEvent(name: "testEvent8", userId: "eventID8", date: Date.init(timeIntervalSinceNow: 86400.0 * 12.0))
-//        userEventsController.createEvent(name: "testEvent9", userId: "eventID9", date: Date.init(timeIntervalSinceNow: 86400.0 * 20.0))
-//        userEventsController.createEvent(name: "testEvent10", userId: "eventID10", date: Date.init(timeIntervalSinceNow: 86400.0 * 31.0))
-//        userEventsController.createEvent(name: "testEvent11", userId: "eventID11", date: Date.init(timeIntervalSinceNow: 86400.0 * 90.0))
+        //userEventsController.getDBEvents(userId: userController.user.id, eventCollectionView: self.eventCollectionView)
     }
     
     override func viewWillAppear(_ animated: Bool) {
