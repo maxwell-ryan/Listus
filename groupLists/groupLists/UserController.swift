@@ -27,7 +27,7 @@ class UserController {
         
             self.user = User(firstName: firstName, lastName: lastName, email: email, id: userId)
             
-            userEventsController.initUserEvents(welcomeViewController: welcomeViewController, userId: userId)
+            welcomeViewController.performSegue(withIdentifier: "showUser", sender: nil)
             
         }) { (error) in
             print(error.localizedDescription)
@@ -47,7 +47,7 @@ class UserController {
             
             self.user = User(firstName: firstName, lastName: lastName, email: email, id: userId)
             
-            userEventsController.initUserEvents(logInViewController: logInViewController, userId: userId)
+            logInViewController.performSegue(withIdentifier: "showUser", sender: nil)
             
         }) { (error) in
             print(error.localizedDescription)

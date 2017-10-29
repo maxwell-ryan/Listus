@@ -13,18 +13,18 @@ private let reuseIdentifier = "eventCell"
 
 var testItems: [Item] = [Item(name: "Backpack", id: "ID#12", userID: "USERID#34343", description: "A container to hold items", quantity: 1), Item(name: "Crock Pot", id: "ID#32", userID: "USERID#543", description: "Cookware", quantity: 1), Item(name: "Plates", id: "ID#68", userID: "USERID#99973", description: "For all attendees to eat off of...", quantity: 15), Item(name: "Gas Grill", id: "ID#8", userID: "USERID#87", description: "So we can cook the meat", quantity: 2)]
 
-var testOrganizer = User(firstName: "John", lastName: "Doe", email: "john.doe@gmail.com", id: "1")
-
-
 
 class EventCollectionViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     
     var userController : UserController!
     var userEventsController: UserEventsController!
+    let navigationLauncher = NavigationLauncher()
     let menuLauncher = MenuLauncher()
     
     @IBOutlet weak var eventCollectionView: UICollectionView!
     @IBOutlet weak var menuBtn: UIButton!
+    @IBOutlet weak var navBtn: UIButton!
+    
     
     let backgroundImages: [UIImage] = [UIImage.init(named: "camera")!,
                                        UIImage.init(named: "coffee")!,
@@ -37,11 +37,19 @@ class EventCollectionViewController: UIViewController, UICollectionViewDelegate,
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        eventCollectionView.delegate = self
-        eventCollectionView.dataSource = self
-        menuBtn.setImage(UIImage(named: "menu2x"), for: UIControlState.normal)
+        self.eventCollectionView.delegate = self
+        self.eventCollectionView.dataSource = self
+
+        navBtn.setImage(UIImage(named: "menu2x"), for: UIControlState.normal)
+        navBtn.showsTouchWhenHighlighted = true
+        navBtn.tintColor = UIColor.darkGray
+        navBtn.addTarget(self, action: #selector(displayNav), for: .touchUpInside)
+        
+        menuBtn.setImage(UIImage(named: "filledeclipse"), for: UIControlState.normal)
         menuBtn.showsTouchWhenHighlighted = true
-        menuBtn.tintColor = UIColor.darkGray
+        menuBtn.setImage(UIImage(named: "eclipse"), for: UIControlState.highlighted)
+        menuBtn.showsTouchWhenHighlighted = true
+        menuBtn.tintColor = UIColor.black
         menuBtn.addTarget(self, action: #selector(displayMenu), for: .touchUpInside)
         
         let uid = userController.user.id
@@ -60,7 +68,8 @@ class EventCollectionViewController: UIViewController, UICollectionViewDelegate,
     }
     
     override func viewWillAppear(_ animated: Bool) {
-
+        navBtn.setTitle("", for: UIControlState.normal)
+        menuBtn.setTitle("", for: UIControlState.normal)
     }
 
     override func didReceiveMemoryWarning() {
@@ -91,7 +100,7 @@ class EventCollectionViewController: UIViewController, UICollectionViewDelegate,
         if (indexPath.item % 2 == 0) {
             cell.backgroundColor = colors.primaryColor1
         } else {
-            cell.backgroundColor = UIColor.white
+            cell.backgroundColor = colors.primaryColor1
         }
         
         //populate custom cell with event information
@@ -128,13 +137,13 @@ class EventCollectionViewController: UIViewController, UICollectionViewDelegate,
         
         //populate image assets in background
         //generate random number no larger than number of images in image asset folder (Note: arc4random is not inclusive)
-        let randomValue = arc4random_uniform(UInt32(backgroundImages.count))
-        let backgroundView = UIImageView.init(image: backgroundImages[Int(randomValue)])
-        cell.backgroundView = backgroundView
+        //let randomValue = arc4random_uniform(UInt32(backgroundImages.count))
+        //let backgroundView = UIImageView.init(image: backgroundImages[Int(randomValue)])
+        //cell.backgroundView = backgroundView
         
         //NOTE: ADD ORGANIZER NAME ONCE DATA MODEL INFORMATION/STRUCTURE IMPLEMENTED FULLY
         //cell.eventOrganizerLabel.text = "\(model.events[indexPath.item].organizer[0].firstName) \(model.events[indexPath.item].organizer[0].lastName)"
-        
+
         cell.layer.borderColor = colors.accentColor1.cgColor
         cell.layer.borderWidth = 1
         
@@ -151,7 +160,8 @@ class EventCollectionViewController: UIViewController, UICollectionViewDelegate,
         
         if segue.identifier == "displayList" {
             let selectedIndexPath = sender as! IndexPath
-            let destinationVC = segue.destination as! ItemListViewController
+            let tabBarViewControllers = segue.destination as! UITabBarController
+            let destinationVC = tabBarViewControllers.viewControllers![0] as! ItemListViewController
             destinationVC.currentEventIdx = selectedIndexPath.item
             destinationVC.userEventsController = self.userEventsController
             destinationVC.userController = self.userController
@@ -181,8 +191,13 @@ class EventCollectionViewController: UIViewController, UICollectionViewDelegate,
     }
     
     func displayMenu() {
-       
+        
         menuLauncher.showMenu()
+    }
+    
+    func displayNav() {
+        
+        navigationLauncher.showMenu()
     }
     
 

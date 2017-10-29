@@ -5,7 +5,6 @@
 //  Created by Kyle Cross on 10/19/17.
 //  Copyright © 2017 bergerMacPro. All rights reserved.
 //
-
 import Foundation
 import Firebase
 
@@ -18,9 +17,11 @@ class UserEventsController {
         // Init array of events from DB here
         getDBEvents(user: userId)
         
-        // Segue to inital view after logging in
-        welcomeViewController.performSegue(withIdentifier: "showUser", sender: nil)
-    }
+        //format date as string for firebase
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        let dateString = formatter.string(from: date)
+
     
     func initUserEvents(logInViewController: LogInViewController, userId: String) {
         // Init array of events from DB here
@@ -54,7 +55,7 @@ class UserEventsController {
         
         events.append(Event(name: name, id: eventRef.key, date: date))
         
-        return events.count - 1
+        //return events.count - 1
     }
     
     //removes event at index given, returns true if removal successful, returns false if index argument is invalid
