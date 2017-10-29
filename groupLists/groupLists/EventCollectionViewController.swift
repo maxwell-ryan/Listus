@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 private let reuseIdentifier = "eventCell"
 
@@ -20,6 +21,7 @@ class EventCollectionViewController: UIViewController, UICollectionViewDelegate,
     var userEventsController: UserEventsController!
     let navigationLauncher = NavigationLauncher()
     let menuLauncher = MenuLauncher()
+    var editIdx: Int?
     
     @IBOutlet weak var eventCollectionView: UICollectionView!
     @IBOutlet weak var menuBtn: UIButton!
@@ -45,22 +47,28 @@ class EventCollectionViewController: UIViewController, UICollectionViewDelegate,
         navBtn.tintColor = UIColor.darkGray
         navBtn.addTarget(self, action: #selector(displayNav), for: .touchUpInside)
         
-        menuBtn.setImage(UIImage(named: "filledeclipse"), for: UIControlState.normal)
+        menuBtn.setImage(UIImage(named: "filledmenu"), for: UIControlState.normal)
         menuBtn.showsTouchWhenHighlighted = true
-        menuBtn.setImage(UIImage(named: "eclipse"), for: UIControlState.highlighted)
+        menuBtn.setImage(UIImage(named: "menu"), for: UIControlState.highlighted)
         menuBtn.showsTouchWhenHighlighted = true
         menuBtn.tintColor = UIColor.black
+        self.view.addConstraint(NSLayoutConstraint(item: menuBtn, attribute: .centerY, relatedBy: .equal, toItem: navBtn, attribute: .centerY, multiplier: 1, constant: 0))
         menuBtn.addTarget(self, action: #selector(displayMenu), for: .touchUpInside)
         
         //Create event, move to add event action
-        userEventsController.createEvent(name: "testEvent1", description: "some description", date: Date.init(timeIntervalSinceNow: 86400.0 * 60), userController: userController, eventCollectionView: eventCollectionView)
+        //userEventsController.createEvent(name: "testEvent1", description: "some description", date: Date.init(timeIntervalSinceNow: 86400.0 * 60), userController: userController, eventCollectionView: eventCollectionView)
         
-        //userEventsController.getDBEvents(userId: userController.user.id, eventCollectionView: self.eventCollectionView)
+        userEventsController.getDBEvents(userId: userController.user.id, eventCollectionView: self.eventCollectionView)
+        
+        //populate menu options available from this VC
+        menuLauncher.menuOptions.insert(MenuOption(name: "Add Event", iconName: "add"), at: 0)
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         navBtn.setTitle("", for: UIControlState.normal)
         menuBtn.setTitle("", for: UIControlState.normal)
+        self.eventCollectionView.reloadData()
     }
 
     override func didReceiveMemoryWarning() {
@@ -108,24 +116,39 @@ class EventCollectionViewController: UIViewController, UICollectionViewDelegate,
         dateFormatter.timeStyle = .none
         dateFormatter.locale = Locale(identifier: "en_US")
         
-        //calculate and format date interval between two dates
-        let dateUntilEvent = DateInterval.init(start: todayDate, end: eventDate)
+        //calculate and format date interval between two dates, if date is still in future
+        //verify the event is  in the future, then calculate, and display, countdown
+        if (todayDate < eventDate) {
+            let dateUntilEvent = DateInterval.init(start: todayDate, end: eventDate)
+        }
+        
         let dateIntervalFormatter = DateIntervalFormatter()
         dateIntervalFormatter.dateStyle = .none
         dateIntervalFormatter.timeStyle = .short
         dateIntervalFormatter.locale = Locale(identifier: "en_US")
         
-        let countdownTimeInterval = eventDate.timeIntervalSince(todayDate)
-        
+        //verify the event is  in the future, then calculate, and display, countdown
+        if (todayDate < eventDate) {
+            let countdownTimeInterval = eventDate.timeIntervalSince(todayDate)
+            cell.eventDateLabel.text = "\(dateFormatter.string(from: eventDate))\nin \(convertTimeIntervalToDaysHoursMinutesSeconds(timeInterval: countdownTimeInterval))"
+        //otherwise notify of event expiration
+        } else {
+            cell.eventDateLabel.text = "This event occured on:\n\(dateFormatter.string(from: eventDate))"
+        }
         cell.eventDateLabel.lineBreakMode = .byWordWrapping
         cell.eventDateLabel.numberOfLines = 0
-        cell.eventDateLabel.text = "\(dateFormatter.string(from: eventDate))\nin \(convertTimeIntervalToDaysHoursMinutesSeconds(timeInterval: countdownTimeInterval))"
+        //cell.eventDateLabel.text = "\(dateFormatter.string(from: eventDate))\nin \(convertTimeIntervalToDaysHoursMinutesSeconds(timeInterval: countdownTimeInterval))"
         cell.eventDateLabel.textColor = UIColor.white
         cell.eventDateLabel.font = UIFont.boldSystemFont(ofSize: 16)
         
         cell.eventOrganizerLabel.textColor = UIColor.white
         cell.eventOrganizerLabel.font = UIFont.systemFont(ofSize: 12)
         
+        cell.eventEditBtn.setImage(UIImage(named: "edit")?.withRenderingMode(UIImageRenderingMode.alwaysTemplate), for: .normal)
+        cell.eventEditBtn.tintColor = colors.primaryColor2
+        cell.eventEditBtn.tag = indexPath.item
+
+        cell.eventEditBtn.addTarget(self, action: #selector(initiateEditEvent), for: .touchUpInside)
         //populate image assets in background
         //generate random number no larger than number of images in image asset folder (Note: arc4random is not inclusive)
         //let randomValue = arc4random_uniform(UInt32(backgroundImages.count))
@@ -142,20 +165,39 @@ class EventCollectionViewController: UIViewController, UICollectionViewDelegate,
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
-        print("Selected cell at path \(indexPath.item)")
+    
         self.performSegue(withIdentifier: "displayList", sender: indexPath)
+    }
+    
+    func initiateEditEvent(sender: UIButton){
+        
+        self.editIdx = sender.tag
+        performSegue(withIdentifier: "editEvent", sender: self)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if segue.identifier == "displayList" {
+            
             let selectedIndexPath = sender as! IndexPath
             let tabBarViewControllers = segue.destination as! UITabBarController
             let destinationVC = tabBarViewControllers.viewControllers![0] as! ItemListViewController
             destinationVC.currentEventIdx = selectedIndexPath.item
             destinationVC.userEventsController = self.userEventsController
             destinationVC.userController = self.userController
+        
+        } else if segue.identifier == "addEvent" {
+            
+            let destinationVC = segue.destination as! EventViewController
+            destinationVC.userController = self.userController
+            destinationVC.userEventsController = self.userEventsController
+        
+        } else if segue.identifier == "editEvent" {
+            
+            let destinationVC = segue.destination as! EventViewController
+            destinationVC.userController = self.userController
+            destinationVC.userEventsController = self.userEventsController
+            destinationVC.editIdx = self.editIdx
         }
     }
     
@@ -183,12 +225,43 @@ class EventCollectionViewController: UIViewController, UICollectionViewDelegate,
     
     func displayMenu() {
         
+        menuLauncher.baseEventCollectionVC = self
         menuLauncher.showMenu()
+    }
+    
+    func executeMenuOption(option: MenuOption) {
+        
+        if option.name == "Cancel" {
+            //cancel selected, do nothing
+        } else if option.name == "Add Event" {
+            //add requested, fire add event
+            performSegue(withIdentifier: "addEvent", sender: self)
+        }
     }
     
     func displayNav() {
         
+        navigationLauncher.baseEventCollectionVC = self
         navigationLauncher.showMenu()
+    }
+    
+    func executeNavOption(option: NavOption) {
+        
+        if option.name == "Cancel" {
+            //cancel selected, do nothing
+        }
+        else if option.name == "My Events" {
+            //do nothing - already at events view
+ 
+        } else if option.name == "Logout" {
+            //logout via firebase
+            do {
+                try Auth.auth().signOut()
+                performSegue(withIdentifier: "returnToLogin", sender: self)
+            } catch {
+                print("A logout error occured")
+            }
+        }
     }
     
 
