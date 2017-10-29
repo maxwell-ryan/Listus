@@ -32,6 +32,7 @@ class UserEventsController {
         
         //set values of event
         eventRef.setValue([DB.name: name, DB.date: dateString, DB.description: description])
+        eventRef.child(DB.organizers).child(userController.user.id).setValue(true)
         
         //add the event to the users events list
         ref.child(DB.users).child(userController.user.id).child(DB.events).child(eventRef.key).setValue(true)
@@ -69,6 +70,11 @@ class UserEventsController {
                         events_list.append(e.key as! String)
                     }
                 }
+            }
+            
+            if events_list.isEmpty {
+                print("no events")
+                return
             }
             
             //then append the events to the events array

@@ -21,6 +21,7 @@ class UserController {
         self.ref.child(DB.users).child(userId).observeSingleEvent(of: .value, with: { (snapshot) in
             
             let value = snapshot.value as? NSDictionary
+            if value == nil {return}
             let firstName = value?[DB.firstName] as? String ?? ""
             let lastName = value?[DB.lastName] as? String ?? ""
             let email = value?[DB.email] as? String ?? ""
