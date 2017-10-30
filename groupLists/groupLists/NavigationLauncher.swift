@@ -23,6 +23,7 @@ class NavigationLauncher: UICollectionViewFlowLayout, UICollectionViewDataSource
     
     var baseItemListVC: ItemListViewController?
     var baseEventCollectionVC: EventCollectionViewController?
+    var baseEventVC: EventViewController?
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -120,7 +121,10 @@ class NavigationLauncher: UICollectionViewFlowLayout, UICollectionViewDataSource
             let option = self.navOptions[indexPath.item]
             print(option.name)
             
+            //call executeMenuOption on corresponding base VC - only 1 is not nil
             self.baseItemListVC?.executeNavOption(option: option)
+            self.baseEventCollectionVC?.executeNavOption(option: option)
+            self.baseEventVC?.executeNavOption(option: option)
         }
     }
 }

@@ -51,11 +51,12 @@ class ItemListViewController: UIViewController, UITableViewDelegate, UITableView
         navBtn.tintColor = UIColor.darkGray
         navBtn.addTarget(self, action: #selector(displayNav), for: .touchUpInside)
         
-        menuBtn.setImage(UIImage(named: "filledeclipse"), for: UIControlState.normal)
+        menuBtn.setImage(UIImage(named: "filledmenu"), for: UIControlState.normal)
         menuBtn.showsTouchWhenHighlighted = true
-        menuBtn.setImage(UIImage(named: "eclipse"), for: UIControlState.highlighted)
+        menuBtn.setImage(UIImage(named: "menu"), for: UIControlState.highlighted)
         menuBtn.showsTouchWhenHighlighted = true
         menuBtn.tintColor = UIColor.black
+        self.view.addConstraint(NSLayoutConstraint(item: menuBtn, attribute: .centerY, relatedBy: .equal, toItem: navBtn, attribute: .centerY, multiplier: 1, constant: 0))
         menuBtn.addTarget(self, action: #selector(displayMenu), for: .touchUpInside)
         
         listInfoLabel.textColor = UIColor.init(red: 11.0/255.0, green: 12.0/255.0, blue: 16.0/255.0, alpha: 1)
@@ -198,6 +199,12 @@ class ItemListViewController: UIViewController, UITableViewDelegate, UITableView
         }
     }
     
+    func displayNav() {
+        
+        navigationLauncher.baseItemListVC = self
+        navigationLauncher.showMenu()
+    }
+    
     func executeNavOption(option: NavOption) {
         
         if option.name == "Cancel" {
@@ -217,10 +224,6 @@ class ItemListViewController: UIViewController, UITableViewDelegate, UITableView
         }
     }
     
-    func displayNav() {
-        
-        navigationLauncher.baseItemListVC = self
-        navigationLauncher.showMenu()
-    }
+
 
 }

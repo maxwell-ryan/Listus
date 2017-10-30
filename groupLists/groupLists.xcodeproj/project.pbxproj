@@ -26,6 +26,7 @@
 		0798B65C1F816584002185C5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0798B6581F816584002185C5 /* LaunchScreen.storyboard */; };
 		0798B65D1F816584002185C5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0798B65A1F816584002185C5 /* Main.storyboard */; };
 		079AE3051F9FE42900EB58F5 /* NavigationLauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 079AE3041F9FE42900EB58F5 /* NavigationLauncher.swift */; };
+		07E0EA271FA64F970044673F /* EventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07E0EA261FA64F970044673F /* EventViewController.swift */; };
 		240574E61F8D8092007EC0F0 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 240574E51F8D8092007EC0F0 /* WelcomeViewController.swift */; };
 		240574E81F8D80F9007EC0F0 /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 240574E71F8D80F9007EC0F0 /* LogInViewController.swift */; };
 		244290E11F8333A0001B0E23 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 244290E01F83339B001B0E23 /* GoogleService-Info.plist */; };
@@ -85,6 +86,7 @@
 		0798B6591F816584002185C5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0798B65B1F816584002185C5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		079AE3041F9FE42900EB58F5 /* NavigationLauncher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationLauncher.swift; sourceTree = "<group>"; };
+		07E0EA261FA64F970044673F /* EventViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventViewController.swift; sourceTree = "<group>"; };
 		0E84B731D929DAB8B7A32B73 /* Pods-groupListsUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-groupListsUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-groupListsUITests/Pods-groupListsUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		240574E51F8D8092007EC0F0 /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
 		240574E71F8D80F9007EC0F0 /* LogInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
@@ -220,6 +222,7 @@
 				2494B6161F9956CD00794F76 /* Authentication */,
 				071CFF981F8C415600080C81 /* ItemViewController.swift */,
 				071CFF961F8BFFA500080C81 /* ItemListViewController.swift */,
+				07E0EA261FA64F970044673F /* EventViewController.swift */,
 				0788FEE91F9120E200D71A50 /* EventCollectionViewController.swift */,
 				078852ED1F97DC9200858A0B /* MenuLauncher.swift */,
 				079AE3041F9FE42900EB58F5 /* NavigationLauncher.swift */,
@@ -583,6 +586,7 @@
 				0788FEEC1F91216200D71A50 /* EventCollectionViewCell.swift in Sources */,
 				24631AF51F969EC2005068E7 /* UserController.swift in Sources */,
 				0742AD391FA161CD00F7BE20 /* NavCell.swift in Sources */,
+				07E0EA271FA64F970044673F /* EventViewController.swift in Sources */,
 				0798B6511F81651F002185C5 /* Message.swift in Sources */,
 				0798B6551F81655F002185C5 /* User.swift in Sources */,
 				07135D9C1F8BE65900E0A6F5 /* ListItemTableViewCell.swift in Sources */,
