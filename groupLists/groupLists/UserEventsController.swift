@@ -43,7 +43,10 @@ class UserEventsController {
         
         //return events.count - 1
     }
-    
+
+/*********************************************/
+/* DO WE NEED TO REMOVE AT A SPECIFIC INDEX? */
+/*********************************************/
     //removes event at index given, returns true if removal successful, returns false if index argument is invalid
     func removeEvent(index: Int) -> Bool {
         
@@ -53,7 +56,33 @@ class UserEventsController {
         } else {
             return false
         }
+    }
+    
+    //remove event from database and user's events list
+    func removeEvent(user: UserController, event: Event, eventCollectionView: UICollectionView) {
+        ref = Database.database().reference()
         
+        //removes from database
+        ref.child(event.id).removeValue()
+        //remove from current user's list
+        ref.child(DB.events).child(event.id).removeValue()
+        /***********************************************/
+        /* HOW TO REMOVE FROM OTHER USERS' LISTS...?   */
+        /* MAYBE HAVE getDBEvents CHECK IF EVENTS      */
+        /* EXIST BEFORE ADDING TO THE EVENTS ARRAY     */
+        /* IF THE EVENT DOESN'T EXIST IN getDBEvents   */
+        /* THEN WE'LL REMOVE THE EVENT FROM THE USER'S */
+        /* LIST                                        */
+        /***********************************************/
+        
+        //remove event from events array
+        for x in 0...events.count {
+            if events[x].id == event.id {
+                events.remove(at: x)
+            }
+        }
+        
+        eventCollectionView.reloadData()
     }
     
     //get user's events from FireBase
@@ -71,11 +100,8 @@ class UserEventsController {
                     }
                 }
             }
-            
-            if events_list.isEmpty {
-                print("no events")
-                return
-            }
+            //check if user has events before proceeding
+            if events_list.isEmpty {return}
             
             //then append the events to the events array
             for e in events_list {
