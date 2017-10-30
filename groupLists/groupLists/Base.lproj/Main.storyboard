@@ -5,7 +5,7 @@
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13174"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -419,6 +419,7 @@
                         <segue destination="rZU-IT-4fc" kind="show" identifier="displayList" id="L5j-2X-8Oy"/>
                         <segue destination="wOn-o0-ceA" kind="showDetail" identifier="addEvent" id="qZu-Lu-cWD"/>
                         <segue destination="wOn-o0-ceA" kind="showDetail" identifier="editEvent" id="2S8-Yk-LGD"/>
+                        <segue destination="ky3-pf-gWi" kind="showDetail" identifier="returnToLogin" action="showViewController:sender:" id="6TI-XU-nYD"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LdE-yk-1kX" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -522,7 +523,6 @@
                         <outlet property="navBtn" destination="4zX-Oq-Olr" id="VU5-gX-RdS"/>
                         <segue destination="C7i-as-Xzr" kind="show" identifier="addItem" id="97d-xq-ual"/>
                         <segue destination="C7i-as-Xzr" kind="show" identifier="editItem" id="5zl-6E-tFj"/>
-                        <segue destination="oiN-m0-0Pu" kind="showDetail" identifier="returnToEvents" id="ebx-Io-vMi"/>
                         <segue destination="ky3-pf-gWi" kind="showDetail" identifier="returnToLogin" id="tFV-Cg-gJS"/>
                     </connections>
                 </viewController>
@@ -662,10 +662,9 @@
         <image name="ic_view_list_36pt" width="36" height="36"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="L5j-2X-8Oy"/>
         <segue reference="5zl-6E-tFj"/>
-        <segue reference="ebx-Io-vMi"/>
+        <segue reference="2Jx-Pu-SHI"/>
         <segue reference="2S8-Yk-LGD"/>
-        <segue reference="tFV-Cg-gJS"/>
+        <segue reference="6TI-XU-nYD"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -191,8 +191,8 @@ class ItemListViewController: UIViewController, UITableViewDelegate, UITableView
         if option.name == "Cancel" {
            //cancel selected, do nothing
         } else if option.name == "Back" {
-            //back requested, inititate back segue
-            performSegue(withIdentifier: "returnToEvents", sender: self)
+            //go to events view
+            dismiss(animated: true)
         } else if option.name == "Add" {
             //add requested, fire add event
             addListItemBtn.sendActions(for: .touchUpInside)
@@ -212,7 +212,7 @@ class ItemListViewController: UIViewController, UITableViewDelegate, UITableView
         }
         else if option.name == "My Events" {
             //go to events view
-            performSegue(withIdentifier: "returnToEvents", sender: self)
+            dismiss(animated: true)
         } else if option.name == "Logout" {
             //logout via firebase
             do {
