@@ -59,10 +59,6 @@ class EventCollectionViewController: UIViewController, UICollectionViewDelegate,
         //userEventsController.createEvent(name: "testEvent1", description: "some description", date: Date.init(timeIntervalSinceNow: 86400.0 * 60), userController: userController, eventCollectionView: eventCollectionView)
         
         userEventsController.getDBEvents(userId: userController.user.id, eventCollectionView: self.eventCollectionView)
-        
-        //populate menu options available from this VC
-        menuLauncher.menuOptions.insert(MenuOption(name: "Add Event", iconName: "add"), at: 0)
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {

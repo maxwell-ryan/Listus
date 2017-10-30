@@ -107,7 +107,7 @@ class ItemViewController: UIViewController {
                 
             } else {
                 //add new item to corresponding event
-                eventItemsController.addItem(item: eventItemsController.createItem(name: itemNameTextField.text!, id: self.id, userID: self.userID, description: descriptionTextField.text!, quantity: Int(quantityStepper.value)))
+                eventItemsController.createItem(name: itemNameTextField.text!, id: self.id, userID: self.userID, description: descriptionTextField.text!, quantity: Int(quantityStepper.value))
             }
             
             //return to list which will now display recently added item
