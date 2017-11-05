@@ -130,8 +130,8 @@ class EventViewController: UIViewController {
                 
                 userEventsController.events.insert(editedEvent, at: updateIdx)
                 
-                //still working on editEvent
-                //userEventsController.editEvent(event: editedEvent, user: userController)
+                //edit event in database
+                userEventsController.editEvent(event: editedEvent)
                 
             } else {
                 //add event via user's UserEventController

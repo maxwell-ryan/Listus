@@ -56,7 +56,6 @@ class UserEventsController {
         formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
         let dateString = formatter.string(from: date)
         
-        
         //send data to firebase
         ref = Database.database().reference()
         
@@ -74,11 +73,20 @@ class UserEventsController {
     }
     
     //edits event in database
-    func editEvent(event: Event, user: UserController) {
+    func editEvent(event: Event) {
         //edit event in database
         ref = Database.database().reference().child(DB.events).child(event.id)
         
+        //format date as string for firebase
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        let dateString = formatter.string(from: event.date)
         
+        let e = [DB.date: dateString,
+                 DB.description: event.description,
+                 DB.name: event.name] as [String : Any]
+        let updates = ["events/\(event.id)": e]
+        ref.updateChildValues(e)
     }
     
 /*********************************************************************************/
@@ -119,43 +127,33 @@ class UserEventsController {
         ref = Database.database().reference()
         var events_list: [String] = []
         
-        //first get array of the user's events' ids
-        ref.child(DB.users).child(userId).observeSingleEvent(of: .value, with: { (snapshot) in
+        ref.child(DB.users).child(userId).child(DB.events).queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
             let user_events = snapshot.value as? NSDictionary
-            for event in user_events! {
-                if event.key as? String == "events" {
-                    for e in (event.value as? NSDictionary)! {
-                        //check that event exists here
-                        self.ref.child(DB.users).child(userId).child(DB.events).child(e.key as! String).observeSingleEvent(of: .value, with: { (snapshot) in
-                            if (snapshot.value != nil) {
-                                events_list.append(e.key as! String)
-                            } else {
-                                self.ref.child(DB.users).child(userId).child(DB.events).child(e.key as! String).removeValue()
-                            }
-                        })
-                    }
-                }
+            for e in user_events! {
+                events_list.append(e.key as! String)
             }
-            //check if user has events before proceeding
-            if events_list.isEmpty {return}
             
-            //then append the events to the events array
-            for e in events_list {
-                self.ref.child(DB.events).child(e).observeSingleEvent(of: .value, with: { (snapshot) in
+            for key in events_list {
+                self.ref.child(DB.events).child(key).observeSingleEvent(of: .value, with: { (snapshot) in
                     let event = snapshot.value as? NSDictionary
-                    let id = event?["key"] as? String ?? ""
-                    let description = event?["description"] as? String ?? ""
-                    let name = event?["name"] as? String ?? ""
-                    let dateString = event?["date"] as? String ?? "0000-00-00 00:00:00"
                     
-                    // format date from string to date type
-                    let formatter = DateFormatter()
-                    formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-                    let date = formatter.date(from: dateString)
-
-                    let temp_event = Event(name: name, id: id , date: date!, description: description)
-                    
-                    self.events.append(temp_event)
+                    if event != nil {
+                        let id = event?["key"] as? String ?? ""
+                        let description = event?["description"] as? String ?? ""
+                        let name = event?["name"] as? String ?? ""
+                        let dateString = event?["date"] as? String ?? "0000-00-00 00:00:00"
+                        
+                        // format date from string to date type
+                        let formatter = DateFormatter()
+                        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+                        let date = formatter.date(from: dateString)
+                        
+                        let temp_event = Event(name: name, id: id , date: date!, description: description)
+                        
+                        self.events.append(temp_event)
+                    } else {
+                        self.ref.child(DB.users).child(userId).child(DB.events).child(key).removeValue()
+                    }
                     
                     eventCollectionView.reloadData()
                 }) { (error) in
