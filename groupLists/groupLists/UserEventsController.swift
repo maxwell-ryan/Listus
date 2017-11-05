@@ -90,17 +90,9 @@ class UserEventsController {
         ref = Database.database().reference()
         
         //removes from database
-        ref.child(event.id).removeValue()
-        //remove from current user's list
         ref.child(DB.events).child(event.id).removeValue()
-        /***********************************************/
-        /* HOW TO REMOVE FROM OTHER USERS' LISTS...?   */
-        /* MAYBE HAVE getDBEvents CHECK IF EVENTS      */
-        /* EXIST BEFORE ADDING TO THE EVENTS ARRAY     */
-        /* IF THE EVENT DOESN'T EXIST IN getDBEvents   */
-        /* THEN WE'LL REMOVE THE EVENT FROM THE USER'S */
-        /* LIST                                        */
-        /***********************************************/
+        //remove from current user's list
+        ref.child(DB.users).child(user.user.id).child(DB.events).child(event.id).removeValue()
         
         //remove event from events array
         for x in 0...events.count {
@@ -123,7 +115,14 @@ class UserEventsController {
             for event in user_events! {
                 if event.key as? String == "events" {
                     for e in (event.value as? NSDictionary)! {
-                        events_list.append(e.key as! String)
+                        //check that event exists here
+                        self.ref.child(DB.users).child(userId).child(DB.events).child(e.key as! String).observeSingleEvent(of: .value, with: { (snapshot) in
+                            if (snapshot.value != nil) {
+                                events_list.append(e.key as! String)
+                            } else {
+                                self.ref.child(DB.users).child(userId).child(DB.events).child(e.key as! String).removeValue()
+                            }
+                        })
                     }
                 }
             }
