@@ -47,6 +47,7 @@ class UserEventsController {
     }
     
     //creates an event, appends it to events array
+    //I think this is the one currently being called
     func createEvent(name: String, description: String, date: Date, userController:
         UserController) -> Void {
         
@@ -64,11 +65,20 @@ class UserEventsController {
         
         //set values of event
         eventRef.setValue([DB.name: name, DB.date: dateString, DB.description: description])
+        eventRef.child(DB.organizers).child(userController.user.id).setValue(true)
         
         //add the event to the users events list
         ref.child(DB.users).child(userController.user.id).child(DB.events).child(eventRef.key).setValue(true)
         
         events.append(Event(name: name, id: eventRef.key, date: date, description: description))
+    }
+    
+    //edits event in database
+    func editEvent(event: Event, user: UserController) {
+        //edit event in database
+        ref = Database.database().reference().child(DB.events).child(event.id)
+        
+        
     }
     
 /*********************************************************************************/

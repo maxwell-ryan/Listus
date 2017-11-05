@@ -125,9 +125,13 @@ class EventViewController: UIViewController {
                 
                 let editedEvent = Event(name: eventNameTextField.text!, id: userEventsController.events[updateIdx].id, date: self.eventDatePicker.date, description: eventDescTextField.text!)
                 
+                //can we edit event directly in array to avoid having a second removeEvent method?
                 userEventsController.removeEvent(index: updateIdx)
                 
                 userEventsController.events.insert(editedEvent, at: updateIdx)
+                
+                //still working on editEvent
+                //userEventsController.editEvent(event: editedEvent, user: userController)
                 
             } else {
                 //add event via user's UserEventController
