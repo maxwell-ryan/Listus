@@ -122,7 +122,6 @@ class EventViewController: UIViewController {
             
             //if editIdx not nil, user requsted edit to existing event
             if let updateIdx = editIdx {
-                
                 let editedEvent = Event(name: eventNameTextField.text!, id: userEventsController.events[updateIdx].id, date: self.eventDatePicker.date, description: eventDescTextField.text!)
                 
                 //can we edit event directly in array to avoid having a second removeEvent method?
@@ -130,7 +129,7 @@ class EventViewController: UIViewController {
                 
                 userEventsController.events.insert(editedEvent, at: updateIdx)
                 
-                //edit event in database
+                //edit the event in the database
                 userEventsController.editEvent(event: editedEvent)
                 
             } else {

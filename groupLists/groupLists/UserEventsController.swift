@@ -85,7 +85,7 @@ class UserEventsController {
         let e = [DB.date: dateString,
                  DB.description: event.description,
                  DB.name: event.name] as [String : Any]
-        let updates = ["events/\(event.id)": e]
+        
         ref.updateChildValues(e)
     }
     
@@ -138,7 +138,7 @@ class UserEventsController {
                     let event = snapshot.value as? NSDictionary
                     
                     if event != nil {
-                        let id = event?["key"] as? String ?? ""
+                        let id = key
                         let description = event?["description"] as? String ?? ""
                         let name = event?["name"] as? String ?? ""
                         let dateString = event?["date"] as? String ?? "0000-00-00 00:00:00"
