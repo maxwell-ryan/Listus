@@ -91,7 +91,14 @@ class UserEventsController {
             for event in user_events! {
                 if event.key as? String == "events" {
                     for e in (event.value as? NSDictionary)! {
-                        events_list.append(e.key as! String)
+                        //check that event exists here
+                        self.ref.child(DB.users).child(userId).child(DB.events).child(e.key as! String).observeSingleEvent(of: .value, with: { (snapshot) in
+                            if (snapshot.value != nil) {
+                                events_list.append(e.key as! String)
+                            } else {
+                                self.ref.child(DB.users).child(userId).child(DB.events).child(e.key as! String).removeValue()
+                            }
+                        })
                     }
                 }
             }
