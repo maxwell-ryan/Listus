@@ -13,7 +13,9 @@ class UserEventsController {
     var events: [Event] = []
     var ref : DatabaseReference!
     
-    
+/***************************************************/
+/* DO WE NEED BOTH OF THESE createEvent FUNCTIONS? */
+/***************************************************/
     //creates an event, appends it to events array, and returns idx of appended event
     func createEvent(name: String, description: String, date: Date, userController:
         UserController, eventCollectionView: UICollectionView) -> Void {
@@ -32,6 +34,7 @@ class UserEventsController {
         
         //set values of event
         eventRef.setValue([DB.name: name, DB.date: dateString, DB.description: description])
+        eventRef.child(DB.organizers).child(userController.user.id).setValue(true)
         
         //add the event to the users events list
         ref.child(DB.users).child(userController.user.id).child(DB.events).child(eventRef.key).setValue(true)
@@ -68,6 +71,9 @@ class UserEventsController {
         events.append(Event(name: name, id: eventRef.key, date: date, description: description))
     }
     
+/*********************************************************************************/
+/* DO WE NEED THIS? IT SHOULD BE TAKEN CARE OF WHEN REMOVING FROM DATABASE BELOW */
+/*********************************************************************************/
     //removes event at index given, returns true if removal successful, returns false if index argument is invalid
     func removeEvent(index: Int) -> Bool {
         
@@ -77,7 +83,25 @@ class UserEventsController {
         } else {
             return false
         }
+    }
+    
+    //remove event from database and user's events list
+    func removeEvent(user: UserController, event: Event, eventCollectionView: UICollectionView) {
+        ref = Database.database().reference()
         
+        //removes from database
+        ref.child(DB.events).child(event.id).removeValue()
+        //remove from current user's list
+        ref.child(DB.users).child(user.user.id).child(DB.events).child(event.id).removeValue()
+        
+        //remove event from events array
+        for x in 0...events.count {
+            if events[x].id == event.id {
+                events.remove(at: x)
+            }
+        }
+        
+        eventCollectionView.reloadData()
     }
     
     //get user's events from FireBase
@@ -91,10 +115,19 @@ class UserEventsController {
             for event in user_events! {
                 if event.key as? String == "events" {
                     for e in (event.value as? NSDictionary)! {
-                        events_list.append(e.key as! String)
+                        //check that event exists here
+                        self.ref.child(DB.users).child(userId).child(DB.events).child(e.key as! String).observeSingleEvent(of: .value, with: { (snapshot) in
+                            if (snapshot.value != nil) {
+                                events_list.append(e.key as! String)
+                            } else {
+                                self.ref.child(DB.users).child(userId).child(DB.events).child(e.key as! String).removeValue()
+                            }
+                        })
                     }
                 }
             }
+            //check if user has events before proceeding
+            if events_list.isEmpty {return}
             
             //then append the events to the events array
             for e in events_list {
