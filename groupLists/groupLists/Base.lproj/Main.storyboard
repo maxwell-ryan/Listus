@@ -648,45 +648,78 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="97" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="Z2n-d1-LGz">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="121" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="Z2n-d1-LGz">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="574"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="messageCell" rowHeight="97" id="pmt-Tv-G2k" customClass="MessageCell" customModule="groupLists" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="22" width="375" height="97"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="messageCell" rowHeight="121" id="pmt-Tv-G2k" customClass="MessageCell" customModule="groupLists" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="22" width="375" height="121"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="pmt-Tv-G2k" id="41s-oZ-Goz">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="96.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="120.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EXB-Bl-Na9">
-                                                    <rect key="frame" x="15" y="10" width="345" height="76"/>
+                                                    <rect key="frame" x="15" y="54" width="345" height="56"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KCU-g9-DPO">
-                                                            <rect key="frame" x="8" y="8" width="329" height="60"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="mesage body" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KCU-g9-DPO">
+                                                            <rect key="frame" x="8" y="8" width="329" height="40"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                     </subviews>
                                                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="trailing" secondItem="KCU-g9-DPO" secondAttribute="trailing" constant="8" id="eb0-pF-pOP"/>
-                                                        <constraint firstAttribute="bottom" secondItem="KCU-g9-DPO" secondAttribute="bottom" constant="8" id="kiV-Zp-L6L"/>
-                                                        <constraint firstItem="KCU-g9-DPO" firstAttribute="leading" secondItem="EXB-Bl-Na9" secondAttribute="leading" constant="8" id="l5N-cG-Wfv"/>
-                                                        <constraint firstItem="KCU-g9-DPO" firstAttribute="top" secondItem="EXB-Bl-Na9" secondAttribute="top" constant="8" id="sJV-Lr-DSZ"/>
+                                                        <constraint firstItem="KCU-g9-DPO" firstAttribute="top" secondItem="EXB-Bl-Na9" secondAttribute="top" constant="8" id="Yv9-EN-GO8"/>
+                                                        <constraint firstItem="KCU-g9-DPO" firstAttribute="leading" secondItem="EXB-Bl-Na9" secondAttribute="leading" constant="8" id="cEp-Yg-QVt"/>
+                                                        <constraint firstAttribute="trailing" secondItem="KCU-g9-DPO" secondAttribute="trailing" constant="8" id="mJC-N7-hUd"/>
+                                                        <constraint firstAttribute="bottom" secondItem="KCU-g9-DPO" secondAttribute="bottom" constant="8" id="zCT-d5-MEM"/>
                                                     </constraints>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                            <integer key="value" value="8"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
                                                 </view>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qXi-vd-rRL">
+                                                    <rect key="frame" x="36" y="11" width="315" height="17"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="17" id="Ewb-IW-rao"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2TK-o2-iDk">
+                                                    <rect key="frame" x="36" y="29" width="315" height="17"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="17" id="5Ue-FE-XX8"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="EXB-Bl-Na9" firstAttribute="leading" secondItem="41s-oZ-Goz" secondAttribute="leading" constant="15" id="4i5-v0-kpM"/>
-                                                <constraint firstAttribute="bottom" secondItem="EXB-Bl-Na9" secondAttribute="bottom" constant="10" id="UAd-Ri-V1D"/>
-                                                <constraint firstAttribute="trailing" secondItem="EXB-Bl-Na9" secondAttribute="trailing" constant="15" id="cIN-tp-A5b"/>
-                                                <constraint firstItem="EXB-Bl-Na9" firstAttribute="top" secondItem="41s-oZ-Goz" secondAttribute="top" constant="10" id="yLA-qO-Z7Y"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="2TK-o2-iDk" secondAttribute="trailing" constant="9" id="4xM-Y1-jsh"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="qXi-vd-rRL" secondAttribute="trailing" constant="9" id="9Ub-bf-INI"/>
+                                                <constraint firstItem="qXi-vd-rRL" firstAttribute="leading" secondItem="41s-oZ-Goz" secondAttribute="leadingMargin" constant="21" id="Gmb-yt-Tw6"/>
+                                                <constraint firstItem="2TK-o2-iDk" firstAttribute="top" secondItem="qXi-vd-rRL" secondAttribute="bottom" constant="1" id="Ij2-Ie-KdC"/>
+                                                <constraint firstItem="EXB-Bl-Na9" firstAttribute="top" secondItem="2TK-o2-iDk" secondAttribute="bottom" constant="8" id="JDf-m5-occ"/>
+                                                <constraint firstItem="2TK-o2-iDk" firstAttribute="top" secondItem="qXi-vd-rRL" secondAttribute="bottom" constant="1" id="OBL-fI-dsg"/>
+                                                <constraint firstItem="EXB-Bl-Na9" firstAttribute="trailing" secondItem="41s-oZ-Goz" secondAttribute="trailingMargin" id="T56-aZ-lR4"/>
+                                                <constraint firstItem="EXB-Bl-Na9" firstAttribute="leading" secondItem="41s-oZ-Goz" secondAttribute="leadingMargin" id="WdF-Qv-86N"/>
+                                                <constraint firstItem="qXi-vd-rRL" firstAttribute="top" secondItem="41s-oZ-Goz" secondAttribute="topMargin" id="cCQ-kj-cCa"/>
+                                                <constraint firstItem="2TK-o2-iDk" firstAttribute="leading" secondItem="41s-oZ-Goz" secondAttribute="leadingMargin" constant="21" id="lC7-6h-DPm"/>
+                                                <constraint firstItem="EXB-Bl-Na9" firstAttribute="bottom" secondItem="41s-oZ-Goz" secondAttribute="bottomMargin" id="uHZ-bp-QbE"/>
+                                                <constraint firstItem="EXB-Bl-Na9" firstAttribute="top" secondItem="2TK-o2-iDk" secondAttribute="bottom" constant="8" id="v2e-De-nzC"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="messageBody" destination="KCU-g9-DPO" id="X1T-vw-P1x"/>
+                                            <outlet property="messageTime" destination="2TK-o2-iDk" id="pGN-a6-YsM"/>
+                                            <outlet property="senderName" destination="qXi-vd-rRL" id="sVh-kB-Yc3"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
