@@ -10,6 +10,15 @@ import Foundation
 import Firebase
 
 class EventMessagesController {
+    var messages: [Message] = []
     var ref : DatabaseReference!
+    
+    func createMessage() {
+        
+    }
+    
+    func getMessages() {
+        
+    }
     
 }
