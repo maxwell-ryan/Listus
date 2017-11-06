@@ -89,6 +89,42 @@ class UserEventsController {
         ref.updateChildValues(e)
     }
     
+    func editEvent(eventIdx: Int, name: String? = nil, date: Date? = nil, description: String? = nil) {
+        
+        if eventIdx <= events.count {
+            
+            let event = self.events[eventIdx]
+            
+            var newName = name ?? event.name
+            var newDate = date ?? event.date
+            var newDescription = description ?? event.description
+            
+            //update event locally
+            event.name = newName
+            event.date = newDate
+            event.description = newDescription
+            
+            //edit event in database
+            ref = Database.database().reference().child(DB.events).child(event.id)
+            
+            //format date as string for firebase
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+            let dateString = formatter.string(from: newDate)
+            
+            let e = [DB.date: dateString,
+                     DB.description: newDescription,
+                     DB.name: newName] as [String : Any]
+            
+            ref.updateChildValues(e)
+            
+        } else {
+            
+            print("Invalid event index provided")
+            return
+        }
+    }
+    
 /*********************************************************************************/
 /* DO WE NEED THIS? IT SHOULD BE TAKEN CARE OF WHEN REMOVING FROM DATABASE BELOW */
 /*********************************************************************************/
@@ -100,6 +136,35 @@ class UserEventsController {
             return true
         } else {
             return false
+        }
+    }
+    
+    //remove event from database and user's events list
+    func removeEvent(user: UserController, eventIdx: Int) {
+        
+        if eventIdx <= events.count {
+            let event = self.events[eventIdx]
+            
+            ref = Database.database().reference()
+            
+            //removes from database
+            ref.child(DB.events).child(event.id).removeValue()
+            //remove from current user's list
+            ref.child(DB.users).child(user.user.id).child(DB.events).child(event.id).removeValue()
+            
+            //remove event from events array
+            for x in 0..<events.count {
+                if events[x].id == event.id {
+                    events.remove(at: x)
+                    return
+                }
+            }
+            
+        } else {
+            
+            print("Invalid event index provided")
+            return
+        
         }
     }
     
