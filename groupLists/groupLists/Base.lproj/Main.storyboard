@@ -669,7 +669,7 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                     </subviews>
-                                                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <color key="backgroundColor" red="0.92143100499999997" green="0.92145264149999995" blue="0.92144101860000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <constraints>
                                                         <constraint firstItem="KCU-g9-DPO" firstAttribute="top" secondItem="EXB-Bl-Na9" secondAttribute="top" constant="8" id="Yv9-EN-GO8"/>
                                                         <constraint firstItem="KCU-g9-DPO" firstAttribute="leading" secondItem="EXB-Bl-Na9" secondAttribute="leading" constant="8" id="cEp-Yg-QVt"/>
@@ -718,6 +718,7 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="messageBody" destination="KCU-g9-DPO" id="X1T-vw-P1x"/>
+                                            <outlet property="messageBodyView" destination="EXB-Bl-Na9" id="vQ2-5i-xFe"/>
                                             <outlet property="messageTime" destination="2TK-o2-iDk" id="pGN-a6-YsM"/>
                                             <outlet property="senderName" destination="qXi-vd-rRL" id="sVh-kB-Yc3"/>
                                         </connections>
@@ -771,6 +772,7 @@
                         <outlet property="messageTableView" destination="Z2n-d1-LGz" id="8Hx-d1-3Fi"/>
                         <outlet property="messageTextField" destination="hW6-kt-WoN" id="Mjv-Rh-YmZ"/>
                         <outlet property="sendButton" destination="YT1-84-XNb" id="2Ol-hX-D8C"/>
+                        <outlet property="textFieldView" destination="yu9-Rm-y4o" id="fT7-aF-5Bq"/>
                         <outlet property="textHeightConstraint" destination="QG7-14-t1l" id="tgR-bi-BPB"/>
                     </connections>
                 </viewController>

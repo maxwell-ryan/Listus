@@ -19,6 +19,7 @@ class MessagingViewController: UIViewController, UITableViewDelegate, UITableVie
     @IBOutlet weak var textHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var messageTextField: UITextField!
     @IBOutlet weak var messageTableView: UITableView!
+    @IBOutlet weak var textFieldView: UIView!
     
     
     override func viewDidLoad() {
@@ -27,14 +28,18 @@ class MessagingViewController: UIViewController, UITableViewDelegate, UITableVie
         messageTableView.delegate = self
         messageTableView.dataSource = self
         messageTextField.delegate = self
+        messageTableView.backgroundColor = colors.primaryColor1
+        textFieldView.backgroundColor = colors.primaryColor1
         
         print("EventID: ", eventId, "\n\n")
+        print("UserID: ", userController.user.id, "\n\n")
+        print("SenderName: ", userController.user.firstName, " ", userController.user.lastName, "\n\n")
         
         // Change send button color to blue
         let origImage = UIImage(named: "ic_send_3x")
         let tintedImage = origImage?.withRenderingMode(.alwaysTemplate)
         sendButton.setImage(tintedImage, for: .normal)
-        sendButton.tintColor = .blue
+        sendButton.tintColor = colors.accentColor1
         
         // Configure the UI
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector (tableViewTapped))
@@ -42,7 +47,7 @@ class MessagingViewController: UIViewController, UITableViewDelegate, UITableVie
         messageTableView.rowHeight = UITableViewAutomaticDimension
         messageTableView.estimatedRowHeight = 140
         
-        eventMessagesController.getMessages()
+        eventMessagesController.getMessages(userId: userController.user.id, eventId: eventId, messageTableView: messageTableView)
         
         messageTableView.separatorStyle = .none
     }
@@ -51,17 +56,48 @@ class MessagingViewController: UIViewController, UITableViewDelegate, UITableVie
         messageTextField.endEditing(true)
     }
     
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        UIView.animate(withDuration: 0.5) {
+            self.textHeightConstraint.constant = 308
+            self.view.layoutIfNeeded()
+        }
+    }
+    
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        UIView.animate(withDuration: 0.5) {
+            self.textHeightConstraint.constant = 50
+            self.view.layoutIfNeeded()
+        }
+    }
+    
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let messageCell = tableView.dequeueReusableCell(withIdentifier: "messageCell", for: indexPath) as! MessageCell
         
-        messageCell.messageBody.text = "Hi dude"
+        let message = eventMessagesController.messages[indexPath.row]
+        
+        messageCell.messageBody.text = message.messageBody
+        messageCell.senderName.text = message.senderName
+        messageCell.messageTime.text = message.timestamp
+        
+        messageCell.backgroundColor = colors.primaryColor1
+        messageCell.senderName.textColor = colors.primaryColor2
+        messageCell.messageTime.textColor = colors.primaryColor2
+        messageCell.messageBody.textColor = colors.primaryColor1
+        
+        if message.senderID == userController.user.id {
+            messageCell.messageBodyView.backgroundColor = colors.accentColor1
+        }
+        else {
+            messageCell.messageBodyView.backgroundColor = colors.primaryColor2
+        }
         
         return messageCell
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return eventMessagesController.messages.count
     }
 
     override func didReceiveMemoryWarning() {
