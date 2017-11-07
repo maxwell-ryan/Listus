@@ -31,10 +31,6 @@ class MessagingViewController: UIViewController, UITableViewDelegate, UITableVie
         messageTableView.backgroundColor = colors.primaryColor1
         textFieldView.backgroundColor = colors.primaryColor1
         
-        print("EventID: ", eventId, "\n\n")
-        print("UserID: ", userController.user.id, "\n\n")
-        print("SenderName: ", userController.user.firstName, " ", userController.user.lastName, "\n\n")
-        
         // Change send button color to blue
         let origImage = UIImage(named: "ic_send_3x")
         let tintedImage = origImage?.withRenderingMode(.alwaysTemplate)
