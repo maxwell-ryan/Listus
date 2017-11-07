@@ -25,6 +25,23 @@ class MenuLauncher: UICollectionViewFlowLayout, UICollectionViewDataSource, UICo
     var baseEventCollectionVC: EventCollectionViewController?
     var baseEventVC: EventViewController?
     
+    let blurView = UIView()
+    let cellID = "menuCell"
+    let cellHeight: CGFloat = 30
+    var menuOptions: [MenuOption] = [MenuOption(name: "Cancel", iconName: "cancel")]
+    
+    
+    let menuCollectionView: UICollectionView = {
+        
+        let layout = UICollectionViewFlowLayout()
+        layout.minimumLineSpacing = CGFloat(0.0)
+        let collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
+        collectionView.backgroundColor = UIColor.white
+        collectionView.layer.cornerRadius = 10
+        
+        return collectionView
+    }()
+    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
@@ -37,26 +54,6 @@ class MenuLauncher: UICollectionViewFlowLayout, UICollectionViewDataSource, UICo
         
         self.menuCollectionView.register(MenuCell.self, forCellWithReuseIdentifier: cellID)
     }
-    
-    let blurView = UIView()
-    let cellID = "menuCell"
-    let cellHeight: CGFloat = 30
-    var menuOptions: [MenuOption] = [MenuOption(name: "Cancel", iconName: "cancel")]
-//    let menuOptions: [MenuOption] = {
-//        return [MenuOption(name: "Back", iconName: "back"), MenuOption(name: "Add", iconName: "add"), MenuOption(name: "Cancel", iconName: "cancel")]
-//    }()
-    
- 
-    let menuCollectionView: UICollectionView = {
-        
-        let layout = UICollectionViewFlowLayout()
-        layout.minimumLineSpacing = CGFloat(0.0)
-        let collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
-        collectionView.backgroundColor = UIColor.white
-        collectionView.layer.cornerRadius = 10
-        
-        return collectionView
-    }()
     
     func showMenu() {
         
@@ -74,10 +71,10 @@ class MenuLauncher: UICollectionViewFlowLayout, UICollectionViewDataSource, UICo
             let yValue: CGFloat = fullWindow.frame.height - (height + 5)
             let xInset: CGFloat = 5
             menuCollectionView.frame = CGRect(x: xInset, y: fullWindow.frame.height, width: fullWindow.frame.width - (xInset * 2), height: height)
-            blurView.frame = fullWindow.frame
+             blurView.frame = fullWindow.frame
             
             UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
-                self.blurView.alpha = 0.5
+                self.blurView.alpha = 0.6
                 self.menuCollectionView.frame = CGRect(x: xInset, y: yValue, width: self.menuCollectionView.frame.width, height: self.menuCollectionView.frame.height)
             } ,completion: nil)
             

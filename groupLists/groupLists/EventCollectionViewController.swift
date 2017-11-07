@@ -21,21 +21,14 @@ class EventCollectionViewController: UIViewController, UICollectionViewDelegate,
     var userEventsController: UserEventsController!
     let navigationLauncher = NavigationLauncher()
     let menuLauncher = MenuLauncher()
+    let editLauncher = MenuLauncher()
     var editIdx: Int?
+    var deleteIdx: Int?
     
     @IBOutlet weak var eventCollectionView: UICollectionView!
     @IBOutlet weak var menuBtn: UIButton!
     @IBOutlet weak var navBtn: UIButton!
-    
-    
-    let backgroundImages: [UIImage] = [UIImage.init(named: "camera")!,
-                                       UIImage.init(named: "coffee")!,
-                                       UIImage.init(named: "concert")!,
-                                       UIImage.init(named: "guitar")!,
-                                       UIImage.init(named: "hallway")!,
-                                       UIImage.init(named: "lightning")!,
-                                       UIImage.init(named: "roadway")!]
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -55,13 +48,17 @@ class EventCollectionViewController: UIViewController, UICollectionViewDelegate,
         self.view.addConstraint(NSLayoutConstraint(item: menuBtn, attribute: .centerY, relatedBy: .equal, toItem: navBtn, attribute: .centerY, multiplier: 1, constant: 0))
         menuBtn.addTarget(self, action: #selector(displayMenu), for: .touchUpInside)
         
-        //Create event, move to add event action
-        //userEventsController.createEvent(name: "testEvent1", description: "some description", date: Date.init(timeIntervalSinceNow: 86400.0 * 60), userController: userController, eventCollectionView: eventCollectionView)
         
+        //We may want to move this to viewWillAppear, and refactor to no take a view parameter
         userEventsController.getDBEvents(userId: userController.user.id, eventCollectionView: self.eventCollectionView)
         
         //populate menu options available from this VC
         menuLauncher.menuOptions.insert(MenuOption(name: "Add Event", iconName: "add"), at: 0)
+        
+        //populate edit options available from this VC
+        editLauncher.menuOptions.removeAll();
+        editLauncher.menuOptions.append(MenuOption(name: "Edit Event", iconName: "edit"))
+        editLauncher.menuOptions.append(MenuOption(name: "Delete Event", iconName: "trash"))
         
     }
     
@@ -137,26 +134,17 @@ class EventCollectionViewController: UIViewController, UICollectionViewDelegate,
         }
         cell.eventDateLabel.lineBreakMode = .byWordWrapping
         cell.eventDateLabel.numberOfLines = 0
-        //cell.eventDateLabel.text = "\(dateFormatter.string(from: eventDate))\nin \(convertTimeIntervalToDaysHoursMinutesSeconds(timeInterval: countdownTimeInterval))"
         cell.eventDateLabel.textColor = UIColor.white
         cell.eventDateLabel.font = UIFont.boldSystemFont(ofSize: 16)
         
         cell.eventOrganizerLabel.textColor = UIColor.white
         cell.eventOrganizerLabel.font = UIFont.systemFont(ofSize: 12)
         
-        cell.eventEditBtn.setImage(UIImage(named: "edit")?.withRenderingMode(UIImageRenderingMode.alwaysTemplate), for: .normal)
+        cell.eventEditBtn.setImage(UIImage(named: "settings_gear_white")?.withRenderingMode(UIImageRenderingMode.alwaysTemplate), for: .normal)
         cell.eventEditBtn.tintColor = colors.primaryColor2
         cell.eventEditBtn.tag = indexPath.item
 
-        cell.eventEditBtn.addTarget(self, action: #selector(initiateEditEvent), for: .touchUpInside)
-        //populate image assets in background
-        //generate random number no larger than number of images in image asset folder (Note: arc4random is not inclusive)
-        //let randomValue = arc4random_uniform(UInt32(backgroundImages.count))
-        //let backgroundView = UIImageView.init(image: backgroundImages[Int(randomValue)])
-        //cell.backgroundView = backgroundView
-        
-        //NOTE: ADD ORGANIZER NAME ONCE DATA MODEL INFORMATION/STRUCTURE IMPLEMENTED FULLY
-        //cell.eventOrganizerLabel.text = "\(model.events[indexPath.item].organizer[0].firstName) \(model.events[indexPath.item].organizer[0].lastName)"
+        cell.eventEditBtn.addTarget(self, action: #selector(displayEditOptions), for: .touchUpInside)
 
         cell.layer.borderColor = colors.accentColor1.cgColor
         cell.layer.borderWidth = 1
@@ -166,6 +154,13 @@ class EventCollectionViewController: UIViewController, UICollectionViewDelegate,
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         self.performSegue(withIdentifier: "displayList", sender: indexPath)
+    }
+    
+    func displayEditOptions(sender: UIButton) {
+        self.editIdx = sender.tag
+        self.deleteIdx = sender.tag
+        editLauncher.baseEventCollectionVC = self
+        editLauncher.showMenu()
     }
     
     func initiateEditEvent(sender: UIButton){
@@ -234,13 +229,25 @@ class EventCollectionViewController: UIViewController, UICollectionViewDelegate,
         menuLauncher.showMenu()
     }
     
+    //authoritative func for defining behavior when menuLauncher's menuOption is selected
     func executeMenuOption(option: MenuOption) {
         
         if option.name == "Cancel" {
             //cancel selected, do nothing
+        
         } else if option.name == "Add Event" {
             //add requested, fire add event
             performSegue(withIdentifier: "addEvent", sender: self)
+        
+        } else if option.name == "Edit Event" {
+            performSegue(withIdentifier: "editEvent", sender: self)
+        
+        } else if option.name == "Delete Event" {
+            userEventsController.removeEvent(user: userController, eventIdx: self.deleteIdx!)
+            //reload data must be executed by applications main thread to see results immediately
+            DispatchQueue.main.async(execute: {
+                self.eventCollectionView.reloadData()
+            })
         }
     }
     
@@ -253,12 +260,14 @@ class EventCollectionViewController: UIViewController, UICollectionViewDelegate,
     func executeNavOption(option: NavOption) {
         
         if option.name == "Cancel" {
+            
             //cancel selected, do nothing
-        }
-        else if option.name == "My Events" {
+        } else if option.name == "My Events" {
+            
             //do nothing - already at events view
  
         } else if option.name == "Logout" {
+            
             //logout via firebase
             do {
                 try Auth.auth().signOut()
@@ -269,36 +278,4 @@ class EventCollectionViewController: UIViewController, UICollectionViewDelegate,
         }
     }
     
-
-    // MARK: UICollectionViewDelegate
-
-    /*
-    // Uncomment this method to specify if the specified item should be highlighted during tracking
-    override func collectionView(_ collectionView: UICollectionView, shouldHighlightItemAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    */
-
-    /*
-    // Uncomment this method to specify if the specified item should be selected
-    override func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    */
-
-    /*
-    // Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
-    override func collectionView(_ collectionView: UICollectionView, shouldShowMenuForItemAt indexPath: IndexPath) -> Bool {
-        return false
-    }
-
-    override func collectionView(_ collectionView: UICollectionView, canPerformAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
-        return false
-    }
-
-    override func collectionView(_ collectionView: UICollectionView, performAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) {
-    
-    }
-    */
-
 }
