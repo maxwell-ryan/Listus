@@ -11,12 +11,12 @@ import Foundation
 class Message {
     
     var messageBody: String
-    var timestamp: String
+    var timestamp: Date
     var senderID: String
     var senderName: String
     var id: String
     
-    init(messageBody: String, timestamp: String, senderID: String, senderName: String, id: String) {
+    init(messageBody: String, timestamp: Date, senderID: String, senderName: String, id: String) {
         
         self.messageBody = messageBody
         self.timestamp = timestamp

@@ -52,13 +52,22 @@ class MessagingViewController: UIViewController, UITableViewDelegate, UITableVie
         messageTableView.separatorStyle = .none
     }
     
+    @IBAction func sendButtonTapped(_ sender: UIButton) {
+        messageTextField.endEditing(true)
+        messageTextField.isEnabled = false
+        sendButton.isEnabled = false
+        
+        eventMessagesController.createMessage(userController: userController, eventId: eventId, messageTextField: messageTextField, sendButton: sendButton, date: Date())
+    }
+    
+    
     func tableViewTapped() {
         messageTextField.endEditing(true)
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
         UIView.animate(withDuration: 0.5) {
-            self.textHeightConstraint.constant = 308
+            self.textHeightConstraint.constant = 260
             self.view.layoutIfNeeded()
         }
     }
@@ -77,9 +86,14 @@ class MessagingViewController: UIViewController, UITableViewDelegate, UITableVie
         
         let message = eventMessagesController.messages[indexPath.row]
         
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .long
+        dateFormatter.timeStyle = .none
+        dateFormatter.locale = Locale(identifier: "en_US")
+        
         messageCell.messageBody.text = message.messageBody
         messageCell.senderName.text = message.senderName
-        messageCell.messageTime.text = message.timestamp
+        messageCell.messageTime.text = dateFormatter.string(from: message.timestamp)
         
         messageCell.backgroundColor = colors.primaryColor1
         messageCell.senderName.textColor = colors.primaryColor2

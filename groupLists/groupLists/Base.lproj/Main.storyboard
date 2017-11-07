@@ -649,7 +649,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="121" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="Z2n-d1-LGz">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="574"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="567"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="messageCell" rowHeight="121" id="pmt-Tv-G2k" customClass="MessageCell" customModule="groupLists" customModuleProvider="target">
@@ -726,10 +726,10 @@
                                 </prototypes>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yu9-Rm-y4o">
-                                <rect key="frame" x="0.0" y="575" width="375" height="43"/>
+                                <rect key="frame" x="0.0" y="568" width="375" height="50"/>
                                 <subviews>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hW6-kt-WoN">
-                                        <rect key="frame" x="8" y="10" width="299" height="24"/>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Send a message" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hW6-kt-WoN">
+                                        <rect key="frame" x="8" y="10" width="299" height="30"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
@@ -742,17 +742,19 @@
                                         <state key="normal" image="ic_send_3x">
                                             <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
+                                        <connections>
+                                            <action selector="sendButtonTapped:" destination="8vE-FS-lmh" eventType="touchUpInside" id="daD-1q-t9f"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.92143100499999997" green="0.92145264149999995" blue="0.92144101860000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstItem="YT1-84-XNb" firstAttribute="leading" secondItem="hW6-kt-WoN" secondAttribute="trailing" constant="23" id="DmL-Xe-oe6"/>
-                                    <constraint firstItem="hW6-kt-WoN" firstAttribute="centerY" secondItem="yu9-Rm-y4o" secondAttribute="centerY" id="FoW-iS-vxa"/>
-                                    <constraint firstAttribute="height" constant="43" id="QG7-14-t1l"/>
+                                    <constraint firstAttribute="height" constant="50" id="QG7-14-t1l"/>
                                     <constraint firstItem="hW6-kt-WoN" firstAttribute="leading" secondItem="yu9-Rm-y4o" secondAttribute="leadingMargin" id="ZLy-FW-JYd"/>
                                     <constraint firstAttribute="trailing" secondItem="YT1-84-XNb" secondAttribute="trailing" constant="21" id="aKh-Dy-ABa"/>
-                                    <constraint firstItem="YT1-84-XNb" firstAttribute="centerY" secondItem="yu9-Rm-y4o" secondAttribute="centerY" id="gxY-eJ-f9g"/>
                                     <constraint firstItem="hW6-kt-WoN" firstAttribute="top" secondItem="yu9-Rm-y4o" secondAttribute="top" constant="10" id="kmJ-Zl-HKL"/>
+                                    <constraint firstItem="YT1-84-XNb" firstAttribute="top" secondItem="yu9-Rm-y4o" secondAttribute="top" constant="10" id="pph-5P-FjD"/>
                                 </constraints>
                             </view>
                         </subviews>
