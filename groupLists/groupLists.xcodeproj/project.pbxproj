@@ -37,6 +37,8 @@
 		2494B6131F994DBB00794F76 /* EventItemsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2494B6121F994DBB00794F76 /* EventItemsController.swift */; };
 		2494B6151F994DD500794F76 /* EventMessagesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2494B6141F994DD500794F76 /* EventMessagesController.swift */; };
 		2494B7981F8ECBDF005C5B92 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2494B7971F8ECBDF005C5B92 /* RegisterViewController.swift */; };
+		24C40E581FAE440B00F8F06E /* MessagingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24C40E571FAE440B00F8F06E /* MessagingViewController.swift */; };
+		24C40E5D1FAE4D2A00F8F06E /* MessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24C40E5C1FAE4D2A00F8F06E /* MessageCell.swift */; };
 		C89B5FE44C8787ECABC5FD91 /* Pods_groupListsUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D910BF6516C030AF3BC251A2 /* Pods_groupListsUITests.framework */; };
 		D8BF4F9501BECC04F5E76F93 /* Pods_groupLists.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 796F019AD2161C02F0670071 /* Pods_groupLists.framework */; };
 		DD7F2EB98D46FB42BAE50667 /* Pods_groupListsTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D5557AF8BECD292F5597E9A1 /* Pods_groupListsTests.framework */; };
@@ -98,6 +100,8 @@
 		2494B6121F994DBB00794F76 /* EventItemsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventItemsController.swift; sourceTree = "<group>"; };
 		2494B6141F994DD500794F76 /* EventMessagesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventMessagesController.swift; sourceTree = "<group>"; };
 		2494B7971F8ECBDF005C5B92 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
+		24C40E571FAE440B00F8F06E /* MessagingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagingViewController.swift; sourceTree = "<group>"; };
+		24C40E5C1FAE4D2A00F8F06E /* MessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageCell.swift; sourceTree = "<group>"; };
 		3023561F6761B744A911031B /* Pods-groupListsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-groupListsTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-groupListsTests/Pods-groupListsTests.debug.xcconfig"; sourceTree = "<group>"; };
 		3953D3EFF17189AAB147B5C5 /* Pods-groupListsTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-groupListsTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-groupListsTests/Pods-groupListsTests.release.xcconfig"; sourceTree = "<group>"; };
 		685B3C73CF9994FCD6C66149 /* Pods-groupLists.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-groupLists.release.xcconfig"; path = "Pods/Target Support Files/Pods-groupLists/Pods-groupLists.release.xcconfig"; sourceTree = "<group>"; };
@@ -194,6 +198,7 @@
 		0798B6451F81647A002185C5 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				24C40E5C1FAE4D2A00F8F06E /* MessageCell.swift */,
 				0798B63B1F816196002185C5 /* ColorScheme.swift */,
 				0798B6581F816584002185C5 /* LaunchScreen.storyboard */,
 				0798B65A1F816584002185C5 /* Main.storyboard */,
@@ -226,6 +231,7 @@
 				0788FEE91F9120E200D71A50 /* EventCollectionViewController.swift */,
 				078852ED1F97DC9200858A0B /* MenuLauncher.swift */,
 				079AE3041F9FE42900EB58F5 /* NavigationLauncher.swift */,
+				24C40E571FAE440B00F8F06E /* MessagingViewController.swift */,
 			);
 			name = ViewController;
 			sourceTree = "<group>";
@@ -580,6 +586,7 @@
 				2494B60F1F994D7400794F76 /* UserEventsController.swift in Sources */,
 				0798B63C1F816196002185C5 /* ColorScheme.swift in Sources */,
 				0788FEEC1F91216200D71A50 /* EventCollectionViewCell.swift in Sources */,
+				24C40E581FAE440B00F8F06E /* MessagingViewController.swift in Sources */,
 				24631AF51F969EC2005068E7 /* UserController.swift in Sources */,
 				0742AD391FA161CD00F7BE20 /* NavCell.swift in Sources */,
 				07E0EA271FA64F970044673F /* EventViewController.swift in Sources */,
@@ -593,6 +600,7 @@
 				079AE3051F9FE42900EB58F5 /* NavigationLauncher.swift in Sources */,
 				2494B6131F994DBB00794F76 /* EventItemsController.swift in Sources */,
 				2494B6151F994DD500794F76 /* EventMessagesController.swift in Sources */,
+				24C40E5D1FAE4D2A00F8F06E /* MessageCell.swift in Sources */,
 				0798B6541F81655F002185C5 /* Event.swift in Sources */,
 				078852EC1F97DB0500858A0B /* MenuCell.swift in Sources */,
 				2494B7981F8ECBDF005C5B92 /* RegisterViewController.swift in Sources */,

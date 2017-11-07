@@ -27,8 +27,9 @@ struct DB {
     static let user = "user"
     
     static let messages = "messages"
-    static let sender = "sender"
-    static let timestamp = "timestamp"
+    static let senderName = "senderName"
+    static let senderId = "senderId"
+    static let time = "time"
     static let messageBody = "messageBody"
 }
 

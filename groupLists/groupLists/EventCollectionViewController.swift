@@ -157,7 +157,6 @@ class EventCollectionViewController: UIViewController, UICollectionViewDelegate,
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    
         self.performSegue(withIdentifier: "displayList", sender: indexPath)
     }
     
@@ -248,10 +247,16 @@ class EventCollectionViewController: UIViewController, UICollectionViewDelegate,
             
             let selectedIndexPath = sender as! IndexPath
             let tabBarViewControllers = segue.destination as! UITabBarController
-            let destinationVC = tabBarViewControllers.viewControllers![0] as! ItemListViewController
-            destinationVC.currentEventIdx = selectedIndexPath.item
-            destinationVC.userEventsController = self.userEventsController
-            destinationVC.userController = self.userController
+            
+            let itemListVC = tabBarViewControllers.viewControllers![0] as! ItemListViewController
+            itemListVC.currentEventIdx = selectedIndexPath.item
+            itemListVC.userEventsController = self.userEventsController
+            itemListVC.userController = self.userController
+            
+            let messagingVC = tabBarViewControllers.viewControllers![1] as! MessagingViewController
+            messagingVC.eventId = userEventsController.events[selectedIndexPath.item].id
+            messagingVC.userEventsController = self.userEventsController
+            messagingVC.userController = self.userController
         
         } else if segue.identifier == "addEvent" {
             
