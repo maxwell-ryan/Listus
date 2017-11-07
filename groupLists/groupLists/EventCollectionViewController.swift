@@ -26,6 +26,9 @@ class EventCollectionViewController: UIViewController, UICollectionViewDelegate,
     var deleteIdx: Int?
     
     @IBOutlet weak var eventCollectionView: UICollectionView!
+    var blurBackground = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.dark))
+    var editButton = UIButton()
+    var deleteButton = UIButton()
     @IBOutlet weak var menuBtn: UIButton!
     @IBOutlet weak var navBtn: UIButton!
 
@@ -144,8 +147,9 @@ class EventCollectionViewController: UIViewController, UICollectionViewDelegate,
         cell.eventEditBtn.tintColor = colors.primaryColor2
         cell.eventEditBtn.tag = indexPath.item
 
-        cell.eventEditBtn.addTarget(self, action: #selector(displayEditOptions), for: .touchUpInside)
-
+        //cell.eventEditBtn.addTarget(self, action: #selector(displayEditOptions), for: .touchUpInside)
+        cell.eventEditBtn.addTarget(self, action: #selector(blurOptions), for: .touchUpInside)
+        
         cell.layer.borderColor = colors.accentColor1.cgColor
         cell.layer.borderWidth = 1
         
@@ -157,6 +161,64 @@ class EventCollectionViewController: UIViewController, UICollectionViewDelegate,
         self.performSegue(withIdentifier: "displayList", sender: indexPath)
     }
     
+    func blurOptions (sender: UIButton) {
+        self.editIdx = sender.tag
+        self.deleteIdx = sender.tag
+        
+        //var blurBackground = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.dark))
+        blurBackground.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(unblurView)))
+        
+        if let fullWindow = UIApplication.shared.keyWindow {
+            
+            //get Y position of setting button pressed
+            var yValue = sender.convert(sender.center, to: self.view)
+            print(yValue)
+            blurBackground.frame = CGRect(x: fullWindow.frame.minX, y: fullWindow.frame.minY, width: fullWindow.frame.width, height: fullWindow.frame.height)
+            
+            editButton.frame = CGRect(x: CGFloat((fullWindow.frame.maxX / 2) - 50), y: yValue.y, width: CGFloat(125), height: CGFloat(35))
+            deleteButton.frame = CGRect(x: CGFloat((fullWindow.frame.maxX / 2) - 50), y: editButton.frame.maxY + 3, width: CGFloat(125), height: CGFloat(35))
+            
+            editButton.setTitleColor(colors.accentColor1, for: .normal)
+            editButton.backgroundColor = colors.primaryColor2
+            editButton.setTitle("Edit Event", for: .normal)
+            editButton.layer.cornerRadius = 8
+            editButton.alpha = 0
+            editButton.addTarget(self, action: #selector(initiateEditEvent), for: .touchUpInside)
+            
+            deleteButton.setTitleColor(UIColor.red, for: .normal)
+            deleteButton.backgroundColor = UIColor.white
+            deleteButton.setTitle("Delete Event", for: .normal)
+            deleteButton.layer.cornerRadius = 8
+            deleteButton.alpha = 0
+            deleteButton.addTarget(self, action: #selector(deleteEvent), for: .touchUpInside)
+        }
+        
+        blurBackground.alpha = 0
+        self.view.addSubview(blurBackground)
+        UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseIn, animations: {
+            self.blurBackground.alpha = 0.8
+            self.view.addSubview(self.editButton)
+            self.editButton.alpha = 0.8
+            self.view.addSubview(self.deleteButton)
+            self.deleteButton.alpha = 1
+        }, completion: nil)
+        
+        
+    }
+    
+    func unblurView() {
+        UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+            
+            self.blurBackground.alpha = 0.0
+            
+            DispatchQueue.main.async(execute: {
+                self.editButton.removeFromSuperview()
+                self.deleteButton.removeFromSuperview()
+            })
+            
+        }, completion: nil)
+    }
+    
     func displayEditOptions(sender: UIButton) {
         self.editIdx = sender.tag
         self.deleteIdx = sender.tag
@@ -165,9 +227,19 @@ class EventCollectionViewController: UIViewController, UICollectionViewDelegate,
     }
     
     func initiateEditEvent(sender: UIButton){
-        
-        self.editIdx = sender.tag
         performSegue(withIdentifier: "editEvent", sender: self)
+        self.unblurView()
+    }
+    
+    func deleteEvent(sender: UIButton){
+        userEventsController.removeEvent(user: self.userController, eventIdx: self.deleteIdx!)
+        //reload data must be executed by applications main thread to see results immediately
+        self.unblurView()
+        
+        DispatchQueue.main.async(execute: {
+            self.eventCollectionView.reloadData()
+        })
+        
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
