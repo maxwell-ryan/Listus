@@ -95,9 +95,9 @@ class UserEventsController {
             
             let event = self.events[eventIdx]
             
-            var newName = name ?? event.name
-            var newDate = date ?? event.date
-            var newDescription = description ?? event.description
+            let newName = name ?? event.name
+            let newDate = date ?? event.date
+            let newDescription = description ?? event.description
             
             //update event locally
             event.name = newName
