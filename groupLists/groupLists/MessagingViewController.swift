@@ -53,17 +53,12 @@ class MessagingViewController: UIViewController, UITableViewDelegate, UITableVie
         
         messageTableView.separatorStyle = .none
         
-        navBtn.setImage(UIImage(named: "menu2x"), for: UIControlState.normal)
         navBtn.showsTouchWhenHighlighted = true
         navBtn.tintColor = UIColor.darkGray
         navBtn.addTarget(self, action: #selector(displayNav), for: .touchUpInside)
         
-        menuBtn.setImage(UIImage(named: "filledmenu"), for: UIControlState.normal)
         menuBtn.showsTouchWhenHighlighted = true
-        menuBtn.setImage(UIImage(named: "menu"), for: UIControlState.highlighted)
-        menuBtn.showsTouchWhenHighlighted = true
-        menuBtn.tintColor = UIColor.black
-        self.view.addConstraint(NSLayoutConstraint(item: menuBtn, attribute: .centerY, relatedBy: .equal, toItem: navBtn, attribute: .centerY, multiplier: 1, constant: 0))
+        menuBtn.tintColor = UIColor.darkGray
         menuBtn.addTarget(self, action: #selector(displayMenu), for: .touchUpInside)
         
         //add contextual options to bottom fly-in menu bar
@@ -169,14 +164,8 @@ class MessagingViewController: UIViewController, UITableViewDelegate, UITableVie
             //logout via firebase
             do {
                 try Auth.auth().signOut()
-                if self.presentingViewController != nil {
-                    self.dismiss(animated: false, completion: {
-                        self.navigationController!.popToRootViewController(animated: true)
-                    })
-                }
-                else {
-                    self.navigationController!.popToRootViewController(animated: true)
-                }
+                performSegue(withIdentifier: "returnToLogin", sender: self)
+                
             } catch {
                 print("A logout error occured")
             }
