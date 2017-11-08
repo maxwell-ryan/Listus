@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class MessagingViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
 
@@ -15,11 +16,16 @@ class MessagingViewController: UIViewController, UITableViewDelegate, UITableVie
     var eventMessagesController = EventMessagesController()
     var eventId: String!
     
+    let navigationLauncher = NavigationLauncher()
+    let menuLauncher = MenuLauncher()
+    
     @IBOutlet weak var sendButton: UIButton!
     @IBOutlet weak var textHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var messageTextField: UITextField!
     @IBOutlet weak var messageTableView: UITableView!
     @IBOutlet weak var textFieldView: UIView!
+    @IBOutlet weak var navBtn: UIButton!
+    @IBOutlet weak var menuBtn: UIButton!
     
     
     override func viewDidLoad() {
@@ -46,6 +52,27 @@ class MessagingViewController: UIViewController, UITableViewDelegate, UITableVie
         eventMessagesController.getMessages(userId: userController.user.id, eventId: eventId, messageTableView: messageTableView)
         
         messageTableView.separatorStyle = .none
+        
+        navBtn.setImage(UIImage(named: "menu2x"), for: UIControlState.normal)
+        navBtn.showsTouchWhenHighlighted = true
+        navBtn.tintColor = UIColor.darkGray
+        navBtn.addTarget(self, action: #selector(displayNav), for: .touchUpInside)
+        
+        menuBtn.setImage(UIImage(named: "filledmenu"), for: UIControlState.normal)
+        menuBtn.showsTouchWhenHighlighted = true
+        menuBtn.setImage(UIImage(named: "menu"), for: UIControlState.highlighted)
+        menuBtn.showsTouchWhenHighlighted = true
+        menuBtn.tintColor = UIColor.black
+        self.view.addConstraint(NSLayoutConstraint(item: menuBtn, attribute: .centerY, relatedBy: .equal, toItem: navBtn, attribute: .centerY, multiplier: 1, constant: 0))
+        menuBtn.addTarget(self, action: #selector(displayMenu), for: .touchUpInside)
+        
+        //add contextual options to bottom fly-in menu bar
+        menuLauncher.menuOptions.insert(MenuOption(name: "Back", iconName: "back"), at: 0)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        navBtn.setTitle("", for: UIControlState.normal)
+        menuBtn.setTitle("", for: UIControlState.normal)
     }
     
     @IBAction func sendButtonTapped(_ sender: UIButton) {
@@ -108,6 +135,52 @@ class MessagingViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return eventMessagesController.messages.count
+    }
+    
+    func displayMenu() {
+        menuLauncher.baseMessagingVC = self
+        menuLauncher.showMenu()
+    }
+    
+    func executeMenuOption(option: MenuOption) {
+        
+        if option.name == "Cancel" {
+            //cancel selected, do nothing
+        } else if option.name == "Back" {
+            //go to events view
+            dismiss(animated: true)
+        }
+    }
+    
+    func displayNav() {
+        navigationLauncher.baseMessagingVC = self
+        navigationLauncher.showMenu()
+    }
+    
+    func executeNavOption(option: NavOption) {
+        
+        if option.name == "Cancel" {
+            //cancel selected, do nothing
+        }
+        else if option.name == "My Events" {
+            //go to events view
+            dismiss(animated: true)
+        } else if option.name == "Logout" {
+            //logout via firebase
+            do {
+                try Auth.auth().signOut()
+                if self.presentingViewController != nil {
+                    self.dismiss(animated: false, completion: {
+                        self.navigationController!.popToRootViewController(animated: true)
+                    })
+                }
+                else {
+                    self.navigationController!.popToRootViewController(animated: true)
+                }
+            } catch {
+                print("A logout error occured")
+            }
+        }
     }
 
     override func didReceiveMemoryWarning() {
