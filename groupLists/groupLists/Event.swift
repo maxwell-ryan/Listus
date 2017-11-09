@@ -17,15 +17,14 @@ class Event {
     var authorizedUsers: [String] = []
     var date: Date
     
-    //var items: [Item] = []
-    //var messages: [Message] = []
-    
-    init(name: String, id: String, date: Date, description: String) {
+    init(name: String, id: String, date: Date, description: String, creator: String, authorizedUsers: [String]) {
         
         self.name = name
         self.id = id
         self.date = date
         self.description = description
+        self.creator = creator
+        self.authorizedUsers = authorizedUsers
     }
     
     
