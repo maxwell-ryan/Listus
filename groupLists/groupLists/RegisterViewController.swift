@@ -18,11 +18,16 @@ class RegisterViewController: UIViewController {
     @IBOutlet weak var lastNameField: UITextField!
     @IBOutlet weak var emailField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
-    
+    @IBOutlet weak var registerButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        view.backgroundColor = colors.primaryColor1
+        
+        registerButton.backgroundColor = colors.primaryColor2
+        registerButton.setTitleColor(colors.accentColor1, for: UIControlState.normal)
+        registerButton.layer.cornerRadius = 10
     }
 
     
