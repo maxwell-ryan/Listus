@@ -13,8 +13,8 @@ class Event {
     var name: String
     var id: String
     var description: String
-    var organizer: [User] = []
-    var authorizedUsers: [User] = []
+    var creator: String
+    var authorizedUsers: [String] = []
     var date: Date
     
     //var items: [Item] = []
