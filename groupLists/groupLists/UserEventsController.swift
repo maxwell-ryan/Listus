@@ -63,8 +63,8 @@ class UserEventsController {
         let eventRef = ref.child(DB.events).childByAutoId()
         
         //set values of event
-        eventRef.setValue([DB.name: name, DB.date: dateString, DB.description: description])
-        eventRef.child(DB.organizers).child(userController.user.id).setValue(true)
+        eventRef.setValue([DB.name: name, DB.date: dateString, DB.description: description, DB.creator: userController.user.id])
+        eventRef.child("allowedUsers").child(userController.user.id).setValue(true)
         
         //add the event to the users events list
         ref.child(DB.users).child(userController.user.id).child(DB.events).child(eventRef.key).setValue(true)
@@ -207,16 +207,19 @@ class UserEventsController {
                         let description = event?["description"] as? String ?? ""
                         let name = event?["name"] as? String ?? ""
                         let dateString = event?["date"] as? String ?? "0000-00-00 00:00:00"
+                        let creator = event?["creator"] as? String ?? ""
+                        //let allowedUsers = event?["allowedUsers"] as? [String] ?? []
                         
                         // format date from string to date type
                         let formatter = DateFormatter()
                         formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
                         let date = formatter.date(from: dateString)
                         
-                        let temp_event = Event(name: name, id: id , date: date!, description: description)
+                        let temp_event = Event(name: name, id: id , date: date!, description: description, DB.creator: creator, authorizedUsers: allowedUsers)
                         
                         self.events.append(temp_event)
                     } else {
+                        //event has been deleted so remove from user's events list
                         self.ref.child(DB.users).child(userId).child(DB.events).child(key).removeValue()
                     }
                     
