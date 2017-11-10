@@ -26,9 +26,13 @@ class EventCollectionViewController: UIViewController, UICollectionViewDelegate,
     var deleteIdx: Int?
     
     @IBOutlet weak var eventCollectionView: UICollectionView!
+    
     var blurBackground = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.dark))
+    var optionsFrame = UIView()
     var editButton = UIButton()
     var deleteButton = UIButton()
+    var addUsersButton = UIButton()
+
     @IBOutlet weak var menuBtn: UIButton!
     @IBOutlet weak var navBtn: UIButton!
 
@@ -164,41 +168,93 @@ class EventCollectionViewController: UIViewController, UICollectionViewDelegate,
         self.editIdx = sender.tag
         self.deleteIdx = sender.tag
         
-        //var blurBackground = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.dark))
         blurBackground.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(unblurView)))
+        blurBackground.alpha = 0.4
         
         if let fullWindow = UIApplication.shared.keyWindow {
             
             //get Y position of setting button pressed
             var yValue = sender.convert(sender.center, to: self.view)
-            print(yValue)
-            blurBackground.frame = CGRect(x: fullWindow.frame.minX, y: fullWindow.frame.minY, width: fullWindow.frame.width, height: fullWindow.frame.height)
+            var superViewCGRect = sender.superview?.convert(sender.superview!.center, to: self.view)
+            var superView = sender.superview?.convert(sender.superview!.bounds, to: self.view)
+            print(superView)
+            //print(yValue)
             
-            editButton.frame = CGRect(x: CGFloat((fullWindow.frame.maxX / 2) - 50), y: yValue.y, width: CGFloat(125), height: CGFloat(35))
-            deleteButton.frame = CGRect(x: CGFloat((fullWindow.frame.maxX / 2) - 50), y: editButton.frame.maxY + 3, width: CGFloat(125), height: CGFloat(35))
+            blurBackground.translatesAutoresizingMaskIntoConstraints = false
+            editButton.translatesAutoresizingMaskIntoConstraints = false
+            deleteButton.translatesAutoresizingMaskIntoConstraints = false
+            addUsersButton.translatesAutoresizingMaskIntoConstraints = false
+            
+            blurBackground.frame = CGRect.zero
+            editButton.frame = CGRect.zero
+            deleteButton.frame = CGRect.zero
+            addUsersButton.frame = CGRect.zero
+            
+            self.optionsFrame.frame = CGRect(x: superView!.minX, y: superView!.minY, width: superView!.width, height: superView!.height)
+            self.optionsFrame.backgroundColor = colors.primaryColor2
+            self.optionsFrame.alpha = 0.5
+            optionsFrame.addSubview(editButton)
+            optionsFrame.addSubview(deleteButton)
+            optionsFrame.addSubview(addUsersButton)
+            blurBackground.contentView.addSubview(optionsFrame)
             
             editButton.setTitleColor(colors.accentColor1, for: .normal)
-            editButton.backgroundColor = colors.primaryColor2
-            editButton.setTitle("Edit Event", for: .normal)
+            editButton.backgroundColor = colors.primaryColor1
+            editButton.setTitle("Edit", for: .normal)
             editButton.layer.cornerRadius = 8
-            editButton.alpha = 0
+            editButton.alpha = 0.5
             editButton.addTarget(self, action: #selector(initiateEditEvent), for: .touchUpInside)
             
+            addUsersButton.setTitleColor(colors.accentColor1, for: .normal)
+            addUsersButton.backgroundColor = colors.primaryColor1
+            addUsersButton.setTitle("Add Users", for: .normal)
+            addUsersButton.layer.cornerRadius = 8
+            addUsersButton.alpha = 0.5
+            
             deleteButton.setTitleColor(UIColor.red, for: .normal)
-            deleteButton.backgroundColor = UIColor.white
-            deleteButton.setTitle("Delete Event", for: .normal)
+            deleteButton.backgroundColor = colors.primaryColor1
+            deleteButton.setTitle("Delete", for: .normal)
             deleteButton.layer.cornerRadius = 8
-            deleteButton.alpha = 0
+            deleteButton.alpha = 0.5
             deleteButton.addTarget(self, action: #selector(deleteEvent), for: .touchUpInside)
+
         }
         
-        blurBackground.alpha = 0
-        self.view.addSubview(blurBackground)
-        UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseIn, animations: {
-            self.blurBackground.alpha = 0.8
-            self.view.addSubview(self.editButton)
-            self.editButton.alpha = 0.8
-            self.view.addSubview(self.deleteButton)
+        
+
+        UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseIn, animations: {
+            
+            let views = ["blurBackground": self.blurBackground, "blurBackgroundContent": self.blurBackground.contentView, "optionsFrame": self.optionsFrame, "editButton": self.editButton, "deleteButton": self.deleteButton, "addUsersButton": self.addUsersButton]
+            
+            self.view.addSubview(self.blurBackground)
+            
+
+            var allConstraints = [NSLayoutConstraint]()
+            let blurBackgroundHorzConstraint = NSLayoutConstraint.constraints(withVisualFormat: "H:|[blurBackground]|", options: [], metrics: nil, views: views)
+            allConstraints += blurBackgroundHorzConstraint
+            let blurBackgroundVertConstraint = NSLayoutConstraint.constraints(withVisualFormat: "V:|[blurBackground]|", options: [], metrics: nil, views: views)
+            allConstraints += blurBackgroundVertConstraint
+            
+            let blurBackgroundContentHorzConstraint = NSLayoutConstraint.constraints(withVisualFormat: "H:|[blurBackgroundContent]|", options: [], metrics: nil, views: views)
+            allConstraints += blurBackgroundContentHorzConstraint
+            let blurBackgroundContentVertConstraint = NSLayoutConstraint.constraints(withVisualFormat: "V:|[blurBackgroundContent]|", options: [], metrics: nil, views: views)
+            allConstraints += blurBackgroundContentVertConstraint
+            
+            let editButtonHorzConstraint = NSLayoutConstraint.constraints(withVisualFormat: "H:|-[editButton(==deleteButton)]-[addUsersButton(==deleteButton)]-[deleteButton(>=50)]-|", options: [], metrics: nil, views: views)
+            allConstraints += editButtonHorzConstraint
+            let editButtonVertConstraint = NSLayoutConstraint.constraints(withVisualFormat: "V:|-50-[editButton]-50-|", options: [], metrics: nil, views: views)
+            allConstraints += editButtonVertConstraint
+            let addUsersButtonVertConstraint = NSLayoutConstraint.constraints(withVisualFormat: "V:|-50-[addUsersButton]-50-|", options: [], metrics: nil, views: views)
+            allConstraints += addUsersButtonVertConstraint
+            let deleteButtonVertConstraint = NSLayoutConstraint.constraints(withVisualFormat: "V:|-50-[deleteButton]-50-|", options: [], metrics: nil, views: views)
+            allConstraints += deleteButtonVertConstraint
+            
+            NSLayoutConstraint.activate(allConstraints)
+            
+            self.blurBackground.alpha = 1
+            self.optionsFrame.alpha = 1
+            self.addUsersButton.alpha = 1
+            self.editButton.alpha = 1
             self.deleteButton.alpha = 1
         }, completion: nil)
         
@@ -207,13 +263,13 @@ class EventCollectionViewController: UIViewController, UICollectionViewDelegate,
     
     func unblurView() {
         UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
-            
+            print("In unblur func")
             self.blurBackground.alpha = 0.0
-            
-            DispatchQueue.main.async(execute: {
-                self.editButton.removeFromSuperview()
-                self.deleteButton.removeFromSuperview()
-            })
+
+            //DispatchQueue.main.async(execute: {
+                self.blurBackground.removeFromSuperview()
+                print("In unblur func - main thread removefromsuperview")
+            //})
             
         }, completion: nil)
     }
