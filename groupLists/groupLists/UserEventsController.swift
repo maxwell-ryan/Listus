@@ -272,20 +272,4 @@ class UserEventsController {
         return false
     }
     
-//    func showAlert(msg: String) {
-//        // Initialize Alert Controller
-//        let alertController = UIAlertController(title: "Not Allowed", message: "You are not allowed to " + msg + " this event.", preferredStyle: .alert)
-//        
-//        // Initialize Actions
-//        let okAction = UIAlertAction(title: "Ok", style: .default) { (action) -> Void in
-//            print("user acknowledges")
-//        }
-//        
-//        // Add Actions
-//        alertController.addAction(okAction)
-//        
-//        // Present Alert Controller
-//        self.presentViewController(alertController, animated: true, completion: nil)
-//    }
-    
 }

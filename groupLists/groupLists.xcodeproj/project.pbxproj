@@ -39,6 +39,7 @@
 		2494B7981F8ECBDF005C5B92 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2494B7971F8ECBDF005C5B92 /* RegisterViewController.swift */; };
 		24C40E581FAE440B00F8F06E /* MessagingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24C40E571FAE440B00F8F06E /* MessagingViewController.swift */; };
 		24C40E5D1FAE4D2A00F8F06E /* MessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24C40E5C1FAE4D2A00F8F06E /* MessageCell.swift */; };
+		3B974FEF1FB610F2004AB60C /* AddUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B974FEE1FB610F2004AB60C /* AddUserViewController.swift */; };
 		C89B5FE44C8787ECABC5FD91 /* Pods_groupListsUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D910BF6516C030AF3BC251A2 /* Pods_groupListsUITests.framework */; };
 		D8BF4F9501BECC04F5E76F93 /* Pods_groupLists.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 796F019AD2161C02F0670071 /* Pods_groupLists.framework */; };
 		DD7F2EB98D46FB42BAE50667 /* Pods_groupListsTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D5557AF8BECD292F5597E9A1 /* Pods_groupListsTests.framework */; };
@@ -104,6 +105,7 @@
 		24C40E5C1FAE4D2A00F8F06E /* MessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageCell.swift; sourceTree = "<group>"; };
 		3023561F6761B744A911031B /* Pods-groupListsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-groupListsTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-groupListsTests/Pods-groupListsTests.debug.xcconfig"; sourceTree = "<group>"; };
 		3953D3EFF17189AAB147B5C5 /* Pods-groupListsTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-groupListsTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-groupListsTests/Pods-groupListsTests.release.xcconfig"; sourceTree = "<group>"; };
+		3B974FEE1FB610F2004AB60C /* AddUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddUserViewController.swift; sourceTree = "<group>"; };
 		685B3C73CF9994FCD6C66149 /* Pods-groupLists.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-groupLists.release.xcconfig"; path = "Pods/Target Support Files/Pods-groupLists/Pods-groupLists.release.xcconfig"; sourceTree = "<group>"; };
 		796F019AD2161C02F0670071 /* Pods_groupLists.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_groupLists.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		93293FB2409A2916E9BBD2D3 /* Pods-groupLists.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-groupLists.debug.xcconfig"; path = "Pods/Target Support Files/Pods-groupLists/Pods-groupLists.debug.xcconfig"; sourceTree = "<group>"; };
@@ -227,6 +229,7 @@
 				2494B6161F9956CD00794F76 /* Authentication */,
 				071CFF981F8C415600080C81 /* ItemViewController.swift */,
 				071CFF961F8BFFA500080C81 /* ItemListViewController.swift */,
+				3B974FEE1FB610F2004AB60C /* AddUserViewController.swift */,
 				07E0EA261FA64F970044673F /* EventViewController.swift */,
 				0788FEE91F9120E200D71A50 /* EventCollectionViewController.swift */,
 				078852ED1F97DC9200858A0B /* MenuLauncher.swift */,
@@ -584,6 +587,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2494B60F1F994D7400794F76 /* UserEventsController.swift in Sources */,
+				3B974FEF1FB610F2004AB60C /* AddUserViewController.swift in Sources */,
 				0798B63C1F816196002185C5 /* ColorScheme.swift in Sources */,
 				0788FEEC1F91216200D71A50 /* EventCollectionViewCell.swift in Sources */,
 				24C40E581FAE440B00F8F06E /* MessagingViewController.swift in Sources */,
@@ -763,7 +767,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = groupLists/Info.plist;
-                IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = capstone.groupLists;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -778,7 +782,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = groupLists/Info.plist;
-                IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = capstone.groupLists;
 				PRODUCT_NAME = "$(TARGET_NAME)";

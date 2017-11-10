@@ -210,6 +210,7 @@ class EventCollectionViewController: UIViewController, UICollectionViewDelegate,
             addUsersButton.setTitle("Add Users", for: .normal)
             addUsersButton.layer.cornerRadius = 8
             addUsersButton.alpha = 0.5
+            addUsersButton.addTarget(self, action: #selector(initiateAddUser), for: .touchUpInside)
             
             deleteButton.setTitleColor(UIColor.red, for: .normal)
             deleteButton.backgroundColor = colors.primaryColor1
@@ -286,6 +287,11 @@ class EventCollectionViewController: UIViewController, UICollectionViewDelegate,
         self.unblurView()
     }
     
+    func initiateAddUser(sender: UIButton) {
+        performSegue(withIdentifier: "addUser", sender: self)
+        self.unblurView()
+    }
+    
     func deleteEvent(sender: UIButton){
         if userEventsController.removeEvent(user: self.userController, eventIdx: self.deleteIdx!) == false {
             showAlert(msg: "delete")
@@ -328,6 +334,13 @@ class EventCollectionViewController: UIViewController, UICollectionViewDelegate,
             destinationVC.userController = self.userController
             destinationVC.userEventsController = self.userEventsController
             destinationVC.editIdx = self.editIdx
+            
+        } else if segue.identifier == "addUser" {
+            let destinationVC = segue.destination as! AddUserViewController
+            destinationVC.userEventsController = self.userEventsController
+            
+            destinationVC.eventIdx = self.editIdx!
+            
         }
     }
     
@@ -361,7 +374,7 @@ class EventCollectionViewController: UIViewController, UICollectionViewDelegate,
     
     //authoritative func for defining behavior when menuLauncher's menuOption is selected
     func executeMenuOption(option: MenuOption) {
-        
+        print("executeMenuOption")
         if option.name == "Cancel" {
             //cancel selected, do nothing
         

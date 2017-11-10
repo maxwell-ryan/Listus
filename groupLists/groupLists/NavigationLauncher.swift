@@ -25,6 +25,7 @@ class NavigationLauncher: UICollectionViewFlowLayout, UICollectionViewDataSource
     var baseItemListVC: ItemListViewController?
     var baseEventCollectionVC: EventCollectionViewController?
     var baseEventVC: EventViewController?
+    var baseAddUserVC: AddUserViewController?
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -127,6 +128,7 @@ class NavigationLauncher: UICollectionViewFlowLayout, UICollectionViewDataSource
             self.baseItemListVC?.executeNavOption(option: option)
             self.baseEventCollectionVC?.executeNavOption(option: option)
             self.baseEventVC?.executeNavOption(option: option)
+            self.baseAddUserVC?.executeNavOption(option: option)
         }
     }
 }
