@@ -36,7 +36,10 @@ class ItemListViewController: UIViewController, UITableViewDelegate, UITableView
         
         listItemTableView.backgroundColor = colors.primaryColor1
         
-        listItemTableView.reloadData()
+        let eventId = userEventsController.events[currentEventIdx].id
+        eventItemsController.getItemOnChildAdded(eventId: eventId, itemListTableView: listItemTableView)
+        eventItemsController.removeItemOnChildRemoved(eventId: eventId, itemListTableView: listItemTableView)
+        eventItemsController.updateItemOnChildChanged(eventId: eventId, itemListTableView: listItemTableView)
         
         self.view.backgroundColor = UIColor.white  //colors.primaryColor1
         

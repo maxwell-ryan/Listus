@@ -99,15 +99,10 @@ class ItemViewController: UIViewController {
             
             //if editIdx not nil, user requsted edit to existing item
             if let updateIdx = editIdx {
-                eventItemsController.removeItem(itemIndex: updateIdx)
-                
-                let editedItem = Item(name: itemNameTextField.text!, id: self.id, userID: self.userID, description: descriptionTextField.text!, quantity: Int(quantityStepper.value))
-                
-                eventItemsController.addItem(item: editedItem, atIndex: updateIdx)
-                
+                eventItemsController.editItem(itemId: eventItemsController.items[updateIdx].id, name: itemNameTextField.text!, userID: userID, description: descriptionTextField.text!, quantity: Int(quantityStepper.value), eventId: userEventsController.events[currentEventIdx].id)
             } else {
                 //add new item to corresponding event
-                eventItemsController.addItem(item: eventItemsController.createItem(name: itemNameTextField.text!, id: self.id, userID: self.userID, description: descriptionTextField.text!, quantity: Int(quantityStepper.value)))
+                eventItemsController.addItem(name: itemNameTextField.text!, userID: self.userID, description: descriptionTextField.text!, quantity: Int(quantityStepper.value), eventId: userEventsController.events[currentEventIdx].id)
             }
             
             //return to list which will now display recently added item
