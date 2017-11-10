@@ -21,6 +21,7 @@ class NavOption: NSObject {
 
 class NavigationLauncher: UICollectionViewFlowLayout, UICollectionViewDataSource, UICollectionViewDelegate {
     
+    var baseMessagingVC: MessagingViewController?
     var baseItemListVC: ItemListViewController?
     var baseEventCollectionVC: EventCollectionViewController?
     var baseEventVC: EventViewController?
@@ -122,6 +123,7 @@ class NavigationLauncher: UICollectionViewFlowLayout, UICollectionViewDataSource
             print(option.name)
             
             //call executeMenuOption on corresponding base VC - only 1 is not nil
+            self.baseMessagingVC?.executeNavOption(option: option)
             self.baseItemListVC?.executeNavOption(option: option)
             self.baseEventCollectionVC?.executeNavOption(option: option)
             self.baseEventVC?.executeNavOption(option: option)

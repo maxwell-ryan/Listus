@@ -39,7 +39,7 @@ class UserEventsController {
         //add the event to the users events list
         ref.child(DB.users).child(userController.user.id).child(DB.events).child(eventRef.key).setValue(true)
         
-        events.append(Event(name: name, id: eventRef.key, date: date, description: description))
+        events.append(Event(name: name, id: eventRef.key, date: date, description: description, creator: userController.user.id, authorizedUsers: [userController.user.id]))
         
         eventCollectionView.reloadData()
         
@@ -63,13 +63,14 @@ class UserEventsController {
         let eventRef = ref.child(DB.events).childByAutoId()
         
         //set values of event
-        eventRef.setValue([DB.name: name, DB.date: dateString, DB.description: description])
-        eventRef.child(DB.organizers).child(userController.user.id).setValue(true)
+        eventRef.setValue([DB.name: name, DB.date: dateString, DB.description: description, DB.creator: userController.user.id])
+        
+        eventRef.child(DB.authorizedUsers).child(userController.user.id).setValue(true)
         
         //add the event to the users events list
         ref.child(DB.users).child(userController.user.id).child(DB.events).child(eventRef.key).setValue(true)
         
-        events.append(Event(name: name, id: eventRef.key, date: date, description: description))
+        events.append(Event(name: name, id: eventRef.key, date: date, description: description, creator: userController.user.id, authorizedUsers: [userController.user.id]))
     }
     
     //edits event in database
@@ -204,19 +205,22 @@ class UserEventsController {
                     
                     if event != nil {
                         let id = key
-                        let description = event?["description"] as? String ?? ""
-                        let name = event?["name"] as? String ?? ""
-                        let dateString = event?["date"] as? String ?? "0000-00-00 00:00:00"
+                        let description = event?[DB.description] as? String ?? ""
+                        let name = event?[DB.name] as? String ?? ""
+                        let dateString = event?[DB.date] as? String ?? "0000-00-00 00:00:00"
+                        let creator = event?[DB.creator] as? String ?? ""
+                        let allowedUsers = event?[DB.authorizedUsers] as? [String] ?? []
                         
                         // format date from string to date type
                         let formatter = DateFormatter()
                         formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
                         let date = formatter.date(from: dateString)
                         
-                        let temp_event = Event(name: name, id: id , date: date!, description: description)
+                        let temp_event = Event(name: name, id: id , date: date!, description: description, creator: creator, authorizedUsers: allowedUsers)
                         
                         self.events.append(temp_event)
                     } else {
+                        //event has been deleted so remove from user's events list
                         self.ref.child(DB.users).child(userId).child(DB.events).child(key).removeValue()
                     }
                     

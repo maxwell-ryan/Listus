@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class MessagingViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
 
@@ -15,11 +16,16 @@ class MessagingViewController: UIViewController, UITableViewDelegate, UITableVie
     var eventMessagesController = EventMessagesController()
     var eventId: String!
     
+    let navigationLauncher = NavigationLauncher()
+    let menuLauncher = MenuLauncher()
+    
     @IBOutlet weak var sendButton: UIButton!
     @IBOutlet weak var textHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var messageTextField: UITextField!
     @IBOutlet weak var messageTableView: UITableView!
     @IBOutlet weak var textFieldView: UIView!
+    @IBOutlet weak var navBtn: UIButton!
+    @IBOutlet weak var menuBtn: UIButton!
     
     
     override func viewDidLoad() {
@@ -46,6 +52,22 @@ class MessagingViewController: UIViewController, UITableViewDelegate, UITableVie
         eventMessagesController.getMessages(userId: userController.user.id, eventId: eventId, messageTableView: messageTableView)
         
         messageTableView.separatorStyle = .none
+        
+        navBtn.showsTouchWhenHighlighted = true
+        navBtn.tintColor = UIColor.darkGray
+        navBtn.addTarget(self, action: #selector(displayNav), for: .touchUpInside)
+        
+        menuBtn.showsTouchWhenHighlighted = true
+        menuBtn.tintColor = UIColor.darkGray
+        menuBtn.addTarget(self, action: #selector(displayMenu), for: .touchUpInside)
+        
+        //add contextual options to bottom fly-in menu bar
+        menuLauncher.menuOptions.insert(MenuOption(name: "Back", iconName: "back"), at: 0)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        navBtn.setTitle("", for: UIControlState.normal)
+        menuBtn.setTitle("", for: UIControlState.normal)
     }
     
     @IBAction func sendButtonTapped(_ sender: UIButton) {
@@ -108,6 +130,46 @@ class MessagingViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return eventMessagesController.messages.count
+    }
+    
+    func displayMenu() {
+        menuLauncher.baseMessagingVC = self
+        menuLauncher.showMenu()
+    }
+    
+    func executeMenuOption(option: MenuOption) {
+        
+        if option.name == "Cancel" {
+            //cancel selected, do nothing
+        } else if option.name == "Back" {
+            //go to events view
+            dismiss(animated: true)
+        }
+    }
+    
+    func displayNav() {
+        navigationLauncher.baseMessagingVC = self
+        navigationLauncher.showMenu()
+    }
+    
+    func executeNavOption(option: NavOption) {
+        
+        if option.name == "Cancel" {
+            //cancel selected, do nothing
+        }
+        else if option.name == "My Events" {
+            //go to events view
+            dismiss(animated: true)
+        } else if option.name == "Logout" {
+            //logout via firebase
+            do {
+                try Auth.auth().signOut()
+                performSegue(withIdentifier: "returnToLogin", sender: self)
+                
+            } catch {
+                print("A logout error occured")
+            }
+        }
     }
 
     override func didReceiveMemoryWarning() {
