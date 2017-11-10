@@ -16,10 +16,16 @@ class LogInViewController: UIViewController {
 
     @IBOutlet weak var emailField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
-    
+    @IBOutlet weak var logInButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        view.backgroundColor = colors.primaryColor1
+        
+        logInButton.backgroundColor = colors.primaryColor2
+        logInButton.setTitleColor(colors.accentColor1, for: UIControlState.normal)
+        logInButton.layer.cornerRadius = 10
     }
     
     

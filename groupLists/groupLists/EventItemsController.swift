@@ -11,62 +11,114 @@ import Firebase
 
 class EventItemsController {
     
-    var items : [Item] = [Item(name: "Backpack", id: "ID#12", userID: "USERID#34343", description: "A container to hold items", quantity: 1), Item(name: "Crock Pot", id: "ID#32", userID: "USERID#543", description: "Cookware", quantity: 1), Item(name: "Plates", id: "ID#68", userID: "USERID#99973", description: "For all attendees to eat off of...", quantity: 15), Item(name: "Gas Grill", id: "ID#8", userID: "USERID#87", description: "So we can cook the meat", quantity: 2)]
+    var items : [Item] = []
     var ref : DatabaseReference!
     
     
-    //creates a new Item, with only required object attributes, and returns the newly created object
-    func createItem(name: String, id: String, userID: String) -> Item {
+    func addItem(name: String, userID: String, description: String, quantity: Int, eventId: String) {
+        self.ref = Database.database().reference()
         
-        let newItem = Item(name: name, id: id, userID: userID)
+        let itemRef = self.ref.child(DB.items).child(eventId).childByAutoId()
         
-        items.append(newItem)
-        
-        return newItem
-    }
-    
-    //creates a new Item with more detailed object attributes
-    func createItem(name: String, id: String, userID: String, description: String, quantity: Int) -> Item {
-        
-        let newItem = Item(name: name, id: id, userID: userID, description: description, quantity: quantity)
-        
-        items.append(newItem)
-        
-        return newItem
-    }
-    
-    //adds given Item to given Event - append to end of list
-    func addItem(item: Item) {
-        items.append(item)
-    }
-    
-    //adds given Item to given Event - at specific index given
-    func addItem(item: Item, atIndex: Int) {
-        items.insert(item, at: atIndex)
-    }
-    
-    //removes an item from the given Event's items array using the itemID passed, false returned if itemID matches 0 items
-    func removeItem(itemID: String) -> Bool {
-        
-        for index in 0 ..< items.count {
-            if items[index].id == itemID {
-                items.remove(at: index)
-                return true
+        itemRef.setValue([DB.name: name, DB.description: description, DB.quantity: quantity]) { (error, reference) in
+            
+            if error != nil {
+                print(error!)
             }
         }
-        
-        return false
     }
     
-    //removes an item from the given Event's items array using the index passed, false returned if invalid index passed
-    func removeItem(itemIndex: Int) -> Bool {
+    
+    func editItem(itemId: String, name: String, userID: String, description: String, quantity: Int, eventId: String) {
+        self.ref = Database.database().reference()
+        let itemRef = self.ref.child(DB.items).child(eventId).child(itemId)
         
-        if itemIndex <= items.count {
-            items.remove(at: itemIndex)
-            return true
-        } else {
-            return false
+        itemRef.setValue([DB.name: name, DB.description: description, DB.quantity: quantity]) { (error, reference) in
+            
+            if error != nil {
+                print(error!)
+            }
         }
     }
     
+    
+    func removeItem(eventId: String, itemId: String) {
+        self.ref = Database.database().reference()
+        let itemRef = self.ref.child(DB.items).child(eventId).child(itemId)
+        itemRef.removeValue()
+    }
+
+    
+    func getItemOnChildAdded(eventId: String, itemListTableView: UITableView) {
+        self.ref = Database.database().reference()
+        let itemsRef = self.ref.child(DB.items).child(eventId)
+        
+        itemsRef.observe(.childAdded, with: { (snapshot) in
+            let itemDB = snapshot.value as? NSDictionary
+            let id = snapshot.key
+            
+            let name = itemDB?[DB.name] as? String ?? ""
+            let userID = itemDB?[DB.user] as? String ?? ""
+            let quantity = itemDB?[DB.quantity] as? Int ?? 0
+            let description = itemDB?[DB.description] as? String ?? ""
+            
+            let newItem = Item(name: name, id: id, userID: userID, description: description, quantity: quantity)
+            print ("itemID: ", id)
+            self.items.append(newItem)
+            
+            //Reload table data
+            itemListTableView.reloadData()
+        })
+    }
+    
+    
+    func removeItemOnChildRemoved(eventId: String, itemListTableView: UITableView) {
+        self.ref = Database.database().reference()
+        
+        let itemsDB = self.ref.child(DB.items).child(eventId)
+        
+        itemsDB.observe(.childRemoved, with: { (snapshot) in
+            let id = snapshot.key
+            
+            for i in 0...self.items.count {
+                if self.items[i].id == id {
+                    self.items.remove(at: i)
+                    
+                    //Reload table data
+                    itemListTableView.reloadData()
+                    break
+                }
+            }
+        })
+    }
+    
+    
+    func updateItemOnChildChanged(eventId: String, itemListTableView: UITableView) {
+        self.ref = Database.database().reference()
+        
+        let itemsDB = self.ref.child(DB.items).child(eventId)
+        
+        itemsDB.observe(.childChanged, with: { (snapshot) in
+            let itemDB = snapshot.value as? NSDictionary
+            let id = snapshot.key
+            
+            let name = itemDB?[DB.name] as? String ?? ""
+            let userID = itemDB?[DB.user] as? String ?? ""
+            let quantity = itemDB?[DB.quantity] as? Int ?? 0
+            let description = itemDB?[DB.description] as? String ?? ""
+            
+            for i in 0...self.items.count {
+                if self.items[i].id == id {
+                    let updatedItem = Item(name: name, id: id, userID: userID, description: description, quantity: quantity)
+                    self.items[i] = updatedItem
+                    
+                    print ("in updating item: ", i)
+                    
+                    //Reload table data
+                    itemListTableView.reloadData()
+                    break
+                }
+            }
+        })
+    }
 }
