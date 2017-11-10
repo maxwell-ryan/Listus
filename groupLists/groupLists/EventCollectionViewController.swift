@@ -56,7 +56,7 @@ class EventCollectionViewController: UIViewController, UICollectionViewDelegate,
         menuBtn.addTarget(self, action: #selector(displayMenu), for: .touchUpInside)
         
         
-        //We may want to move this to viewWillAppear, and refactor to no take a view parameter
+        //get all events for this user
         userEventsController.getDBEvents(userId: userController.user.id, eventCollectionView: self.eventCollectionView)
         
         //populate menu options available from this VC
@@ -287,7 +287,9 @@ class EventCollectionViewController: UIViewController, UICollectionViewDelegate,
     }
     
     func deleteEvent(sender: UIButton){
-        userEventsController.removeEvent(user: self.userController, eventIdx: self.deleteIdx!)
+        if userEventsController.removeEvent(user: self.userController, eventIdx: self.deleteIdx!) == false {
+            showAlert(msg: "delete")
+        }
         //reload data must be executed by applications main thread to see results immediately
         self.unblurView()
         
@@ -371,7 +373,10 @@ class EventCollectionViewController: UIViewController, UICollectionViewDelegate,
             performSegue(withIdentifier: "editEvent", sender: self)
         
         } else if option.name == "Delete Event" {
-            userEventsController.removeEvent(user: userController, eventIdx: self.deleteIdx!)
+            if userEventsController.removeEvent(user: userController, eventIdx: self.deleteIdx!) == false {
+                showAlert(msg: "delete")
+            }
+            
             //reload data must be executed by applications main thread to see results immediately
             DispatchQueue.main.async(execute: {
                 self.eventCollectionView.reloadData()
@@ -404,6 +409,23 @@ class EventCollectionViewController: UIViewController, UICollectionViewDelegate,
                 print("A logout error occured")
             }
         }
+    }
+    
+    func showAlert(msg: String) {
+        // Initialize Alert Controller
+        let alertController = UIAlertController(title: "Not Allowed", message: "You are not allowed to " + msg + " this event.", preferredStyle: .alert)
+        
+        // Initialize Actions
+        let okAction = UIAlertAction(title: "Ok", style: .default) { (action) -> Void in
+            
+            print("user acknowledges")
+        }
+        
+        // Add Actions
+        alertController.addAction(okAction)
+        
+        // Present Alert Controller
+        self.present(alertController, animated: true, completion: nil)
     }
     
 }

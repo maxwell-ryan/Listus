@@ -9,7 +9,7 @@ import Foundation
 import Firebase
 
 class UserEventsController {
-    
+    let alert = MenuLauncher()
     var events: [Event] = []
     var ref : DatabaseReference!
     
@@ -40,7 +40,7 @@ class UserEventsController {
         //add the event to the users events list
         ref.child(DB.users).child(userController.user.id).child(DB.events).child(eventRef.key).setValue(true)
         
-        events.append(Event(name: name, id: eventRef.key, date: date, description: description, creator: userController.user.id, authorizedUsers: [userController.user.id]))
+        events.append(Event(name: name, id: eventRef.key, date: date, description: description, creator: userController.user.id, authorizedUsers: [userController.user.id: true]))
         
         eventCollectionView.reloadData()
         
@@ -65,35 +65,36 @@ class UserEventsController {
         
         //set values of event
         eventRef.setValue([DB.name: name, DB.date: dateString, DB.description: description, DB.creator: userController.user.id])
-        eventRef.child(DB.users).child(userController.user.id).setValue(true)
-        
         eventRef.child(DB.authorizedUsers).child(userController.user.id).setValue(true)
         
         //add the event to the users events list
         ref.child(DB.users).child(userController.user.id).child(DB.events).child(eventRef.key).setValue(true)
         
-        events.append(Event(name: name, id: eventRef.key, date: date, description: description, creator: userController.user.id, authorizedUsers: [userController.user.id]))
+        events.append(Event(name: name, id: eventRef.key, date: date, description: description, creator: userController.user.id, authorizedUsers: [userController.user.id: true]))
     }
     
     //edits event in database
-    func editEvent(event: Event) {
-        //edit event in database
-        ref = Database.database().reference().child(DB.events).child(event.id)
-        
-        //format date as string for firebase
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        let dateString = formatter.string(from: event.date)
-        
-        let e = [DB.date: dateString,
-                 DB.description: event.description,
-                 DB.name: event.name] as [String : Any]
-        
-        ref.updateChildValues(e)
-    }
+//    func editEvent(event: Event) {
+//        //edit event in database
+//        ref = Database.database().reference().child(DB.events).child(event.id)
+//
+//        //format date as string for firebase
+//        let formatter = DateFormatter()
+//        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+//        let dateString = formatter.string(from: event.date)
+//
+//        let e = [DB.date: dateString,
+//                 DB.description: event.description,
+//                 DB.name: event.name] as [String : Any]
+//
+//        ref.updateChildValues(e)
+//    }
     
-    func editEvent(eventIdx: Int, name: String? = nil, date: Date? = nil, description: String? = nil) {
-        let test = hasPrivileges(eventID: events[eventIdx].id)
+    func editEvent(eventIdx: Int, name: String? = nil, date: Date? = nil, description: String? = nil, user: UserController) -> Bool{
+        if hasPrivileges(index: eventIdx, user: user) == false {
+            //show message that they aren't allowed to edit
+            return false
+        }
         
         if eventIdx <= events.count {
             
@@ -122,29 +123,37 @@ class UserEventsController {
             
             ref.updateChildValues(e)
             
+            return true
+            
         } else {
             
             print("Invalid event index provided")
-            return
+            return false
         }
+        
+        return false
     }
     
 /*********************************************************************************/
 /* DO WE NEED THIS? IT SHOULD BE TAKEN CARE OF WHEN REMOVING FROM DATABASE BELOW */
 /*********************************************************************************/
     //removes event at index given, returns true if removal successful, returns false if index argument is invalid
-    func removeEvent(index: Int) -> Bool {
-        
-        if index <= events.count - 1 {
-            events.remove(at: index)
-            return true
-        } else {
-            return false
-        }
-    }
+//    func removeEvent(index: Int) -> Bool {
+//
+//        if index <= events.count - 1 {
+//            events.remove(at: index)
+//            return true
+//        } else {
+//            return false
+//        }
+//    }
     
     //remove event from database and user's events list
-    func removeEvent(user: UserController, eventIdx: Int) {
+    func removeEvent(user: UserController, eventIdx: Int) -> Bool{
+        if hasPrivileges(index: eventIdx, user: user) == false {
+            //show message that they aren't allowed to delete
+            return false
+        }
         
         if eventIdx <= events.count {
             let event = self.events[eventIdx]
@@ -160,36 +169,37 @@ class UserEventsController {
             for x in 0..<events.count {
                 if events[x].id == event.id {
                     events.remove(at: x)
-                    return
+                    return true
                 }
             }
             
         } else {
             
             print("Invalid event index provided")
-            return
+            return false
         
         }
+        return false
     }
     
     //remove event from database and user's events list
-    func removeEvent(user: UserController, event: Event, eventCollectionView: UICollectionView) {
-        ref = Database.database().reference()
-        
-        //removes from database
-        ref.child(DB.events).child(event.id).removeValue()
-        //remove from current user's list
-        ref.child(DB.users).child(user.user.id).child(DB.events).child(event.id).removeValue()
-        
-        //remove event from events array
-        for x in 0...events.count {
-            if events[x].id == event.id {
-                events.remove(at: x)
-            }
-        }
-        
-        eventCollectionView.reloadData()
-    }
+//    func removeEvent(user: UserController, event: Event, eventCollectionView: UICollectionView) {
+//        ref = Database.database().reference()
+//
+//        //removes from database
+//        ref.child(DB.events).child(event.id).removeValue()
+//        //remove from current user's list
+//        ref.child(DB.users).child(user.user.id).child(DB.events).child(event.id).removeValue()
+//
+//        //remove event from events array
+//        for x in 0...events.count {
+//            if events[x].id == event.id {
+//                events.remove(at: x)
+//            }
+//        }
+//
+//        eventCollectionView.reloadData()
+//    }
     
     //get user's events from FireBase
     func getDBEvents(userId: String, eventCollectionView: UICollectionView) {
@@ -215,14 +225,14 @@ class UserEventsController {
                             let name = event?[DB.name] as? String ?? ""
                             let dateString = event?[DB.date] as? String ?? "0000-00-00 00:00:00"
                             let creator = event?[DB.creator] as? String ?? ""
-                            let allowedUsers = event?[DB.authorizedUsers] as? [String] ?? []
+                            let allowedUsers = event?[DB.authorizedUsers] as? NSDictionary
                             
                             // format date from string to date type
                             let formatter = DateFormatter()
                             formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
                             let date = formatter.date(from: dateString)
                             
-                            let temp_event = Event(name: name, id: id , date: date!, description: description, creator: creator, authorizedUsers: allowedUsers)
+                            let temp_event = Event(name: name, id: id , date: date!, description: description, creator: creator, authorizedUsers: allowedUsers!)
                             
                             self.events.append(temp_event)
                         } else {
@@ -243,14 +253,39 @@ class UserEventsController {
     }
     
     //checks if user has edit/delete privileges
-    func hasPrivileges(eventID: String) -> Bool {
-        ref = Database.database().reference().child(DB.events)
+    func hasPrivileges(index: Int, user: UserController) -> Bool {
+        let e = events[index]
         
-        let owner = ref.child(eventID).value(forKey: DB.creator)
+        if e.creator == user.user.id {
+            print("has privileges")
+            return true
+        }
         
-        print(owner)
+        for u in e.authorizedUsers {
+            if u.key as! String == user.user.id && u.value as! Bool == true {
+                print("has privileges")
+                return true
+            }
+        }
         
-        return true
+        print("does not have privileges")
+        return false
     }
+    
+//    func showAlert(msg: String) {
+//        // Initialize Alert Controller
+//        let alertController = UIAlertController(title: "Not Allowed", message: "You are not allowed to " + msg + " this event.", preferredStyle: .alert)
+//        
+//        // Initialize Actions
+//        let okAction = UIAlertAction(title: "Ok", style: .default) { (action) -> Void in
+//            print("user acknowledges")
+//        }
+//        
+//        // Add Actions
+//        alertController.addAction(okAction)
+//        
+//        // Present Alert Controller
+//        self.presentViewController(alertController, animated: true, completion: nil)
+//    }
     
 }

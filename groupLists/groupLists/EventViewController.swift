@@ -122,12 +122,16 @@ class EventViewController: UIViewController {
             
             //if editIdx not nil, user requsted edit to existing event
             if let updateIdx = editIdx {
-                  userEventsController.editEvent(eventIdx: updateIdx, name: eventNameTextField.text!, date: self.eventDatePicker.date, description: eventDescTextField.text!)
+                if userEventsController.editEvent(eventIdx: updateIdx, name: eventNameTextField.text!, date: self.eventDatePicker.date, description: eventDescTextField.text!, user: userController) == false {
+                    showAlert(msg: "edit")
+                    return
+                }
                 
             } else {
                 //add event via user's UserEventController
                 userEventsController.createEvent(name: eventNameTextField.text!, description: eventDescTextField.text!, date: eventDatePicker.date, userController: userController)
                 
+ //               dismiss(animated: true) {}
             }
             
             //return to list which will now display recently added item
@@ -171,6 +175,23 @@ class EventViewController: UIViewController {
                 print("A logout error occured")
             }
         }
+    }
+    
+    func showAlert(msg: String) {
+        // Initialize Alert Controller
+        let alertController = UIAlertController(title: "Not Allowed", message: "You are not allowed to " + msg + " this event.", preferredStyle: .alert)
+        
+        // Initialize Actions
+        let okAction = UIAlertAction(title: "Ok", style: .default) { (action) -> Void in
+            self.dismiss(animated: true) {}
+            print("user acknowledges")
+        }
+        
+        // Add Actions
+        alertController.addAction(okAction)
+        
+        // Present Alert Controller
+        self.present(alertController, animated: true, completion: nil)
     }
     
 }
