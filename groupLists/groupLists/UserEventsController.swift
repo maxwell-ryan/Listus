@@ -198,38 +198,42 @@ class UserEventsController {
         
         ref.child(DB.users).child(userId).child(DB.events).queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
             let user_events = snapshot.value as? NSDictionary
-            for e in user_events! {
-                events_list.append(e.key as! String)
-            }
             
-            for key in events_list {
-                self.ref.child(DB.events).child(key).observeSingleEvent(of: .value, with: { (snapshot) in
-                    let event = snapshot.value as? NSDictionary
-                    
-                    if event != nil {
-                        let id = key
-                        let description = event?[DB.description] as? String ?? ""
-                        let name = event?[DB.name] as? String ?? ""
-                        let dateString = event?[DB.date] as? String ?? "0000-00-00 00:00:00"
-                        let creator = event?[DB.creator] as? String ?? ""
-                        let allowedUsers = event?[DB.authorizedUsers] as? [String] ?? []
+            if user_events != nil {
+            
+                for e in user_events! {
+                    events_list.append(e.key as! String)
+                }
+                
+                for key in events_list {
+                    self.ref.child(DB.events).child(key).observeSingleEvent(of: .value, with: { (snapshot) in
+                        let event = snapshot.value as? NSDictionary
                         
-                        // format date from string to date type
-                        let formatter = DateFormatter()
-                        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-                        let date = formatter.date(from: dateString)
+                        if event != nil {
+                            let id = key
+                            let description = event?[DB.description] as? String ?? ""
+                            let name = event?[DB.name] as? String ?? ""
+                            let dateString = event?[DB.date] as? String ?? "0000-00-00 00:00:00"
+                            let creator = event?[DB.creator] as? String ?? ""
+                            let allowedUsers = event?[DB.authorizedUsers] as? [String] ?? []
+                            
+                            // format date from string to date type
+                            let formatter = DateFormatter()
+                            formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+                            let date = formatter.date(from: dateString)
+                            
+                            let temp_event = Event(name: name, id: id , date: date!, description: description, creator: creator, authorizedUsers: allowedUsers)
+                            
+                            self.events.append(temp_event)
+                        } else {
+                            //event has been deleted so remove from user's events list
+                            self.ref.child(DB.users).child(userId).child(DB.events).child(key).removeValue()
+                        }
                         
-                        let temp_event = Event(name: name, id: id , date: date!, description: description, creator: creator, authorizedUsers: allowedUsers)
-                        
-                        self.events.append(temp_event)
-                    } else {
-                        //event has been deleted so remove from user's events list
-                        self.ref.child(DB.users).child(userId).child(DB.events).child(key).removeValue()
+                        eventCollectionView.reloadData()
+                    }) { (error) in
+                        print(error.localizedDescription)
                     }
-                    
-                    eventCollectionView.reloadData()
-                }) { (error) in
-                    print(error.localizedDescription)
                 }
             }
         }) { (error) in
