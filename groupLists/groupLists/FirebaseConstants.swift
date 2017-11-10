@@ -19,7 +19,7 @@ struct DB {
     static let description = "description"
     static let date = "date"
     static let attendees = "attendees"
-    static let organizers = "organizers"
+    static let creator = "creator"
 
     static let items = "items"
     static let quantity = "quantity"

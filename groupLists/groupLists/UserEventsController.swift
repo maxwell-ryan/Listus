@@ -33,8 +33,9 @@ class UserEventsController {
         let eventRef = ref.child(DB.events).childByAutoId()
         
         //set values of event
-        eventRef.setValue([DB.name: name, DB.date: dateString, DB.description: description])
-        eventRef.child(DB.organizers).child(userController.user.id).setValue(true)
+        eventRef.setValue([DB.name: name, DB.date: dateString, DB.description: description, DB.creator: userController.user.id])
+        eventRef.child(DB.users).child(userController.user.id).setValue(true)
+        
         
         //add the event to the users events list
         ref.child(DB.users).child(userController.user.id).child(DB.events).child(eventRef.key).setValue(true)
@@ -63,8 +64,8 @@ class UserEventsController {
         let eventRef = ref.child(DB.events).childByAutoId()
         
         //set values of event
-        eventRef.setValue([DB.name: name, DB.date: dateString, DB.description: description])
-        eventRef.child(DB.organizers).child(userController.user.id).setValue(true)
+        eventRef.setValue([DB.name: name, DB.date: dateString, DB.description: description, DB.creator: userController.user.id])
+        eventRef.child(DB.users).child(userController.user.id).setValue(true)
         
         //add the event to the users events list
         ref.child(DB.users).child(userController.user.id).child(DB.events).child(eventRef.key).setValue(true)
@@ -90,6 +91,7 @@ class UserEventsController {
     }
     
     func editEvent(eventIdx: Int, name: String? = nil, date: Date? = nil, description: String? = nil) {
+        let test = hasPrivileges(eventID: events[eventIdx].id)
         
         if eventIdx <= events.count {
             
@@ -230,4 +232,16 @@ class UserEventsController {
         }
         
     }
+    
+    //checks if user has edit/delete privileges
+    func hasPrivileges(eventID: String) -> Bool {
+        ref = Database.database().reference().child(DB.events)
+        
+        let owner = ref.child(eventID).value(forKey: DB.creator)
+        
+        print(owner)
+        
+        return true
+    }
+    
 }
