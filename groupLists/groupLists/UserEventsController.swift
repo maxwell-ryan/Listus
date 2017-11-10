@@ -33,8 +33,8 @@ class UserEventsController {
         let eventRef = ref.child(DB.events).childByAutoId()
         
         //set values of event
-        eventRef.setValue([DB.name: name, DB.date: dateString, DB.description: description, DB.creator: userController.user.id])
-        eventRef.child(DB.users).child(userController.user.id).setValue(true)
+        eventRef.setValue([DB.name: name, DB.date: dateString, DB.description: description])
+        eventRef.child(DB.authorizedUsers).child(userController.user.id).setValue(true)
         
         
         //add the event to the users events list
@@ -66,6 +66,8 @@ class UserEventsController {
         //set values of event
         eventRef.setValue([DB.name: name, DB.date: dateString, DB.description: description, DB.creator: userController.user.id])
         eventRef.child(DB.users).child(userController.user.id).setValue(true)
+        
+        eventRef.child(DB.authorizedUsers).child(userController.user.id).setValue(true)
         
         //add the event to the users events list
         ref.child(DB.users).child(userController.user.id).child(DB.events).child(eventRef.key).setValue(true)
