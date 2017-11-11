@@ -49,9 +49,9 @@ class UserEventsController {
                 let userID = user!.allKeys[0] as? String
                 
                 //add user to event's authorizedUsers
-                self.ref.child(DB.events).child(eventID).child(DB.authorizedUsers).child(userID!).setValue(permissions)
+                self.ref.child(DB.events).child(eventID).child(DB.authorizedUsers).setValue([userID!: permissions])
                 
-                self.events[eventIdx].authorizedUsers.setValue(permissions, forKey: userID!)
+                self.events[eventIdx].authorizedUsers.updateValue(permissions, forKey: userID!)
                 
                 //add the event to the user's events list
                 self.ref.child(DB.users).child(userID!).child(DB.events).child(eventID).setValue(true)
@@ -175,7 +175,7 @@ class UserEventsController {
                             let name = event?[DB.name] as? String ?? ""
                             let dateString = event?[DB.date] as? String ?? "0000-00-00 00:00:00"
                             let creator = event?[DB.creator] as? String ?? ""
-                            let allowedUsers = event?[DB.authorizedUsers] as? NSDictionary ?? [:]
+                            let allowedUsers = event?[DB.authorizedUsers] as? Dictionary<String, Bool> ?? [:]
                             
                             // format date from string to date type
                             let formatter = DateFormatter()
@@ -210,12 +210,11 @@ class UserEventsController {
             return true
         }
         
-        for u in e.authorizedUsers {
-            if u.key as! String == user.user.id && u.value as! Bool == true {
-                print("has privileges")
-                return true
-            }
+        if e.authorizedUsers[user.user.id] == true {
+            print("has privileges")
+            return true
         }
+        
         
         print("does not have privileges")
         return false

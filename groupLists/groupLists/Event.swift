@@ -14,10 +14,10 @@ class Event {
     var id: String
     var description: String
     var creator: String
-    var authorizedUsers: NSDictionary
+    var authorizedUsers: Dictionary<String, Bool>
     var date: Date
     
-    init(name: String, id: String, date: Date, description: String, creator: String, authorizedUsers: NSDictionary) {
+    init(name: String, id: String, date: Date, description: String, creator: String, authorizedUsers: Dictionary<String, Bool>) {
         
         self.name = name
         self.id = id
@@ -26,7 +26,4 @@ class Event {
         self.creator = creator
         self.authorizedUsers = authorizedUsers
     }
-    
-    
-    
 }
