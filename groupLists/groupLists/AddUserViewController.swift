@@ -30,31 +30,9 @@ class AddUserViewController: UIViewController {
         ref = Database.database().reference()
         let permissions = isOrganizer.isOn
         let eventID = userEventsController.events[eventIdx].id
+        let email = userEmail.text ?? ""
         
-        
-        //query for user's key based on user's email
-        ref.child(DB.users).queryOrdered(byChild:  "email").queryStarting(atValue: userEmail.text).queryEnding(atValue: userEmail.text).observeSingleEvent(of: .value, with: { (snapshot) in
-            let user = snapshot.value as? NSDictionary
-            
-            if user != nil {
-                let userID = user!.allKeys[0] as? String
-               
-                //add user to event's authorizedUsers
-                self.ref.child(DB.events).child(eventID).child(DB.authorizedUsers).child(userID!).setValue(permissions)
-                self.userEventsController.events[self.eventIdx].authorizedUsers.setValue(permissions, forKey: userID!)
-                
-                //add the event to the user's events list
-                self.ref.child(DB.users).child(userID!).child(DB.events).child(eventID).setValue(true)
-                self.dismiss(animated: true)
-            } else {
-                //alert user that the other user doesn't exist
-                let alert = UIAlertController(title: "Error", message: "User does not exist", preferredStyle: .alert)
-                let ok = UIAlertAction(title: "Ok", style: .default)
-                
-                alert.addAction(ok)
-                self.present(alert, animated: true, completion: nil)
-            }
-        })
+        userEventsController.addUserToEvent(eventID: eventID, eventIdx: eventIdx, email: email, permissions: permissions, addUserVC: self)
     }
     
     override func viewDidLoad() {
