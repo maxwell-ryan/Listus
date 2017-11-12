@@ -63,7 +63,7 @@ class ItemListViewController: UIViewController, UITableViewDelegate, UITableView
         menuBtn.addTarget(self, action: #selector(displayMenu), for: .touchUpInside)
         
         listInfoLabel.textColor = UIColor.init(red: 11.0/255.0, green: 12.0/255.0, blue: 16.0/255.0, alpha: 1)
-        listInfoLabel.text = "Organized by \("John") \("Williams")    |    \(eventItemsController.items.count) items suggested"
+        
         
         listNameLabel.textColor = UIColor.init(red: 11.0/255.0, green: 12.0/255.0, blue: 16.0/255.0, alpha: 1)
         listNameLabel.text = userEventsController.events[currentEventIdx].name
@@ -78,6 +78,9 @@ class ItemListViewController: UIViewController, UITableViewDelegate, UITableView
         listItemTableView.reloadData()
         navBtn.setTitle("", for: UIControlState.normal)
         menuBtn.setTitle("", for: UIControlState.normal)
+        
+        //ensure new items count is displayed whenever view is shown
+        listInfoLabel.text = "Organized by \(userController.user.firstName) \(userController.user.lastName)    |    \(eventItemsController.items.count) items suggested"
     }
 
     override func didReceiveMemoryWarning() {
@@ -123,66 +126,66 @@ class ItemListViewController: UIViewController, UITableViewDelegate, UITableView
         return true
     }
     
-//    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-//        
-//        //contextual action button segues user to delete
-//        let delete = UIContextualAction(style: .destructive, title: "Delete", handler: { (contextualAction, sourceView, completionHandler) in
-//            let cell = tableView.cellForRow(at: indexPath)
-//            cell?.tag = indexPath.row
-//            
-//            //remove item selected, pending confirmation from user
-//            let verifyDelete = UIAlertController(title: "Item Removal", message: "Are you sure you would like to remove this item. Item cannot be recovered", preferredStyle: UIAlertControllerStyle.actionSheet)
-//            
-//            let event = self.userEventsController.events[self.currentEventIdx]
-//            let item = self.eventItemsController.items[indexPath.row]
-//            
-//            let deleteAction = UIAlertAction(title: "Delete", style: UIAlertActionStyle.destructive, handler: { (UIAlertAction) in
-//                self.eventItemsController.removeItem(eventId: self.userEventsController.events[self.currentEventIdx].id, itemId: item.id)
-//            })
-//            
-//            let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil)
-//            
-//            verifyDelete.addAction(deleteAction)
-//            verifyDelete.addAction(cancelAction)
-//            self.present(verifyDelete, animated: true, completion: nil)
-//            
-//            
-//        })
-//        
-//        //contextual action button allows user to disagree (vote down) item
-//        let disagree = UIContextualAction(style: .normal, title: "Disagree", handler: { (contextualAction, sourceView, completionHandler) in
-//            let cell = tableView.cellForRow(at: indexPath)
-//            cell?.tag = indexPath.row
-//            print("Disagree pressed")
-//            //insert code to disagree with item
-//        })
-//        disagree.backgroundColor = UIColor.orange
-//        
-//        //return array of leadingSwipe UIContextualActions
-//        return UISwipeActionsConfiguration(actions: [disagree, delete])
-//    }
-//    
-//    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-//        
-//        //contextual action button segues user to edit item
-//        let edit = UIContextualAction(style: .normal, title: "Edit", handler: { (contextualAction, sourceView, completionHandler) in
-//            let cell = tableView.cellForRow(at: indexPath)
-//            cell?.tag = indexPath.row
-//            self.performSegue(withIdentifier: "editItem", sender: cell)
-//        })
-//        edit.backgroundColor = colors.primaryColor2
-//        
-//        //contextual action button allows user to agree (vote up) item
-//        let concur = UIContextualAction(style: .normal, title: "Concur", handler: { (contextualAction, sourceView, completionHandler) in
-//            let cell = tableView.cellForRow(at: indexPath)
-//            cell?.tag = indexPath.row
-//            print("Concur pressed")
-//        })
-//        concur.backgroundColor = colors.accentColor1
-//        
-//        //return array of trailingSwipe UIContextualActions
-//        return UISwipeActionsConfiguration(actions: [concur, edit])
-//    }
+    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        //contextual action button segues user to delete
+        let delete = UIContextualAction(style: .destructive, title: "Delete", handler: { (contextualAction, sourceView, completionHandler) in
+            let cell = tableView.cellForRow(at: indexPath)
+            cell?.tag = indexPath.row
+            
+            //remove item selected, pending confirmation from user
+            let verifyDelete = UIAlertController(title: "Item Removal", message: "Are you sure you would like to remove this item. Item cannot be recovered", preferredStyle: UIAlertControllerStyle.actionSheet)
+            
+            let event = self.userEventsController.events[self.currentEventIdx]
+            let item = self.eventItemsController.items[indexPath.row]
+            
+            let deleteAction = UIAlertAction(title: "Delete", style: UIAlertActionStyle.destructive, handler: { (UIAlertAction) in
+                self.eventItemsController.removeItem(eventId: self.userEventsController.events[self.currentEventIdx].id, itemId: item.id)
+            })
+            
+            let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil)
+            
+            verifyDelete.addAction(deleteAction)
+            verifyDelete.addAction(cancelAction)
+            self.present(verifyDelete, animated: true, completion: nil)
+            
+            
+        })
+        
+        //contextual action button allows user to disagree (vote down) item
+        let disagree = UIContextualAction(style: .normal, title: "Disagree", handler: { (contextualAction, sourceView, completionHandler) in
+            let cell = tableView.cellForRow(at: indexPath)
+            cell?.tag = indexPath.row
+            print("Disagree pressed")
+            //insert code to disagree with item
+        })
+        disagree.backgroundColor = UIColor.orange
+        
+        //return array of leadingSwipe UIContextualActions
+        return UISwipeActionsConfiguration(actions: [disagree, delete])
+    }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        //contextual action button segues user to edit item
+        let edit = UIContextualAction(style: .normal, title: "Edit", handler: { (contextualAction, sourceView, completionHandler) in
+            let cell = tableView.cellForRow(at: indexPath)
+            cell?.tag = indexPath.row
+            self.performSegue(withIdentifier: "editItem", sender: cell)
+        })
+        edit.backgroundColor = colors.primaryColor2
+        
+        //contextual action button allows user to agree (vote up) item
+        let concur = UIContextualAction(style: .normal, title: "Concur", handler: { (contextualAction, sourceView, completionHandler) in
+            let cell = tableView.cellForRow(at: indexPath)
+            cell?.tag = indexPath.row
+            print("Concur pressed")
+        })
+        concur.backgroundColor = colors.accentColor1
+        
+        //return array of trailingSwipe UIContextualActions
+        return UISwipeActionsConfiguration(actions: [concur, edit])
+    }
 
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
