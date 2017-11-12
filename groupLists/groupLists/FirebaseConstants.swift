@@ -20,6 +20,8 @@ struct DB {
     static let date = "date"
     static let authorizedUsers = "authorizedUsers"
     static let creator = "creator"
+    static let permissions = "permissions"
+    static let userName = "userName"
 
     static let items = "items"
     static let quantity = "quantity"
