@@ -26,7 +26,7 @@ class ManipulateUsersController: UIViewController, UITableViewDataSource, UITabl
     //holds all view constrainsts needed
     var allContstraints = [NSLayoutConstraint]()
     
-    var users: Dictionary<String, Bool> = [:]
+    var users = ["user", "user", "user"]
     var rowHeight: CGFloat = 40
     var tableViewHeight: CGFloat = 0
     var tableViewHeightConstraint: NSLayoutConstraint?
@@ -44,7 +44,6 @@ class ManipulateUsersController: UIViewController, UITableViewDataSource, UITabl
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        users = userEventsController.events[currentEventIdx].authorizedUsers
         currentUsersTableView.dataSource = self
         currentUsersTableView.delegate = self
         currentUsersTableView.register(ManipulateUsersCellTableViewCell.self, forCellReuseIdentifier: "userCell")
