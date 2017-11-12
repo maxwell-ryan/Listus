@@ -23,6 +23,7 @@ class ManipulateUsersCellTableViewCell: UITableViewCell {
         self.backgroundColor = colors.primaryColor1
         self.userName.textColor = colors.accentColor1
         self.userPrivileges.textColor = colors.accentColor1
+        self.removeBtn.setImage(UIImage(named: "minus"), for: .normal)
         
         removeBtn.translatesAutoresizingMaskIntoConstraints = false
         userName.translatesAutoresizingMaskIntoConstraints = false
@@ -41,17 +42,15 @@ class ManipulateUsersCellTableViewCell: UITableViewCell {
         
         var allConstraints = [NSLayoutConstraint]()
         
-        let horizontalConstraints = NSLayoutConstraint.constraints(withVisualFormat: "H:|[removeBtn(==12)]-[userName][userPrivileges]-40-|", options: [], metrics: nil, views: cellViews)
+        let horizontalConstraints = NSLayoutConstraint.constraints(withVisualFormat: "H:|-8-[removeBtn(==15)]-20-[userName][userPrivileges]-40-|", options: [], metrics: nil, views: cellViews)
         allConstraints += horizontalConstraints
         let nameVerticalConstraints = NSLayoutConstraint.constraints(withVisualFormat: "V:|[userName]|", options: [], metrics: nil, views: cellViews)
         allConstraints += nameVerticalConstraints
         let privilegesVerticalConstraints = NSLayoutConstraint.constraints(withVisualFormat: "V:|[userPrivileges]|", options: [], metrics: nil, views: cellViews)
         allConstraints += privilegesVerticalConstraints
-        let removeVerticalConstraints = NSLayoutConstraint.constraints(withVisualFormat: "V:|-3-[removeBtn(==12)]-3-|", options: [], metrics: nil, views: cellViews)
+        let removeVerticalConstraints = NSLayoutConstraint.constraints(withVisualFormat: "V:[removeBtn(==15)]", options: [], metrics: nil, views: cellViews)
         allConstraints += removeVerticalConstraints
-        
-        //removeBtn.addConstraint(NSLayoutConstraint(item: self.removeBtn, attribute: .centerY, relatedBy: .equal, toItem: self.removeBtn.superview, attribute: .centerY, multiplier: 1, constant: 0))
-        
+        addConstraint(NSLayoutConstraint(item: removeBtn, attribute: NSLayoutAttribute.centerY, relatedBy: .equal, toItem: self.contentView, attribute: .centerY, multiplier: 1, constant: 0))
         NSLayoutConstraint.activate(allConstraints)
         
     }

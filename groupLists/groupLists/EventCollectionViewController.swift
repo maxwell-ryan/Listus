@@ -223,16 +223,15 @@ class EventCollectionViewController: UIViewController, UICollectionViewDelegate,
             deleteButton.addTarget(self, action: #selector(deleteEvent), for: .touchUpInside)
 
         }
-        
-        
 
-        UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseIn, animations: {
+        UIView.animate(withDuration: 1.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseIn, animations: {
             
+            //build array of all views needed for dynamic button overlay
             let views = ["blurBackground": self.blurBackground, "blurBackgroundContent": self.blurBackground.contentView, "optionsFrame": self.optionsFrame, "editButton": self.editButton, "deleteButton": self.deleteButton, "addUsersButton": self.addUsersButton]
             
             self.view.addSubview(self.blurBackground)
             
-
+            //constrain buttons to optionsFrame, and optionsFrame to content view of blurBackground, blurBackground constrained to full window
             var allConstraints = [NSLayoutConstraint]()
             let blurBackgroundHorzConstraint = NSLayoutConstraint.constraints(withVisualFormat: "H:|[blurBackground]|", options: [], metrics: nil, views: views)
             allConstraints += blurBackgroundHorzConstraint
@@ -255,6 +254,7 @@ class EventCollectionViewController: UIViewController, UICollectionViewDelegate,
             
             NSLayoutConstraint.activate(allConstraints)
             
+            //fade out transparency for solid background
             self.blurBackground.alpha = 1
             self.optionsFrame.alpha = 1
             self.addUsersButton.alpha = 1
@@ -310,40 +310,16 @@ class EventCollectionViewController: UIViewController, UICollectionViewDelegate,
     
     func manipulateUsers(sender: UIButton) {
         
-//        var modalView = ManipulateUsersController()
-//        modalView.currentEventIdx = sender.tag
-//        var modalWindow = UIView()
-//        modalWindow.frame = CGRect(x: 10, y: self.optionsFrame.frame.maxY, width: optionsFrame.frame.width, height: 150)
-//        modalWindow.backgroundColor = UIColor.white
-//        modalWindow.addSubview(modalView.view)
-//        //modalWindow.bringSubview(toFront: modalView.view)
-//        self.view.addSubview(modalWindow)
-//        let modalTopConstraint = NSLayoutConstraint(item: modalView.view, attribute: .top, relatedBy: .equal, toItem: modalWindow, attribute: .top, multiplier: 1, constant: 0).isActive = true
-//        let modalBottonConstraint = NSLayoutConstraint(item: modalView.view, attribute: .bottom, relatedBy: .equal, toItem: modalWindow, attribute: .bottom, multiplier: 1, constant: 0).isActive = true
-//        let modalLeadingConstraint = NSLayoutConstraint(item: modalView.view, attribute: .leading, relatedBy: .equal, toItem: modalWindow, attribute: .leading, multiplier: 1, constant: 0).isActive = true
-//        let modalTrailingConstraint = NSLayoutConstraint(item: modalView.view, attribute: .trailing, relatedBy: .equal, toItem: modalWindow, attribute: .trailing, multiplier: 1, constant: 0).isActive = true
-//        //self.view.bringSubview(toFront: modalWindow)
-//        //self.present(modalView, animated: true, completion: nil)
-        
-//        var manipulateUsersVC = ManipulateUsersController()
-//        manipulateUsersVC.currentEventIdx = sender.tag
-//        manipulateUsersVC.modalPresentationStyle = UIModalPresentationStyle.formSheet
-//        manipulateUsersVC.modalTransitionStyle = UIModalTransitionStyle.coverVertical
-//
-//        present(manipulateUsersVC, animated: true, completion: nil)
-        print("In present func")
-        
+        //create instance of manipulateUsersVC for presentation to user
         var manipulateUsersVC = ManipulateUsersController()
+        
+        //populate instance with dependent vars
         manipulateUsersVC.userEventsController = self.userEventsController
         manipulateUsersVC.userController = self.userController
-        
         manipulateUsersVC.currentEventIdx = sender.tag
         manipulateUsersVC.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
-        //manipulateUsersVC.preferredContentSize = CGSize(width: 300, height: 400)
+
         present(manipulateUsersVC, animated: true, completion: nil)
-        //let popoverPresentationController = manipulateUsersVC.popoverPresentationController
-        //popoverPresentationController?.sourceView = sender
-        //popoverPresentationController?.sourceRect = CGRect(x: 0, y: 0, width: 300, height: 400)
         
     }
     
