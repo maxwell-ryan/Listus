@@ -28,7 +28,6 @@ class ManipulateUsersController: UIViewController, UITableViewDataSource, UITabl
     //holds all view constrainsts needed
     var allContstraints = [NSLayoutConstraint]()
     
-    var users = ["user", "user", "user"]
     var rowHeight: CGFloat = 40
     var tableViewHeight: CGFloat = 0
     var tableViewHeightConstraint: NSLayoutConstraint?
@@ -93,7 +92,7 @@ class ManipulateUsersController: UIViewController, UITableViewDataSource, UITabl
         userInputEnclosure.addSubview(privilegesToggle)
         userInputEnclosure.addSubview(privilegesLabel)
 
-        tableViewHeight = rowHeight * CGFloat(self.users.count) //3 * currentUsersTableView.rowHeight
+        tableViewHeight = rowHeight * CGFloat(userEventsController.events[currentEventIdx].authorizedUsers.count) //3 * currentUsersTableView.rowHeight
         
         let metrics = ["tableViewHeight": tableViewHeight]
         
@@ -141,12 +140,21 @@ class ManipulateUsersController: UIViewController, UITableViewDataSource, UITabl
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "userCell", for: indexPath) as! ManipulateUsersCellTableViewCell
         
+        let currentUser = userEventsController.events[currentEventIdx].authorizedUsers[indexPath.row]
+        
         //cell.userName = UILabel()
         cell.userIndex = indexPath.row
-        cell.userName.text = "test"
+        cell.userName.text = currentUser.userName
         
         //cell.userPrivileges = UILabel()
-        cell.userPrivileges.text = "Basic"
+        
+        if currentUser.permissions == true {
+            cell.userPrivileges.text = "Organizer"
+        }
+        else {
+            cell.userPrivileges.text = "Basic"
+        }
+        
         
         //cell.removeImage = UIButton()
         
@@ -157,7 +165,7 @@ class ManipulateUsersController: UIViewController, UITableViewDataSource, UITabl
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return users.count
+        return userEventsController.events[currentEventIdx].authorizedUsers.count
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -170,13 +178,13 @@ class ManipulateUsersController: UIViewController, UITableViewDataSource, UITabl
         if self.userInputTextField.text != "" {
             
             //unwrap as if condition verifies not nil
-            userEventsController.addUserToEvent(eventID: userEventsController.events[currentEventIdx].id, eventIdx: currentEventIdx, email: self.userInputTextField.text!, permissions: false, addUserVC: self)
+            userEventsController.addUserToEvent(eventID: userEventsController.events[currentEventIdx].id, eventIdx: currentEventIdx, email: self.userInputTextField.text!, permissions: privilegesToggle.isOn, addUserVC: self)
             
             DispatchQueue.main.async {
                 self.currentUsersTableView.reloadData()
                 
             }
-            tableViewHeight = rowHeight * CGFloat(self.users.count) //3 * currentUsersTableView.rowHeight
+            tableViewHeight = rowHeight * CGFloat(userEventsController.events[currentEventIdx].authorizedUsers.count) //3 * currentUsersTableView.rowHeight
 
             self.updateViewConstraints()
             self.userInputTextField.text = ""
@@ -197,7 +205,7 @@ class ManipulateUsersController: UIViewController, UITableViewDataSource, UITabl
     
     override func updateViewConstraints() {
 
-        tableViewHeight = rowHeight * CGFloat(self.users.count) //3 * currentUsersTableView.rowHeight
+        tableViewHeight = rowHeight * CGFloat(userEventsController.events[currentEventIdx].authorizedUsers.count) //3 * currentUsersTableView.rowHeight
         tableViewHeightConstraint?.constant = tableViewHeight
         
         super.updateViewConstraints()
