@@ -131,7 +131,6 @@ class EventViewController: UIViewController {
                 //add event via user's UserEventController
                 userEventsController.createEvent(name: eventNameTextField.text!, description: eventDescTextField.text!, date: eventDatePicker.date, userController: userController)
                 
- //               dismiss(animated: true) {}
             }
             
             //return to list which will now display recently added item

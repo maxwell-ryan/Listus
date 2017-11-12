@@ -158,7 +158,7 @@ class UserEventsController {
         
         ref.child(DB.users).child(userId).child(DB.events).queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
             let user_events = snapshot.value as? NSDictionary
-            
+           
             if user_events != nil {
                 
                 for e in user_events! {
