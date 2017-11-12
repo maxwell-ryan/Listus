@@ -11,10 +11,12 @@
 		071CFF971F8BFFA500080C81 /* ItemListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 071CFF961F8BFFA500080C81 /* ItemListViewController.swift */; };
 		071CFF991F8C415600080C81 /* ItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 071CFF981F8C415600080C81 /* ItemViewController.swift */; };
 		0742AD391FA161CD00F7BE20 /* NavCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0742AD381FA161CD00F7BE20 /* NavCell.swift */; };
+		078253841FB7C6F4007223F5 /* ManipulateUsersCellTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 078253831FB7C6F4007223F5 /* ManipulateUsersCellTableViewCell.swift */; };
 		078852EC1F97DB0500858A0B /* MenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 078852EB1F97DB0500858A0B /* MenuCell.swift */; };
 		078852EE1F97DC9200858A0B /* MenuLauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 078852ED1F97DC9200858A0B /* MenuLauncher.swift */; };
 		0788FEEA1F9120E200D71A50 /* EventCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0788FEE91F9120E200D71A50 /* EventCollectionViewController.swift */; };
 		0788FEEC1F91216200D71A50 /* EventCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0788FEEB1F91216200D71A50 /* EventCollectionViewCell.swift */; };
+		0790E0B91FB6990B00DF32D1 /* ManipulateUsersController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0790E0B81FB6990B00DF32D1 /* ManipulateUsersController.swift */; };
 		0798B6041F815660002185C5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0798B6031F815660002185C5 /* AppDelegate.swift */; };
 		0798B6191F815660002185C5 /* groupListsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0798B6181F815660002185C5 /* groupListsTests.swift */; };
 		0798B6241F815660002185C5 /* groupListsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0798B6231F815660002185C5 /* groupListsUITests.swift */; };
@@ -67,10 +69,12 @@
 		071CFF961F8BFFA500080C81 /* ItemListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemListViewController.swift; sourceTree = "<group>"; };
 		071CFF981F8C415600080C81 /* ItemViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemViewController.swift; sourceTree = "<group>"; };
 		0742AD381FA161CD00F7BE20 /* NavCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavCell.swift; sourceTree = "<group>"; };
+		078253831FB7C6F4007223F5 /* ManipulateUsersCellTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManipulateUsersCellTableViewCell.swift; sourceTree = "<group>"; };
 		078852EB1F97DB0500858A0B /* MenuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuCell.swift; sourceTree = "<group>"; };
 		078852ED1F97DC9200858A0B /* MenuLauncher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuLauncher.swift; sourceTree = "<group>"; };
 		0788FEE91F9120E200D71A50 /* EventCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventCollectionViewController.swift; sourceTree = "<group>"; };
 		0788FEEB1F91216200D71A50 /* EventCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventCollectionViewCell.swift; sourceTree = "<group>"; };
+		0790E0B81FB6990B00DF32D1 /* ManipulateUsersController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManipulateUsersController.swift; sourceTree = "<group>"; };
 		0798B6001F815660002185C5 /* groupLists.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = groupLists.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0798B6031F815660002185C5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0798B60F1F815660002185C5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -203,6 +207,7 @@
 				0798B6581F816584002185C5 /* LaunchScreen.storyboard */,
 				0798B65A1F816584002185C5 /* Main.storyboard */,
 				07135D9B1F8BE65900E0A6F5 /* ListItemTableViewCell.swift */,
+				078253831FB7C6F4007223F5 /* ManipulateUsersCellTableViewCell.swift */,
 				0788FEEB1F91216200D71A50 /* EventCollectionViewCell.swift */,
 				078852EB1F97DB0500858A0B /* MenuCell.swift */,
 				0742AD381FA161CD00F7BE20 /* NavCell.swift */,
@@ -228,6 +233,7 @@
 				071CFF981F8C415600080C81 /* ItemViewController.swift */,
 				071CFF961F8BFFA500080C81 /* ItemListViewController.swift */,
 				07E0EA261FA64F970044673F /* EventViewController.swift */,
+				0790E0B81FB6990B00DF32D1 /* ManipulateUsersController.swift */,
 				0788FEE91F9120E200D71A50 /* EventCollectionViewController.swift */,
 				078852ED1F97DC9200858A0B /* MenuLauncher.swift */,
 				079AE3041F9FE42900EB58F5 /* NavigationLauncher.swift */,
@@ -593,6 +599,7 @@
 				0798B6511F81651F002185C5 /* Message.swift in Sources */,
 				0798B6551F81655F002185C5 /* User.swift in Sources */,
 				07135D9C1F8BE65900E0A6F5 /* ListItemTableViewCell.swift in Sources */,
+				0790E0B91FB6990B00DF32D1 /* ManipulateUsersController.swift in Sources */,
 				0798B64F1F816515002185C5 /* Item.swift in Sources */,
 				24631AFF1F971235005068E7 /* FirebaseConstants.swift in Sources */,
 				240574E81F8D80F9007EC0F0 /* LogInViewController.swift in Sources */,
@@ -600,6 +607,7 @@
 				079AE3051F9FE42900EB58F5 /* NavigationLauncher.swift in Sources */,
 				2494B6131F994DBB00794F76 /* EventItemsController.swift in Sources */,
 				2494B6151F994DD500794F76 /* EventMessagesController.swift in Sources */,
+				078253841FB7C6F4007223F5 /* ManipulateUsersCellTableViewCell.swift in Sources */,
 				24C40E5D1FAE4D2A00F8F06E /* MessageCell.swift in Sources */,
 				0798B6541F81655F002185C5 /* Event.swift in Sources */,
 				078852EC1F97DB0500858A0B /* MenuCell.swift in Sources */,
@@ -763,7 +771,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = groupLists/Info.plist;
-                IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = capstone.groupLists;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -778,7 +786,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = groupLists/Info.plist;
-                IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = capstone.groupLists;
 				PRODUCT_NAME = "$(TARGET_NAME)";

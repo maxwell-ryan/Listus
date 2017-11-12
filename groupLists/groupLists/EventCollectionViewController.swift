@@ -207,9 +207,13 @@ class EventCollectionViewController: UIViewController, UICollectionViewDelegate,
             
             addUsersButton.setTitleColor(colors.accentColor1, for: .normal)
             addUsersButton.backgroundColor = colors.primaryColor1
-            addUsersButton.setTitle("Add Users", for: .normal)
+            addUsersButton.setTitle("Add/remove users", for: .normal)
+            addUsersButton.titleLabel?.numberOfLines = 1
+            addUsersButton.titleLabel?.adjustsFontSizeToFitWidth = true
+            addUsersButton.titleLabel?.lineBreakMode = NSLineBreakMode.byClipping
             addUsersButton.layer.cornerRadius = 8
             addUsersButton.alpha = 0.5
+            addUsersButton.addTarget(self, action: #selector(manipulateUsers(sender:)), for: .touchUpInside)
             
             deleteButton.setTitleColor(UIColor.red, for: .normal)
             deleteButton.backgroundColor = colors.primaryColor1
@@ -296,6 +300,45 @@ class EventCollectionViewController: UIViewController, UICollectionViewDelegate,
         DispatchQueue.main.async(execute: {
             self.eventCollectionView.reloadData()
         })
+        
+    }
+    
+    func manipulateUsers(sender: UIButton) {
+        
+//        var modalView = ManipulateUsersController()
+//        modalView.currentEventIdx = sender.tag
+//        var modalWindow = UIView()
+//        modalWindow.frame = CGRect(x: 10, y: self.optionsFrame.frame.maxY, width: optionsFrame.frame.width, height: 150)
+//        modalWindow.backgroundColor = UIColor.white
+//        modalWindow.addSubview(modalView.view)
+//        //modalWindow.bringSubview(toFront: modalView.view)
+//        self.view.addSubview(modalWindow)
+//        let modalTopConstraint = NSLayoutConstraint(item: modalView.view, attribute: .top, relatedBy: .equal, toItem: modalWindow, attribute: .top, multiplier: 1, constant: 0).isActive = true
+//        let modalBottonConstraint = NSLayoutConstraint(item: modalView.view, attribute: .bottom, relatedBy: .equal, toItem: modalWindow, attribute: .bottom, multiplier: 1, constant: 0).isActive = true
+//        let modalLeadingConstraint = NSLayoutConstraint(item: modalView.view, attribute: .leading, relatedBy: .equal, toItem: modalWindow, attribute: .leading, multiplier: 1, constant: 0).isActive = true
+//        let modalTrailingConstraint = NSLayoutConstraint(item: modalView.view, attribute: .trailing, relatedBy: .equal, toItem: modalWindow, attribute: .trailing, multiplier: 1, constant: 0).isActive = true
+//        //self.view.bringSubview(toFront: modalWindow)
+//        //self.present(modalView, animated: true, completion: nil)
+        
+//        var manipulateUsersVC = ManipulateUsersController()
+//        manipulateUsersVC.currentEventIdx = sender.tag
+//        manipulateUsersVC.modalPresentationStyle = UIModalPresentationStyle.formSheet
+//        manipulateUsersVC.modalTransitionStyle = UIModalTransitionStyle.coverVertical
+//
+//        present(manipulateUsersVC, animated: true, completion: nil)
+        print("In present func")
+        
+        var manipulateUsersVC = ManipulateUsersController()
+        manipulateUsersVC.userEventsController = self.userEventsController
+        manipulateUsersVC.userController = self.userController
+        
+        manipulateUsersVC.currentEventIdx = sender.tag
+        manipulateUsersVC.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
+        //manipulateUsersVC.preferredContentSize = CGSize(width: 300, height: 400)
+        present(manipulateUsersVC, animated: true, completion: nil)
+        //let popoverPresentationController = manipulateUsersVC.popoverPresentationController
+        //popoverPresentationController?.sourceView = sender
+        //popoverPresentationController?.sourceRect = CGRect(x: 0, y: 0, width: 300, height: 400)
         
     }
     
