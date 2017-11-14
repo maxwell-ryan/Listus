@@ -71,7 +71,8 @@ class ItemListViewController: UIViewController, UITableViewDelegate, UITableView
         //add contextual options to bottom fly-in menu bar
         menuLauncher.menuOptions.insert(MenuOption(name: "Back", iconName: "back"), at: 0)
         menuLauncher.menuOptions.insert(MenuOption(name: "Add", iconName: "add"), at: 1)
-
+        
+        print("EventItemsController count: \(eventItemsController.items.count)")
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -80,7 +81,14 @@ class ItemListViewController: UIViewController, UITableViewDelegate, UITableView
         menuBtn.setTitle("", for: UIControlState.normal)
         
         //ensure new items count is displayed whenever view is shown
-        listInfoLabel.text = "Organized by \(userController.user.firstName) \(userController.user.lastName)    |    \(eventItemsController.items.count) items suggested"
+        let creatorID = self.userEventsController.events[self.currentEventIdx].creator
+        
+        //iterate authorizedUsers, identify creator name to display
+        for user in self.userEventsController.events[self.currentEventIdx].authorizedUsers {
+            if user.userId == creatorID {
+                listInfoLabel.text = "Organized by \(user.userName)    |    \(eventItemsController.items.count) items suggested"
+            }
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -192,7 +200,6 @@ class ItemListViewController: UIViewController, UITableViewDelegate, UITableView
         
         if segue.identifier == "editItem" {
             let selectedRow = sender as! ListItemTableViewCell
-            print("selectedRow cell tag is: \(selectedRow.tag)")
             let destinationVC = segue.destination as! ItemViewController
             
             destinationVC.userEventsController = self.userEventsController
@@ -203,7 +210,7 @@ class ItemListViewController: UIViewController, UITableViewDelegate, UITableView
             //maintain current event scope/idx
             destinationVC.currentEventIdx = self.currentEventIdx
             destinationVC.editIdx = selectedRow.tag
-            print("In prepare sugue, currentEventIdx is scoped on: \(currentEventIdx)")
+
 
         } else if segue.identifier == "addItem" {
             

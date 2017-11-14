@@ -140,17 +140,18 @@ class ManipulateUsersController: UIViewController, UITableViewDataSource, UITabl
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "userCell", for: indexPath) as! ManipulateUsersCellTableViewCell
         
-        let currentUser = userEventsController.events[currentEventIdx].authorizedUsers[indexPath.row]
+        cell.user = userEventsController.events[currentEventIdx].authorizedUsers[indexPath.row]
+        cell.removeBtn.user = cell.user
         
         //hide (disallow) remove button on self user
-        if (currentUser.userName == (self.userController.user.firstName + " " + self.userController.user.lastName)) {
+        if (cell.user.userName == (self.userController.user.firstName + " " + self.userController.user.lastName)) {
             cell.removeBtn.isHidden = true
         }
         cell.userIndex = indexPath.row
-        cell.userName.text = currentUser.userName
+        cell.userName.text = cell.user.userName
         
         //display user privilege level
-        if currentUser.permissions == true {
+        if cell.user.permissions == true {
             cell.userPrivileges.text = "Organizer"
         }
         else {
@@ -184,8 +185,9 @@ class ManipulateUsersController: UIViewController, UITableViewDataSource, UITabl
         }
     }
     
-    func removeUser(sender: UIButton) {
-        
+    func removeUser(sender: userButton) {
+     
+        self.userEventsController.removeUserFromEvent(eventIdx: self.currentEventIdx, user: sender.user!, addUserVC: self)
         print("Requested to remove user \(self.userEventsController.events[currentEventIdx].authorizedUsers[sender.tag].userName)")
         
     }

@@ -83,6 +83,25 @@ class UserEventsController {
         })
     }
     
+    func removeUserFromEvent(eventIdx: Int, user: AuthorizedUser, addUserVC: ManipulateUsersController) {
+        
+        //ensure valid index
+        if (eventIdx < self.events.count) {
+            
+            self.ref = Database.database().reference()
+            //remove userID from event's authorizedUsers array
+            self.ref.child(DB.events).child(self.events[eventIdx].id).child(DB.authorizedUsers).child(user.userId).removeValue()
+            //remove event from user's events array
+            self.ref.child(DB.users).child(user.userId).child(DB.events).child(self.events[eventIdx].id).removeValue()
+            
+            //remove user from local authorizedUsers array
+            self.events[eventIdx].authorizedUsers = self.events[eventIdx].authorizedUsers.filter( {$0.userId != user.userId} )
+            //update current user view and adjust view's height accordingly
+            addUserVC.currentUsersTableView.reloadData()
+            addUserVC.updateViewConstraints()
+        }
+    }
+    
     
     
     func editEvent(eventIdx: Int, name: String? = nil, date: Date? = nil, description: String? = nil, user: UserController) -> Bool{
