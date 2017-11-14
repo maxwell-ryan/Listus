@@ -316,9 +316,10 @@ class EventCollectionViewController: UIViewController, UICollectionViewDelegate,
         //populate instance with dependent vars
         manipulateUsersVC.userEventsController = self.userEventsController
         manipulateUsersVC.userController = self.userController
-        manipulateUsersVC.currentEventIdx = sender.tag
+        manipulateUsersVC.currentEventIdx = self.editIdx
         manipulateUsersVC.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
-
+        
+        //show modal VC
         present(manipulateUsersVC, animated: true, completion: nil)
         
     }

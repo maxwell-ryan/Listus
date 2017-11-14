@@ -184,9 +184,9 @@ class ManipulateUsersController: UIViewController, UITableViewDataSource, UITabl
                 self.currentUsersTableView.reloadData()
                 
             }
-            tableViewHeight = rowHeight * CGFloat(userEventsController.events[currentEventIdx].authorizedUsers.count) //3 * currentUsersTableView.rowHeight
+            //tableViewHeight = rowHeight * CGFloat(userEventsController.events[currentEventIdx].authorizedUsers.count) //3 * currentUsersTableView.rowHeight
 
-            self.updateViewConstraints()
+            //self.updateViewConstraints()
             self.userInputTextField.text = ""
             
         }

@@ -32,7 +32,7 @@ class AddUserViewController: UIViewController {
         let eventID = userEventsController.events[eventIdx].id
         let email = userEmail.text ?? ""
         
-        userEventsController.addUserToEvent(eventID: eventID, eventIdx: eventIdx, email: email, permissions: permissions, addUserVC: self)
+        //userEventsController.addUserToEvent(eventID: eventID, eventIdx: eventIdx, email: email, permissions: permissions, addUserVC: self)
     }
     
     override func viewDidLoad() {

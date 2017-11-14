@@ -45,7 +45,7 @@ class UserEventsController {
     
     
     
-    func addUserToEvent(eventID: String, eventIdx: Int, email: String, permissions: Bool, addUserVC: UIViewController) {
+    func addUserToEvent(eventID: String, eventIdx: Int, email: String, permissions: Bool, addUserVC: ManipulateUsersController) {
         //query for user's key based on user's email
         ref.child(DB.users).queryOrdered(byChild:  "email").queryStarting(atValue: email).queryEnding(atValue: email).observeSingleEvent(of: .value, with: { (snapshot) in
             let user = snapshot.value as? NSDictionary
@@ -67,9 +67,11 @@ class UserEventsController {
                 self.ref.child(DB.users).child(userID!).child(DB.events).child(eventID).setValue(true)
                 
                 //reload table view here
+                addUserVC.currentUsersTableView.reloadData()
+                //addUserVC.tableViewHeight = addUserVC.rowHeight * CGFloat(userEventsController.events[currentEventIdx].authorizedUsers.count) //3 * currentUsersTableView.rowHeight
+                addUserVC.updateViewConstraints()
                 
-            }
-            else {
+            } else {
                 //alert user that the other user doesn't exist
                 let alert = UIAlertController(title: "Error", message: "User does not exist", preferredStyle: .alert)
                 let ok = UIAlertAction(title: "Ok", style: .default)
