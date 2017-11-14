@@ -66,9 +66,10 @@ class UserEventsController {
                 //add the event to the user's events list
                 self.ref.child(DB.users).child(userID!).child(DB.events).child(eventID).setValue(true)
                 
-                //reload table view here
+                //reload table view displaying current authorizedUsers
                 addUserVC.currentUsersTableView.reloadData()
-                //addUserVC.tableViewHeight = addUserVC.rowHeight * CGFloat(userEventsController.events[currentEventIdx].authorizedUsers.count) //3 * currentUsersTableView.rowHeight
+                
+                //ensure table view height accomodates new user add
                 addUserVC.updateViewConstraints()
                 
             } else {

@@ -142,21 +142,20 @@ class ManipulateUsersController: UIViewController, UITableViewDataSource, UITabl
         
         let currentUser = userEventsController.events[currentEventIdx].authorizedUsers[indexPath.row]
         
-        //cell.userName = UILabel()
+        //hide (disallow) remove button on self user
+        if (currentUser.userName == (self.userController.user.firstName + " " + self.userController.user.lastName)) {
+            cell.removeBtn.isHidden = true
+        }
         cell.userIndex = indexPath.row
         cell.userName.text = currentUser.userName
         
-        //cell.userPrivileges = UILabel()
-        
+        //display user privilege level
         if currentUser.permissions == true {
             cell.userPrivileges.text = "Organizer"
         }
         else {
             cell.userPrivileges.text = "Basic"
         }
-        
-        
-        //cell.removeImage = UIButton()
         
         cell.removeBtn.tag = cell.userIndex
         cell.removeBtn.addTarget(self, action: #selector(removeUser(sender:)), for: .touchUpInside)
@@ -177,25 +176,17 @@ class ManipulateUsersController: UIViewController, UITableViewDataSource, UITabl
         //add user to user array if string argument is not empty string
         if self.userInputTextField.text != "" {
             
-            //unwrap as if condition verifies not nil
+            //unwrap as if condition verifies not nil - firebase callback fire reloadData() and updateViewConstraints() @ correct time
             userEventsController.addUserToEvent(eventID: userEventsController.events[currentEventIdx].id, eventIdx: currentEventIdx, email: self.userInputTextField.text!, permissions: privilegesToggle.isOn, addUserVC: self)
-            
-            DispatchQueue.main.async {
-                self.currentUsersTableView.reloadData()
-                
-            }
-            //tableViewHeight = rowHeight * CGFloat(userEventsController.events[currentEventIdx].authorizedUsers.count) //3 * currentUsersTableView.rowHeight
-
-            //self.updateViewConstraints()
+          
+            //reset input field
             self.userInputTextField.text = ""
-            
         }
-        
     }
     
     func removeUser(sender: UIButton) {
         
-        print("Requested to remove user test")
+        print("Requested to remove user \(self.userEventsController.events[currentEventIdx].authorizedUsers[sender.tag].userName)")
         
     }
     
