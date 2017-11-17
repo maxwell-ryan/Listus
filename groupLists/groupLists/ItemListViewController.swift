@@ -12,9 +12,8 @@ import Firebase
 class ItemListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     var userController: UserController!
-    var userEventsController: UserEventsController!
     var eventItemsController = EventItemsController()
-    var currentEventIdx: Int! //unwrapped optional required to prevent Xcode mandating this class have an initializer - let's discuss best practice, I am unsure
+    var currentEvent : Event!
     
     let navigationLauncher = NavigationLauncher()
     let menuLauncher = MenuLauncher()
@@ -34,14 +33,12 @@ class ItemListViewController: UIViewController, UITableViewDelegate, UITableView
         listItemTableView.dataSource = self
         listItemTableView.delegate = self
         
+        eventItemsController.getItemOnChildAdded(eventId: currentEvent.id, itemListTableView: listItemTableView)
+        eventItemsController.removeItemOnChildRemoved(eventId: currentEvent.id, itemListTableView: listItemTableView)
+        eventItemsController.updateItemOnChildChanged(eventId: currentEvent.id, itemListTableView: listItemTableView)
+        
         listItemTableView.backgroundColor = colors.primaryColor1
-        
-        let eventId = userEventsController.events[currentEventIdx].id
-        eventItemsController.getItemOnChildAdded(eventId: eventId, itemListTableView: listItemTableView)
-        eventItemsController.removeItemOnChildRemoved(eventId: eventId, itemListTableView: listItemTableView)
-        eventItemsController.updateItemOnChildChanged(eventId: eventId, itemListTableView: listItemTableView)
-        
-        self.view.backgroundColor = UIColor.white  //colors.primaryColor1
+        self.view.backgroundColor = UIColor.white
         
         addListItemBtn.setTitleColor(colors.accentColor1, for: UIControlState.normal)
         addListItemBtn.backgroundColor = colors.primaryColor2
@@ -62,29 +59,24 @@ class ItemListViewController: UIViewController, UITableViewDelegate, UITableView
         self.view.addConstraint(NSLayoutConstraint(item: menuBtn, attribute: .centerY, relatedBy: .equal, toItem: navBtn, attribute: .centerY, multiplier: 1, constant: 0))
         menuBtn.addTarget(self, action: #selector(displayMenu), for: .touchUpInside)
         
-        listInfoLabel.textColor = UIColor.init(red: 11.0/255.0, green: 12.0/255.0, blue: 16.0/255.0, alpha: 1)
-        
-        
         listNameLabel.textColor = UIColor.init(red: 11.0/255.0, green: 12.0/255.0, blue: 16.0/255.0, alpha: 1)
-        listNameLabel.text = userEventsController.events[currentEventIdx].name
+        listNameLabel.text = currentEvent.name
         
         //add contextual options to bottom fly-in menu bar
         menuLauncher.menuOptions.insert(MenuOption(name: "Back", iconName: "back"), at: 0)
         menuLauncher.menuOptions.insert(MenuOption(name: "Add", iconName: "add"), at: 1)
-        
-        print("EventItemsController count: \(eventItemsController.items.count)")
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        listItemTableView.reloadData()
+        
         navBtn.setTitle("", for: UIControlState.normal)
         menuBtn.setTitle("", for: UIControlState.normal)
         
         //ensure new items count is displayed whenever view is shown
-        let creatorID = self.userEventsController.events[self.currentEventIdx].creator
+        let creatorID = currentEvent.creator
         
         //iterate authorizedUsers, identify creator name to display
-        for user in self.userEventsController.events[self.currentEventIdx].authorizedUsers {
+        for user in currentEvent.authorizedUsers {
             if user.userId == creatorID {
                 listInfoLabel.text = "Organized by \(user.userName)    |    \(eventItemsController.items.count) items suggested"
             }
@@ -127,7 +119,7 @@ class ItemListViewController: UIViewController, UITableViewDelegate, UITableView
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //no implementation of row selection yet
         //could be used for detailed view of item information
-        print("Selected row: \(indexPath.row)")
+        
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -144,11 +136,10 @@ class ItemListViewController: UIViewController, UITableViewDelegate, UITableView
             //remove item selected, pending confirmation from user
             let verifyDelete = UIAlertController(title: "Item Removal", message: "Are you sure you would like to remove this item. Item cannot be recovered", preferredStyle: UIAlertControllerStyle.actionSheet)
             
-            let event = self.userEventsController.events[self.currentEventIdx]
             let item = self.eventItemsController.items[indexPath.row]
             
             let deleteAction = UIAlertAction(title: "Delete", style: UIAlertActionStyle.destructive, handler: { (UIAlertAction) in
-                self.eventItemsController.removeItem(eventId: self.userEventsController.events[self.currentEventIdx].id, itemId: item.id)
+                self.eventItemsController.removeItem(eventId: self.currentEvent.id, itemId: item.id)
             })
             
             let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil)
@@ -164,7 +155,7 @@ class ItemListViewController: UIViewController, UITableViewDelegate, UITableView
         let disagree = UIContextualAction(style: .normal, title: "Disagree", handler: { (contextualAction, sourceView, completionHandler) in
             let cell = tableView.cellForRow(at: indexPath)
             cell?.tag = indexPath.row
-            print("Disagree pressed")
+           
             //insert code to disagree with item
         })
         disagree.backgroundColor = UIColor.orange
@@ -187,7 +178,6 @@ class ItemListViewController: UIViewController, UITableViewDelegate, UITableView
         let concur = UIContextualAction(style: .normal, title: "Concur", handler: { (contextualAction, sourceView, completionHandler) in
             let cell = tableView.cellForRow(at: indexPath)
             cell?.tag = indexPath.row
-            print("Concur pressed")
         })
         concur.backgroundColor = colors.accentColor1
         
@@ -202,31 +192,21 @@ class ItemListViewController: UIViewController, UITableViewDelegate, UITableView
             let selectedRow = sender as! ListItemTableViewCell
             let destinationVC = segue.destination as! ItemViewController
             
-            destinationVC.userEventsController = self.userEventsController
-            destinationVC.id = self.userController.user.id
+            destinationVC.currentEvent = self.currentEvent
             destinationVC.userID = self.userController.user.id
             destinationVC.eventItemsController = self.eventItemsController
             
-            //maintain current event scope/idx
-            destinationVC.currentEventIdx = self.currentEventIdx
+            //maintain current item scope/idx
             destinationVC.editIdx = selectedRow.tag
 
 
         } else if segue.identifier == "addItem" {
-            
             let destinationVC = segue.destination as! ItemViewController
-            destinationVC.currentEventIdx = self.currentEventIdx
-            destinationVC.userEventsController = self.userEventsController
-            destinationVC.id = self.userController.user.id
+            
+            destinationVC.currentEvent = self.currentEvent
             destinationVC.userID = self.userController.user.id
             destinationVC.eventItemsController = self.eventItemsController
-        
-        } else if segue.identifier == "returnToEvents" {
-            
-            let destinationVC = segue.destination as! EventCollectionViewController
-            destinationVC.userEventsController = self.userEventsController
-            destinationVC.userController = self.userController
-        }
+        } 
     }
     
     func displayMenu() {
@@ -261,11 +241,13 @@ class ItemListViewController: UIViewController, UITableViewDelegate, UITableView
         }
         else if option.name == "My Events" {
             //go to events view
+            eventItemsController.removeObservers(eventId: currentEvent.id)
             dismiss(animated: true)
         } else if option.name == "Logout" {
             //logout via firebase
             do {
                 try Auth.auth().signOut()
+                eventItemsController.removeObservers(eventId: currentEvent.id)
                 performSegue(withIdentifier: "returnToLogin", sender: self)
             } catch {
                 print("A logout error occured")

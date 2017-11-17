@@ -112,13 +112,15 @@ class EventItemsController {
                     let updatedItem = Item(name: name, id: id, userID: userID, description: description, quantity: quantity)
                     self.items[i] = updatedItem
                     
-                    print ("in updating item: ", i)
-                    
                     //Reload table data
                     itemListTableView.reloadData()
                     break
                 }
             }
         })
+    }
+    
+    func removeObservers(eventId: String) {
+        self.ref.child(DB.items).child(eventId).removeAllObservers()
     }
 }

@@ -24,13 +24,11 @@ class ItemViewController: UIViewController {
     
     @IBOutlet weak var submitNewItemBtn: UIButton!
     
-    var userEventsController: UserEventsController!
     var eventItemsController: EventItemsController!
-    var currentEventIdx: Int! //unwrapped optional required to prevent Xcode mandating this class have an initializer - let's discuss best practice, I am unsure
     var editIdx: Int?
-    
+    var currentEvent: Event!
     var userID: String!
-    var id: String!
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -87,11 +85,15 @@ class ItemViewController: UIViewController {
         if (itemNameTextField.text == "" || descriptionTextField.text == "") {
             
             if itemNameTextField.text == "" {
-                print("A name must be provided before adding item to list")
+                let alert = UIAlertController(title: "", message: "A name must be provided before adding item to list", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .`default`))
+                self.present(alert, animated: true, completion: nil)
             }
             
             if descriptionTextField.text == "" {
-                print("A valid description must be provided before adding item to list")
+                let alert = UIAlertController(title: "", message: "A valid description must be provided before adding item to list", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .`default`))
+                self.present(alert, animated: true, completion: nil)
             }
             
         //otherwise proceed with create new item/edit existing item
@@ -99,10 +101,10 @@ class ItemViewController: UIViewController {
             
             //if editIdx not nil, user requsted edit to existing item
             if let updateIdx = editIdx {
-                eventItemsController.editItem(itemId: eventItemsController.items[updateIdx].id, name: itemNameTextField.text!, userID: userID, description: descriptionTextField.text!, quantity: Int(quantityStepper.value), eventId: userEventsController.events[currentEventIdx].id)
+                eventItemsController.editItem(itemId: eventItemsController.items[updateIdx].id, name: itemNameTextField.text!, userID: userID, description: descriptionTextField.text!, quantity: Int(quantityStepper.value), eventId: currentEvent.id)
             } else {
                 //add new item to corresponding event
-                eventItemsController.addItem(name: itemNameTextField.text!, userID: self.userID, description: descriptionTextField.text!, quantity: Int(quantityStepper.value), eventId: userEventsController.events[currentEventIdx].id)
+                eventItemsController.addItem(name: itemNameTextField.text!, userID: self.userID, description: descriptionTextField.text!, quantity: Int(quantityStepper.value), eventId: currentEvent.id)
             }
             
             //return to list which will now display recently added item
