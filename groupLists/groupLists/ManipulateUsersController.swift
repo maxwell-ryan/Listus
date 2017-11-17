@@ -151,7 +151,7 @@ class ManipulateUsersController: UIViewController, UITableViewDataSource, UITabl
         cell.userName.text = cell.user.userName
         
         //display user privilege level
-        if cell.user.permissions == true {
+        if userEventsController.events[currentEventIdx].authorizedUsers[indexPath.row].permissions == true {
             cell.userPrivileges.text = "Organizer"
         }
         else {
@@ -176,7 +176,7 @@ class ManipulateUsersController: UIViewController, UITableViewDataSource, UITabl
         
         //add user to user array if string argument is not empty string
         if self.userInputTextField.text != "" {
-            
+            print(privilegesToggle.isOn)
             //unwrap as if condition verifies not nil - firebase callback fire reloadData() and updateViewConstraints() @ correct time
             userEventsController.addUserToEvent(eventID: userEventsController.events[currentEventIdx].id, eventIdx: currentEventIdx, email: self.userInputTextField.text!, permissions: privilegesToggle.isOn, addUserVC: self)
           
@@ -188,8 +188,6 @@ class ManipulateUsersController: UIViewController, UITableViewDataSource, UITabl
     func removeUser(sender: userButton) {
      
         self.userEventsController.removeUserFromEvent(eventIdx: self.currentEventIdx, user: sender.user!, addUserVC: self)
-        print("Requested to remove user \(self.userEventsController.events[currentEventIdx].authorizedUsers[sender.tag].userName)")
-        
     }
     
     func doneAdding(sender: Any) {

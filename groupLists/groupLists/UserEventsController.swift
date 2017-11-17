@@ -60,7 +60,7 @@ class UserEventsController {
                 self.ref.child(DB.events).child(eventID).child(DB.authorizedUsers).child(userID!).setValue([DB.userName: userName, DB.permissions: permissions])
                 
                 // Append user to event's authorized users list
-                let authorizedUserStruct = AuthorizedUser(userId: userID!, userName: userName, permissions: true)
+                let authorizedUserStruct = AuthorizedUser(userId: userID!, userName: userName, permissions: permissions)
                 self.events[eventIdx].authorizedUsers.append(authorizedUserStruct)
                 
                 //add the event to the user's events list
