@@ -63,7 +63,7 @@ class EventItemsController {
             let description = itemDB?[DB.description] as? String ?? ""
             
             let newItem = Item(name: name, id: id, userID: userID, description: description, quantity: quantity)
-            print ("itemID: ", id)
+
             self.items.append(newItem)
             
             //Reload table data

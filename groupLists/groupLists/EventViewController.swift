@@ -169,7 +169,9 @@ class EventViewController: UIViewController {
             //logout via firebase
             do {
                 try Auth.auth().signOut()
-                performSegue(withIdentifier: "returnToLogin", sender: self)
+                let welcomeViewController = self.storyboard?.instantiateViewController(withIdentifier: "InitialNavController")
+                UIApplication.shared.keyWindow?.rootViewController = welcomeViewController
+                
             } catch {
                 print("A logout error occured")
             }

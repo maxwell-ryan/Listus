@@ -248,7 +248,9 @@ class ItemListViewController: UIViewController, UITableViewDelegate, UITableView
             do {
                 try Auth.auth().signOut()
                 eventItemsController.removeObservers(eventId: currentEvent.id)
-                performSegue(withIdentifier: "returnToLogin", sender: self)
+                let welcomeController = self.storyboard?.instantiateViewController(withIdentifier: "InitialNavController")
+                UIApplication.shared.keyWindow?.rootViewController = welcomeViewController
+                
             } catch {
                 print("A logout error occured")
             }
