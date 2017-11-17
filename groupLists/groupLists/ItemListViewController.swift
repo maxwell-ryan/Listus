@@ -248,7 +248,7 @@ class ItemListViewController: UIViewController, UITableViewDelegate, UITableView
             do {
                 try Auth.auth().signOut()
                 eventItemsController.removeObservers(eventId: currentEvent.id)
-                let welcomeController = self.storyboard?.instantiateViewController(withIdentifier: "InitialNavController")
+                let welcomeViewController = self.storyboard?.instantiateViewController(withIdentifier: "InitialNavController")
                 UIApplication.shared.keyWindow?.rootViewController = welcomeViewController
                 
             } catch {

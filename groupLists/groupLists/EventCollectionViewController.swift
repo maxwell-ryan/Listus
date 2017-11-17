@@ -435,7 +435,7 @@ class EventCollectionViewController: UIViewController, UICollectionViewDelegate,
             //logout via firebase
             do {
                 try Auth.auth().signOut()
-                let welcomeController = self.storyboard?.instantiateViewController(withIdentifier: "InitialNavController")
+                let welcomeViewController = self.storyboard?.instantiateViewController(withIdentifier: "InitialNavController")
                 UIApplication.shared.keyWindow?.rootViewController = welcomeViewController
             } catch {
                 print("A logout error occured")
