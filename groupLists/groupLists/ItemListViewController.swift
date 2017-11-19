@@ -33,6 +33,7 @@ class ItemListViewController: UIViewController, UITableViewDelegate, UITableView
         listItemTableView.dataSource = self
         listItemTableView.delegate = self
         
+        // Startup firebase observers for getting, removing, and updating items
         eventItemsController.getItemOnChildAdded(eventId: currentEvent.id, itemListTableView: listItemTableView)
         eventItemsController.removeItemOnChildRemoved(eventId: currentEvent.id, itemListTableView: listItemTableView)
         eventItemsController.updateItemOnChildChanged(eventId: currentEvent.id, itemListTableView: listItemTableView)
@@ -46,20 +47,16 @@ class ItemListViewController: UIViewController, UITableViewDelegate, UITableView
         addListItemBtn.addTarget(self, action: #selector(newItemSegue), for: UIControlEvents.touchUpInside)
         addListItemBtn.isHidden = true
         
-        navBtn.setImage(UIImage(named: "menu2x"), for: UIControlState.normal)
         navBtn.showsTouchWhenHighlighted = true
         navBtn.tintColor = UIColor.darkGray
         navBtn.addTarget(self, action: #selector(displayNav), for: .touchUpInside)
         
-        menuBtn.setImage(UIImage(named: "filledmenu"), for: UIControlState.normal)
         menuBtn.showsTouchWhenHighlighted = true
         menuBtn.setImage(UIImage(named: "menu"), for: UIControlState.highlighted)
         menuBtn.showsTouchWhenHighlighted = true
         menuBtn.tintColor = UIColor.black
-        //self.view.addConstraint(NSLayoutConstraint(item: menuBtn, attribute: .centerY, relatedBy: .equal, toItem: navBtn, attribute: .centerY, multiplier: 1, constant: 0))
         menuBtn.addTarget(self, action: #selector(displayMenu), for: .touchUpInside)
         
-        listNameLabel.textColor = UIColor.init(red: 11.0/255.0, green: 12.0/255.0, blue: 16.0/255.0, alpha: 1)
         listNameLabel.text = currentEvent.name
         
         //add contextual options to bottom fly-in menu bar
@@ -68,9 +65,6 @@ class ItemListViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        
-        navBtn.setTitle("", for: UIControlState.normal)
-        menuBtn.setTitle("", for: UIControlState.normal)
         
         //ensure new items count is displayed whenever view is shown
         let creatorID = currentEvent.creator

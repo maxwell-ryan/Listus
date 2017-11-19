@@ -41,18 +41,13 @@ class EventViewController: UIViewController {
         super.viewDidLoad()
         
         //format navigation button
-        navBtn.setImage(UIImage(named: "menu2x"), for: UIControlState.normal)
         navBtn.showsTouchWhenHighlighted = true
-        navBtn.tintColor = UIColor.white
         navBtn.addTarget(self, action: #selector(displayNav), for: .touchUpInside)
         
         //format menu button
-        menuBtn.setImage(UIImage(named: "filledmenu"), for: UIControlState.normal)
         menuBtn.showsTouchWhenHighlighted = true
         menuBtn.setImage(UIImage(named: "menu"), for: UIControlState.highlighted)
         menuBtn.showsTouchWhenHighlighted = true
-        menuBtn.tintColor = UIColor.white
-        //self.view.addConstraint(NSLayoutConstraint(item: menuBtn, attribute: .centerY, relatedBy: .equal, toItem: navBtn, attribute: .centerY, multiplier: 1, constant: 0))
         menuBtn.addTarget(self, action: #selector(displayMenu), for: .touchUpInside)
         
         //set view's background color
@@ -94,11 +89,6 @@ class EventViewController: UIViewController {
             self.eventNameTextField.text = event.name
             self.eventDescTextField.text = event.description
         }
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        navBtn.setTitle("", for: UIControlState.normal)
-        menuBtn.setTitle("", for: UIControlState.normal)
     }
     
     func cancelAddEvent() {

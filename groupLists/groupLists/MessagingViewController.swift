@@ -48,6 +48,7 @@ class MessagingViewController: UIViewController, UITableViewDelegate, UITableVie
         messageTableView.rowHeight = UITableViewAutomaticDimension
         messageTableView.estimatedRowHeight = 140
         
+        // Startup Firebase observer for getting messages
         eventMessagesController.getMessages(userId: userController.user.id, eventId: currentEvent.id, messageTableView: messageTableView)
         
         messageTableView.separatorStyle = .none
@@ -64,11 +65,6 @@ class MessagingViewController: UIViewController, UITableViewDelegate, UITableVie
         
         //add contextual options to bottom fly-in menu bar
         menuLauncher.menuOptions.insert(MenuOption(name: "Back", iconName: "back"), at: 0)
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        navBtn.setTitle("", for: UIControlState.normal)
-        menuBtn.setTitle("", for: UIControlState.normal)
     }
     
     @IBAction func sendButtonTapped(_ sender: UIButton) {
