@@ -56,7 +56,7 @@ class ItemListViewController: UIViewController, UITableViewDelegate, UITableView
         menuBtn.setImage(UIImage(named: "menu"), for: UIControlState.highlighted)
         menuBtn.showsTouchWhenHighlighted = true
         menuBtn.tintColor = UIColor.black
-        self.view.addConstraint(NSLayoutConstraint(item: menuBtn, attribute: .centerY, relatedBy: .equal, toItem: navBtn, attribute: .centerY, multiplier: 1, constant: 0))
+        //self.view.addConstraint(NSLayoutConstraint(item: menuBtn, attribute: .centerY, relatedBy: .equal, toItem: navBtn, attribute: .centerY, multiplier: 1, constant: 0))
         menuBtn.addTarget(self, action: #selector(displayMenu), for: .touchUpInside)
         
         listNameLabel.textColor = UIColor.init(red: 11.0/255.0, green: 12.0/255.0, blue: 16.0/255.0, alpha: 1)

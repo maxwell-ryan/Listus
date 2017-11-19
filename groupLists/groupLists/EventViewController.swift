@@ -51,7 +51,7 @@ class EventViewController: UIViewController {
         menuBtn.setImage(UIImage(named: "menu"), for: UIControlState.highlighted)
         menuBtn.showsTouchWhenHighlighted = true
         menuBtn.tintColor = UIColor.white
-        self.view.addConstraint(NSLayoutConstraint(item: menuBtn, attribute: .centerY, relatedBy: .equal, toItem: navBtn, attribute: .centerY, multiplier: 1, constant: 0))
+        //self.view.addConstraint(NSLayoutConstraint(item: menuBtn, attribute: .centerY, relatedBy: .equal, toItem: navBtn, attribute: .centerY, multiplier: 1, constant: 0))
         menuBtn.addTarget(self, action: #selector(displayMenu), for: .touchUpInside)
         
         //set view's background color
