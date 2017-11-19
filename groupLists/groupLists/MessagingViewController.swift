@@ -15,6 +15,7 @@ class MessagingViewController: UIViewController, UITableViewDelegate, UITableVie
     var userEventsController: UserEventsController!
     var eventMessagesController = EventMessagesController()
     var eventId: String!
+    var currentEvent: Event!
     
     let navigationLauncher = NavigationLauncher()
     let menuLauncher = MenuLauncher()
@@ -26,7 +27,7 @@ class MessagingViewController: UIViewController, UITableViewDelegate, UITableVie
     @IBOutlet weak var textFieldView: UIView!
     @IBOutlet weak var navBtn: UIButton!
     @IBOutlet weak var menuBtn: UIButton!
-    
+    @IBOutlet weak var listNameLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,6 +61,8 @@ class MessagingViewController: UIViewController, UITableViewDelegate, UITableVie
         menuBtn.showsTouchWhenHighlighted = true
         menuBtn.tintColor = UIColor.darkGray
         menuBtn.addTarget(self, action: #selector(displayMenu), for: .touchUpInside)
+        
+        listNameLabel.text = currentEvent.name
         
         //add contextual options to bottom fly-in menu bar
         menuLauncher.menuOptions.insert(MenuOption(name: "Back", iconName: "back"), at: 0)

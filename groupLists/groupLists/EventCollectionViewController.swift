@@ -339,6 +339,7 @@ class EventCollectionViewController: UIViewController, UICollectionViewDelegate,
             messagingVC.eventId = userEventsController.events[selectedIndexPath.item].id
             messagingVC.userEventsController = self.userEventsController
             messagingVC.userController = self.userController
+            messagingVC.currentEvent = self.userEventsController.events[selectedIndexPath.item]
         
         } else if segue.identifier == "addEvent" {
             

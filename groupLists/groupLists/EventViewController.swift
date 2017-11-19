@@ -23,6 +23,7 @@ class EventViewController: UIViewController {
     @IBOutlet weak var eventDescTextField: UITextField!
     
     @IBOutlet weak var eventDatePicker: UIDatePicker!
+    @IBOutlet weak var innerView: UIView!
     
     @IBOutlet weak var cancelBtn: UIButton!
     @IBOutlet weak var createBtn: UIButton!
@@ -55,7 +56,7 @@ class EventViewController: UIViewController {
         menuBtn.addTarget(self, action: #selector(displayMenu), for: .touchUpInside)
         
         //set view's background color
-        view.backgroundColor = colors.primaryColor1
+        innerView.backgroundColor = colors.primaryColor1
         
         //format create button (serves as create for both new adds and edits)
         createBtn.setTitleColor(colors.accentColor1, for: UIControlState.normal)
