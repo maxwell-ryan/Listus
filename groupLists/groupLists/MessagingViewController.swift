@@ -12,9 +12,7 @@ import Firebase
 class MessagingViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
 
     var userController: UserController!
-    var userEventsController: UserEventsController!
     var eventMessagesController = EventMessagesController()
-    var eventId: String!
     var currentEvent: Event!
     
     let navigationLauncher = NavigationLauncher()
@@ -50,7 +48,7 @@ class MessagingViewController: UIViewController, UITableViewDelegate, UITableVie
         messageTableView.rowHeight = UITableViewAutomaticDimension
         messageTableView.estimatedRowHeight = 140
         
-        eventMessagesController.getMessages(userId: userController.user.id, eventId: eventId, messageTableView: messageTableView)
+        eventMessagesController.getMessages(userId: userController.user.id, eventId: currentEvent.id, messageTableView: messageTableView)
         
         messageTableView.separatorStyle = .none
         
@@ -78,7 +76,7 @@ class MessagingViewController: UIViewController, UITableViewDelegate, UITableVie
         messageTextField.isEnabled = false
         sendButton.isEnabled = false
         
-        eventMessagesController.createMessage(userController: userController, eventId: eventId, messageTextField: messageTextField, sendButton: sendButton, date: Date())
+        eventMessagesController.createMessage(userController: userController, eventId: currentEvent.id, messageTextField: messageTextField, sendButton: sendButton, date: Date())
     }
     
     

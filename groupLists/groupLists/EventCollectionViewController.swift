@@ -336,8 +336,6 @@ class EventCollectionViewController: UIViewController, UICollectionViewDelegate,
             itemListVC.currentEvent = self.userEventsController.events[selectedIndexPath.item]
             
             let messagingVC = tabBarViewControllers.viewControllers![1] as! MessagingViewController
-            messagingVC.eventId = userEventsController.events[selectedIndexPath.item].id
-            messagingVC.userEventsController = self.userEventsController
             messagingVC.userController = self.userController
             messagingVC.currentEvent = self.userEventsController.events[selectedIndexPath.item]
         
