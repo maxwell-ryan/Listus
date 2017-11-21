@@ -13,6 +13,10 @@ class ListItemTableViewCell: UITableViewCell {
     @IBOutlet weak var itemNameLabel: UILabel!
     @IBOutlet weak var itemDescriptionLabel: UILabel!
     @IBOutlet weak var itemUserLabel: UILabel!
+    @IBOutlet weak var claimButton: UIButton!
+    @IBOutlet weak var quantityLabel: UILabel!
+    @IBOutlet weak var claimedByLabel: UILabel!
+    @IBOutlet weak var voteCountLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()

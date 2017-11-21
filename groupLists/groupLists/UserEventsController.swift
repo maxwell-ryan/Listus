@@ -31,14 +31,17 @@ class UserEventsController {
         //get user name
         let userName = userController.user.firstName + " " + userController.user.lastName
         
+        //get user email
+        let userEmail = userController.user.email
+        
         //set values of event
         eventRef.setValue([DB.name: name, DB.date: dateString, DB.description: description, DB.creator: userController.user.id])
-        eventRef.child(DB.authorizedUsers).child(userController.user.id).setValue([DB.userName: userName, DB.permissions: true])
+        eventRef.child(DB.authorizedUsers).child(userController.user.id).setValue([DB.userName: userName, DB.permissions: true, DB.email: userEmail])
         
         //add the event to the users events list
         ref.child(DB.users).child(userController.user.id).child(DB.events).child(eventRef.key).setValue(true)
         
-        let authorizedUserStruct = AuthorizedUser(userId: userController.user.id, userName: userName, permissions: true)
+        let authorizedUserStruct = AuthorizedUser(userId: userController.user.id, userName: userName, userEmail: userEmail, permissions: true)
         
         events.append(Event(name: name, id: eventRef.key, date: date, description: description, creator: userController.user.id, authorizedUsers: [authorizedUserStruct]))
     }
@@ -57,10 +60,10 @@ class UserEventsController {
                 let userName = (userDict[DB.firstName]! as? String ?? "") + " " + (userDict[DB.lastName]! as? String ?? "")
                 
                 //add user to event's authorizedUsers
-                self.ref.child(DB.events).child(eventID).child(DB.authorizedUsers).child(userID!).setValue([DB.userName: userName, DB.permissions: permissions])
+                self.ref.child(DB.events).child(eventID).child(DB.authorizedUsers).child(userID!).setValue([DB.userName: userName, DB.permissions: permissions, DB.email: email])
                 
                 // Append user to event's authorized users list
-                let authorizedUserStruct = AuthorizedUser(userId: userID!, userName: userName, permissions: permissions)
+                let authorizedUserStruct = AuthorizedUser(userId: userID!, userName: userName, userEmail: email, permissions: permissions)
                 self.events[eventIdx].authorizedUsers.append(authorizedUserStruct)
                 
                 //add the event to the user's events list
@@ -220,8 +223,9 @@ class UserEventsController {
                                 let userId = u.key as? String ?? ""
                                 let permissions = user[DB.permissions] as? Bool ?? false
                                 let userName = user[DB.userName] as? String ?? ""
+                                let userEmail = user[DB.email] as? String ?? ""
                                 
-                                authorizedUsers.append(AuthorizedUser(userId: userId, userName: userName, permissions: permissions))
+                                authorizedUsers.append(AuthorizedUser(userId: userId, userName: userName, userEmail: userEmail, permissions: permissions))
                             }
                             
                             // format date from string to date type
