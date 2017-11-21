@@ -29,6 +29,8 @@ struct DB {
     static let user = "user"
     static let suggestor = "suggestorUserID"
     static let voteCount = "voteCount"
+    static let positiveVoterUserID = "positiveVoterUserID"
+    static let negativeVoterUserID = "negativeVoterUserID"
     
     static let messages = "messages"
     static let senderName = "senderName"

@@ -96,6 +96,7 @@ class ItemListViewController: UIViewController, UITableViewDelegate, UITableView
             listItemCell.quantityLabel.text = "| Quantity needed: \(eventItemsController.items[indexPath.row].quantity!) |"
             
             //append + to voteCount display, if positive
+            print(self.eventItemsController.items[indexPath.row].voteCount)
             if self.eventItemsController.items[indexPath.row].voteCount > 0 {
                 listItemCell.voteCountLabel.text = "+\(self.eventItemsController.items[indexPath.row].voteCount)"
             } else {
@@ -108,7 +109,7 @@ class ItemListViewController: UIViewController, UITableViewDelegate, UITableView
                 listItemCell.claimedByLabel.isHidden = true
 
             } else {
-                listItemCell.claimedByLabel.text = "\(eventItemsController.items[indexPath.row].userID!) commited to bring"
+                listItemCell.claimedByLabel.text = "\(eventItemsController.items[indexPath.row].userID!) already claimed"
                 listItemCell.claimedByLabel.isHidden = false
 
             }
@@ -122,7 +123,7 @@ class ItemListViewController: UIViewController, UITableViewDelegate, UITableView
             //nobody has claimed item
             if eventItemsController.items[indexPath.row].userID == nil {
                 listItemCell.claimButton.isHidden = false
-                listItemCell.claimButton.setTitle("Commit to Bring", for: .normal)
+                listItemCell.claimButton.setTitle("Claim", for: .normal)
                 listItemCell.claimButton.addTarget(self, action: #selector(claimItem), for: .touchUpInside)
             
             //item claimed by user besides current user
@@ -134,7 +135,7 @@ class ItemListViewController: UIViewController, UITableViewDelegate, UITableView
             } else if eventItemsController.items[indexPath.row].userID != nil && eventItemsController.items[indexPath.row].userID == (self.userController.user.firstName + " " + self.userController.user.lastName) {
                 
                 listItemCell.claimButton.isHidden = false
-                listItemCell.claimButton.setTitle("Decommit To Bring", for: .normal)
+                listItemCell.claimButton.setTitle("Unclaim", for: .normal)
                 listItemCell.claimButton.addTarget(self, action: #selector(unclaimItem), for: .touchUpInside)
             }
 
@@ -176,7 +177,7 @@ class ItemListViewController: UIViewController, UITableViewDelegate, UITableView
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //no implementation of row selection yet
-        //could be used for detailed view of item information
+        //could be used for detailed view of item information (PICTURE HERE?)
         
     }
     
@@ -213,8 +214,9 @@ class ItemListViewController: UIViewController, UITableViewDelegate, UITableView
         let disagree = UIContextualAction(style: .normal, title: "Disagree", handler: { (contextualAction, sourceView, completionHandler) in
             let cell = tableView.cellForRow(at: indexPath)
             cell?.tag = indexPath.row
-           
-            //insert code to disagree with item
+            print("Clicking on disagree")
+            self.eventItemsController.downvoteItem(eventId: self.currentEvent.id, item: self.eventItemsController.items[indexPath.row], user: self.userController.user)
+            self.listItemTableView.reloadData()
         })
         disagree.backgroundColor = UIColor.orange
         
@@ -236,6 +238,9 @@ class ItemListViewController: UIViewController, UITableViewDelegate, UITableView
         let concur = UIContextualAction(style: .normal, title: "Concur", handler: { (contextualAction, sourceView, completionHandler) in
             let cell = tableView.cellForRow(at: indexPath)
             cell?.tag = indexPath.row
+            print("Clicking on concur")
+            self.eventItemsController.upvoteItem(eventId: self.currentEvent.id, item: self.eventItemsController.items[indexPath.row], user: self.userController.user)
+            self.listItemTableView.reloadData()
         })
         concur.backgroundColor = colors.accentColor1
         

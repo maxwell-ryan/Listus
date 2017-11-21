@@ -645,9 +645,8 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qMe-0E-obN">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qMe-0E-obN">
                                                     <rect key="frame" x="356" y="8" width="43" height="29"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -657,6 +656,8 @@
                                                 <constraint firstItem="QvL-Lk-GxC" firstAttribute="top" secondItem="21z-8G-lUY" secondAttribute="top" constant="45" id="VoW-lX-f5n"/>
                                                 <constraint firstAttribute="trailing" secondItem="QvL-Lk-GxC" secondAttribute="trailing" constant="8" id="Xfy-88-1zW"/>
                                                 <constraint firstAttribute="bottom" secondItem="2S7-qJ-mxt" secondAttribute="bottom" constant="0.6666666666666714" id="ccb-53-5OQ"/>
+                                                <constraint firstItem="qMe-0E-obN" firstAttribute="top" secondItem="21z-8G-lUY" secondAttribute="top" constant="8" id="gF8-fc-whU"/>
+                                                <constraint firstAttribute="trailing" secondItem="qMe-0E-obN" secondAttribute="trailing" constant="15" id="jC8-1L-Y6s"/>
                                                 <constraint firstAttribute="trailing" secondItem="2S7-qJ-mxt" secondAttribute="trailing" constant="16" id="rRy-xg-fUu"/>
                                             </constraints>
                                         </tableViewCellContentView>
