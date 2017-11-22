@@ -18,7 +18,6 @@ class ItemListViewController: UIViewController, UITableViewDelegate, UITableView
     let navigationLauncher = NavigationLauncher()
     let menuLauncher = MenuLauncher()
     
-    @IBOutlet weak var addListItemBtn: UIButton!
     @IBOutlet weak var listItemTableView: UITableView!
 
     @IBOutlet weak var listInfoLabel: UILabel!
@@ -30,6 +29,7 @@ class ItemListViewController: UIViewController, UITableViewDelegate, UITableView
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //itemListView setup
         listItemTableView.dataSource = self
         listItemTableView.delegate = self
         
@@ -38,15 +38,10 @@ class ItemListViewController: UIViewController, UITableViewDelegate, UITableView
         eventItemsController.removeItemOnChildRemoved(eventId: currentEvent.id, itemListTableView: listItemTableView)
         eventItemsController.updateItemOnChildChanged(eventId: currentEvent.id, itemListTableView: listItemTableView)
         
+        //view, nav, and menu styling and formatting
         listItemTableView.backgroundColor = colors.primaryColor1
         self.view.backgroundColor = UIColor.white
-        
-        addListItemBtn.setTitleColor(colors.accentColor1, for: UIControlState.normal)
-        addListItemBtn.backgroundColor = colors.primaryColor2
-        addListItemBtn.layer.cornerRadius = 10
-        addListItemBtn.addTarget(self, action: #selector(newItemSegue), for: UIControlEvents.touchUpInside)
-        addListItemBtn.isHidden = true
-        
+              
         navBtn.showsTouchWhenHighlighted = true
         navBtn.tintColor = UIColor.darkGray
         navBtn.addTarget(self, action: #selector(displayNav), for: .touchUpInside)
@@ -57,6 +52,7 @@ class ItemListViewController: UIViewController, UITableViewDelegate, UITableView
         menuBtn.tintColor = UIColor.black
         menuBtn.addTarget(self, action: #selector(displayMenu), for: .touchUpInside)
         
+        //display event name
         listNameLabel.text = currentEvent.name
         
         //add contextual options to bottom fly-in menu bar
@@ -86,9 +82,6 @@ class ItemListViewController: UIViewController, UITableViewDelegate, UITableView
         performSegue(withIdentifier: "addItem", sender: self)
     }
     
-    
-    //implement UITableViewDelegate and UITableViewDataSource
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return eventItemsController.items.count
     }
@@ -97,22 +90,94 @@ class ItemListViewController: UIViewController, UITableViewDelegate, UITableView
         UITableViewCell {
             let listItemCell = listItemTableView.dequeueReusableCell(withIdentifier: "itemCell", for: indexPath) as! ListItemTableViewCell
             
+            //set cell label text fields
             listItemCell.itemNameLabel.text = eventItemsController.items[indexPath.row].name
             listItemCell.itemDescriptionLabel.text = eventItemsController.items[indexPath.row].description
-            listItemCell.itemUserLabel.text = "| Suggested by \(eventItemsController.items[indexPath.row].userID) |"
+            listItemCell.quantityLabel.text = "| Quantity needed: \(eventItemsController.items[indexPath.row].quantity!) |"
             
+            //append + to voteCount display, if positive
+            print(self.eventItemsController.items[indexPath.row].voteCount)
+            if self.eventItemsController.items[indexPath.row].voteCount > 0 {
+                listItemCell.voteCountLabel.text = "+\(self.eventItemsController.items[indexPath.row].voteCount)"
+            } else {
+                listItemCell.voteCountLabel.text = "\(self.eventItemsController.items[indexPath.row].voteCount)"
+            }
+            
+            //verify if corresponding item has already been claimed and display to user
+            if eventItemsController.items[indexPath.row].userID == nil {
+                listItemCell.claimedByLabel.text = ""
+                listItemCell.claimedByLabel.isHidden = true
+
+            } else {
+                listItemCell.claimedByLabel.text = "\(eventItemsController.items[indexPath.row].userID!) already claimed"
+                listItemCell.claimedByLabel.isHidden = false
+
+            }
+            
+            //mark item index to button
+            listItemCell.claimButton.tag = indexPath.row
+            
+            //add claim button targets based on claim status/state
+            print(eventItemsController.items[indexPath.row].userID)
+            
+            //nobody has claimed item
+            if eventItemsController.items[indexPath.row].userID == nil {
+                listItemCell.claimButton.isHidden = false
+                listItemCell.claimButton.setTitle("Claim", for: .normal)
+                listItemCell.claimButton.addTarget(self, action: #selector(claimItem), for: .touchUpInside)
+            
+            //item claimed by user besides current user
+            } else if eventItemsController.items[indexPath.row].userID != nil && eventItemsController.items[indexPath.row].userID != (self.userController.user.firstName + " " + self.userController.user.lastName) {
+                listItemCell.claimButton.isHidden = true
+                listItemCell.claimButton.setTitle("Already Claimed", for: .normal)
+                
+            //item claimed by current user
+            } else if eventItemsController.items[indexPath.row].userID != nil && eventItemsController.items[indexPath.row].userID == (self.userController.user.firstName + " " + self.userController.user.lastName) {
+                
+                listItemCell.claimButton.isHidden = false
+                listItemCell.claimButton.setTitle("Unclaim", for: .normal)
+                listItemCell.claimButton.addTarget(self, action: #selector(unclaimItem), for: .touchUpInside)
+            }
+
+            //obtain suggestor name from authorizedUsers struct array
+            var suggestorName: String?
+            for user in currentEvent.authorizedUsers {
+                if user.userId == eventItemsController.items[indexPath.row].suggestorUserID {
+                    suggestorName = user.userName
+                    break
+                }
+            }
+            
+            //if found, display suggestor name
+            if suggestorName != nil {
+                listItemCell.itemUserLabel.text = "| Suggested by \(suggestorName!) |"
+            
+            //otherwise, display unknown name
+            } else {
+                listItemCell.itemUserLabel.text = "| Suggested by unknown |"
+            }
+            
+            //format claim button color and styling
+            listItemCell.claimButton.layer.cornerRadius = 3
+            listItemCell.claimButton.layer.borderColor = listItemCell.claimButton.currentTitleColor.cgColor
+            listItemCell.claimButton.layer.borderWidth = 1
+            listItemCell.claimButton.contentEdgeInsets = UIEdgeInsets(top: 2, left: 6, bottom: 2, right: 6)
+            
+            //format cell label colors
             listItemCell.backgroundColor = colors.primaryColor1
             listItemCell.itemNameLabel.textColor = colors.primaryColor2
             listItemCell.itemDescriptionLabel.textColor = colors.primaryColor2
-            
+            listItemCell.quantityLabel.textColor = colors.accentColor1
             listItemCell.itemUserLabel.textColor = colors.accentColor1
+            listItemCell.claimedByLabel.textColor = colors.primaryColor2
+            listItemCell.voteCountLabel.textColor = colors.accentColor1
             
             return listItemCell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //no implementation of row selection yet
-        //could be used for detailed view of item information
+        //could be used for detailed view of item information (PICTURE HERE?)
         
     }
     
@@ -149,8 +214,9 @@ class ItemListViewController: UIViewController, UITableViewDelegate, UITableView
         let disagree = UIContextualAction(style: .normal, title: "Disagree", handler: { (contextualAction, sourceView, completionHandler) in
             let cell = tableView.cellForRow(at: indexPath)
             cell?.tag = indexPath.row
-           
-            //insert code to disagree with item
+            print("Clicking on disagree")
+            self.eventItemsController.downvoteItem(eventId: self.currentEvent.id, item: self.eventItemsController.items[indexPath.row], user: self.userController.user)
+            self.listItemTableView.reloadData()
         })
         disagree.backgroundColor = UIColor.orange
         
@@ -172,6 +238,9 @@ class ItemListViewController: UIViewController, UITableViewDelegate, UITableView
         let concur = UIContextualAction(style: .normal, title: "Concur", handler: { (contextualAction, sourceView, completionHandler) in
             let cell = tableView.cellForRow(at: indexPath)
             cell?.tag = indexPath.row
+            print("Clicking on concur")
+            self.eventItemsController.upvoteItem(eventId: self.currentEvent.id, item: self.eventItemsController.items[indexPath.row], user: self.userController.user)
+            self.listItemTableView.reloadData()
         })
         concur.backgroundColor = colors.accentColor1
         
@@ -182,6 +251,7 @@ class ItemListViewController: UIViewController, UITableViewDelegate, UITableView
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
+        //pass info needed to edit an item
         if segue.identifier == "editItem" {
             let selectedRow = sender as! ListItemTableViewCell
             let destinationVC = segue.destination as! ItemViewController
@@ -193,7 +263,7 @@ class ItemListViewController: UIViewController, UITableViewDelegate, UITableView
             //maintain current item scope/idx
             destinationVC.editIdx = selectedRow.tag
 
-
+        //pass info needed to add an item
         } else if segue.identifier == "addItem" {
             let destinationVC = segue.destination as! ItemViewController
             
@@ -205,10 +275,12 @@ class ItemListViewController: UIViewController, UITableViewDelegate, UITableView
     
     func displayMenu() {
         
+        //set self as menuLauncher base VC and display
         menuLauncher.baseItemListVC = self
         menuLauncher.showMenu()
     }
     
+    //perform menu action commensurate with option selected
     func executeMenuOption(option: MenuOption) {
         
         if option.name == "Cancel" {
@@ -218,16 +290,18 @@ class ItemListViewController: UIViewController, UITableViewDelegate, UITableView
             dismiss(animated: true)
         } else if option.name == "Add" {
             //add requested, fire add event
-            addListItemBtn.sendActions(for: .touchUpInside)
+            self.newItemSegue()
         }
     }
     
     func displayNav() {
         
+        //set self as navigationLauncher base VC and display
         navigationLauncher.baseItemListVC = self
         navigationLauncher.showMenu()
     }
     
+    //perform navigation action commensurate with option selected
     func executeNavOption(option: NavOption) {
         
         if option.name == "Cancel" {
@@ -251,6 +325,15 @@ class ItemListViewController: UIViewController, UITableViewDelegate, UITableView
         }
     }
     
-
-
+    func claimItem(sender: UIButton) {
+        //CLAIM item via data model items controller
+        self.eventItemsController.claimItem(eventId: self.currentEvent.id, item: self.eventItemsController.items[sender.tag], user: self.userController.user)
+        self.listItemTableView.reloadData()
+    }
+    
+    func unclaimItem(sender: UIButton) {
+        //UNCLAIM item via data model items controller
+        self.eventItemsController.unclaimItem(eventId: self.currentEvent.id, item: self.eventItemsController.items[sender.tag], user: self.userController.user)
+        self.listItemTableView.reloadData()
+    }
 }

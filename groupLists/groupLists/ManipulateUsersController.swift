@@ -174,14 +174,45 @@ class ManipulateUsersController: UIViewController, UITableViewDataSource, UITabl
     
     func addUser(sender: Any) {
         
+        var duplicateFound = false
+        
         //add user to user array if string argument is not empty string
         if self.userInputTextField.text != "" {
-            print(privilegesToggle.isOn)
-            //unwrap as if condition verifies not nil - firebase callback fire reloadData() and updateViewConstraints() @ correct time
-            userEventsController.addUserToEvent(eventID: userEventsController.events[currentEventIdx].id, eventIdx: currentEventIdx, email: self.userInputTextField.text!, permissions: privilegesToggle.isOn, addUserVC: self)
-          
-            //reset input field
-            self.userInputTextField.text = ""
+            
+            //verify user is not already authorized using unique email attribute
+            for users in self.userEventsController.events[currentEventIdx].authorizedUsers {
+                
+                //if already authorized, set bool
+                if users.userEmail == self.userInputTextField.text {
+                    
+                    duplicateFound = true
+                }
+            }
+            
+            //if not unique entry
+            if duplicateFound {
+                
+                //notify user of existing status
+                let duplicateUserAlert = UIAlertController(title: "Duplicate User", message: "That that user can already see and use this event. To change permissions, remove the user and re-add with the new desired privilege level.", preferredStyle: UIAlertControllerStyle.alert)
+                let okAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: { (okAction) in
+                    self.userInputTextField.text = ""
+                })
+                duplicateUserAlert.addAction(okAction)
+                
+                //present alert VC
+                self.present(duplicateUserAlert, animated: true, completion: nil)
+                
+            //if unique user entry, add user
+            } else {
+
+                //unwrap as if condition verifies not nil - firebase callback fire reloadData() and updateViewConstraints() @ correct time
+                userEventsController.addUserToEvent(eventID: userEventsController.events[currentEventIdx].id, eventIdx: currentEventIdx, email: self.userInputTextField.text!, permissions: privilegesToggle.isOn, addUserVC: self)
+                
+                //reset input field
+                self.userInputTextField.text = ""
+            
+            }
+
         }
     }
     

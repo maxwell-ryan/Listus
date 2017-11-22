@@ -156,7 +156,6 @@ class ItemViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     func updateStepperLabel() {
@@ -185,10 +184,10 @@ class ItemViewController: UIViewController, UIImagePickerControllerDelegate, UIN
             
             //if editIdx not nil, user requsted edit to existing item
             if let updateIdx = editIdx {
-                eventItemsController.editItem(itemId: eventItemsController.items[updateIdx].id, name: itemNameTextField.text!, userID: userID, description: descriptionTextField.text!, quantity: Int(quantityStepper.value), eventId: currentEvent.id)
+                eventItemsController.editItem(item: eventItemsController.items[updateIdx], itemId: eventItemsController.items[updateIdx].id, name: itemNameTextField.text!, description: descriptionTextField.text!, quantity: Int(quantityStepper.value), eventId: currentEvent.id, voteCount: eventItemsController.items[updateIdx].voteCount)
             } else {
                 //add new item to corresponding event
-                eventItemsController.addItem(name: itemNameTextField.text!, userID: self.userID, description: descriptionTextField.text!, quantity: Int(quantityStepper.value), eventId: currentEvent.id)
+                eventItemsController.addItem(name: itemNameTextField.text!, suggestorUserID: self.userID, description: descriptionTextField.text!, quantity: Int(quantityStepper.value), eventId: currentEvent.id, voteCount: 0)
             }
             
             //return to list which will now display recently added item
