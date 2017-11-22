@@ -768,6 +768,18 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jx9-KQ-Yzi">
+                                <rect key="frame" x="168" y="353" width="79" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Photos"/>
+                                <connections>
+                                    <action selector="photosButtonTapped:" destination="C7i-as-Xzr" eventType="touchUpInside" id="DkT-bQ-Y8o"/>
+                                </connections>
+                            </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Th3-z7-gJF">
+                                <rect key="frame" x="87" y="444" width="240" height="128"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -799,6 +811,7 @@
                         <outlet property="backBtn" destination="sOg-B7-QvQ" id="f93-K7-Ul5"/>
                         <outlet property="descriptionLabel" destination="NQP-na-wjo" id="CQw-iP-ag1"/>
                         <outlet property="descriptionTextField" destination="EcF-sE-I8w" id="y5M-gh-u2j"/>
+                        <outlet property="imageView" destination="Th3-z7-gJF" id="uVP-2J-F6a"/>
                         <outlet property="itemNameLabel" destination="UFZ-LF-Iz3" id="GeG-EP-3p7"/>
                         <outlet property="itemNameTextField" destination="n5L-0n-Txr" id="FeV-y2-7vH"/>
                         <outlet property="quantityLabel" destination="2at-wk-VRt" id="zdh-ZP-mDg"/>

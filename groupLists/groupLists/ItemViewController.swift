@@ -7,8 +7,11 @@
 //
 
 import UIKit
+import Firebase
+import Photos
+import PINRemoteImage
 
-class ItemViewController: UIViewController {
+class ItemViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     @IBOutlet weak var itemNameLabel: UILabel!
     @IBOutlet weak var itemNameTextField: UITextField!
@@ -24,15 +27,22 @@ class ItemViewController: UIViewController {
     
     @IBOutlet weak var submitNewItemBtn: UIButton!
     
+    @IBOutlet weak var imageView: UIImageView!
+    
     var eventItemsController: EventItemsController!
     var editIdx: Int?
     var currentEvent: Event!
     var userID: String!
+    
+    var storageRef: StorageReference!
 
     
     override func viewDidLoad() {
         super.viewDidLoad()
     
+        storageRef = Storage.storage().reference()
+        imageView.pin_setImage(from: URL(string: "https://firebasestorage.googleapis.com/v0/b/grouplist-23248.appspot.com/o/DC8XAuxhv7Xnd0AFi9KKB5IjmYP2%2F532915232278.jpg?alt=media&token=c3c04d42-d419-43c4-8121-88bf9dc1fee6")!)
+        
         view.backgroundColor = colors.primaryColor1
         
         submitNewItemBtn.setTitleColor(colors.accentColor1, for: UIControlState.normal)
@@ -70,6 +80,80 @@ class ItemViewController: UIViewController {
         }
     }
 
+    @IBAction func photosButtonTapped(_ sender: Any) {
+        let imagePicker = UIImagePickerController()
+        imagePicker.delegate = self
+        
+        let alertController = UIAlertController(title: "Choose Image Source", message: nil, preferredStyle: .actionSheet)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        alertController.addAction(cancelAction)
+        
+        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+            let cameraAction = UIAlertAction(title: "Camera", style: .default, handler: { action in
+                    imagePicker.sourceType = .camera
+                    self.present(imagePicker, animated: true,
+                                 completion: nil)
+            })
+            alertController.addAction(cameraAction)
+        }
+        
+        if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
+            let photoLibraryAction = UIAlertAction(title: "photo library", style: .default, handler: { action in
+                imagePicker.sourceType = .photoLibrary
+                self.present(imagePicker, animated: true,
+                completion: nil)
+            })
+            alertController.addAction(photoLibraryAction)
+        }
+        present(alertController, animated: true, completion: nil)
+    }
+    
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        
+        // if it's a photo from the library, not an image from the camera
+        if #available(iOS 8.0, *), let referenceUrl = info[UIImagePickerControllerPHAsset] as? URL {
+            let assets = PHAsset.fetchAssets(withALAssetURLs: [referenceUrl], options: nil)
+            let asset = assets.firstObject
+            asset?.requestContentEditingInput(with: nil, completionHandler: { (contentEditingInput, info) in
+                let imageFile = contentEditingInput?.fullSizeImageURL
+                let filePath = Auth.auth().currentUser!.uid +
+                "/\(Int(Date.timeIntervalSinceReferenceDate * 1000))/\(imageFile!.lastPathComponent)"
+                // [START uploadimage]
+                self.storageRef.child(filePath)
+                    .putFile(from: imageFile!, metadata: nil) { (metadata, error) in
+                        if let error = error {
+                            print("Error uploading: \(error)")
+                            return
+                        }
+                        self.uploadSuccess(metadata!, storagePath: filePath)
+                }
+                // [END uploadimage]
+            })
+        } else {
+            guard let image = info[UIImagePickerControllerOriginalImage] as? UIImage else { return }
+            guard let imageData = UIImageJPEGRepresentation(image, 0.8) else { return }
+            let imagePath = Auth.auth().currentUser!.uid +
+            "/\(Int(Date.timeIntervalSinceReferenceDate * 1000)).jpg"
+            let metadata = StorageMetadata()
+            metadata.contentType = "image/jpeg"
+            self.storageRef.child(imagePath).putData(imageData, metadata: metadata) { (metadata, error) in
+                if let error = error {
+                    print("Error uploading: \(error)")
+                    return
+                }
+                self.uploadSuccess(metadata!, storagePath: imagePath)
+            }
+        }
+    }
+    
+    func uploadSuccess(_ metadata: StorageMetadata, storagePath: String) {
+        print("Upload Succeeded!")
+        print (metadata.downloadURL()?.absoluteString)
+        UserDefaults.standard.set(storagePath, forKey: "storagePath")
+        UserDefaults.standard.synchronize()
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
