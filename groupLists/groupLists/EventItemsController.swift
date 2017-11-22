@@ -206,13 +206,11 @@ class EventItemsController {
             
             for id in positiveVoterUserIdDict {
                 let userID = id.key as? String ?? ""
-                print("positive userID key returned: \(userID)")
                 positiveVoterUserID.append(userID)
             }
             
             for id in negativeVoterUserIdDict {
                 let userID = id.key as? String ?? ""
-                print("negative userID key returned: \(userID)")
                 negativeVoterUserID.append(userID)
             }
 
@@ -277,13 +275,11 @@ class EventItemsController {
             
             for id in positiveVoterUserIdDict {
                 let userID = id.key as? String ?? ""
-                print("positive userID key returned: \(userID)")
                 positiveVoterUserID.append(userID)
             }
             
             for id in negativeVoterUserIdDict {
                 let userID = id.key as? String ?? ""
-                print("negative userID key returned: \(userID)")
                 negativeVoterUserID.append(userID)
             }
             
