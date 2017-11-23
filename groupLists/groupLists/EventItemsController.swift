@@ -29,14 +29,14 @@ class EventItemsController {
     }
     
     
-    func editItem(item: Item, itemId: String, name: String, description: String, quantity: Int, eventId: String, voteCount: Int) {
+    func editItem(item: Item, itemId: String, name: String, description: String, quantity: Int, eventId: String, voteCount: Int, imageURL: String) {
         self.ref = Database.database().reference()
         let itemRef = self.ref.child(DB.items).child(eventId).child(itemId)
         
         let userID = item.userID ?? ""
         let suggestorUserID = item.suggestorUserID ?? ""
         
-        itemRef.setValue([DB.name: name, DB.user: userID, DB.suggestor: suggestorUserID, DB.description: description, DB.quantity: quantity, DB.voteCount: voteCount]) { (error, reference) in
+        itemRef.setValue([DB.name: name, DB.user: userID, DB.suggestor: suggestorUserID, DB.description: description, DB.quantity: quantity, DB.voteCount: voteCount, DB.imageURL: imageURL]) { (error, reference) in
             
             if error != nil {
                 print(error!)
@@ -45,12 +45,12 @@ class EventItemsController {
     }
     
     //addItem function with suggestorID signature instead of userID
-    func addItem(name: String, suggestorUserID: String, description: String, quantity: Int, eventId: String, voteCount: Int) {
+    func addItem(name: String, suggestorUserID: String, description: String, quantity: Int, eventId: String, voteCount: Int, imageURL: String) {
         self.ref = Database.database().reference()
         
         let itemRef = self.ref.child(DB.items).child(eventId).childByAutoId()
         
-        itemRef.setValue([DB.name: name, DB.description: description, DB.quantity: quantity, DB.suggestor: suggestorUserID, DB.voteCount: voteCount]) { (error, reference) in
+        itemRef.setValue([DB.name: name, DB.description: description, DB.quantity: quantity, DB.suggestor: suggestorUserID, DB.voteCount: voteCount, DB.imageURL: imageURL]) { (error, reference) in
             
             if error != nil {
                 print(error!)
@@ -200,6 +200,7 @@ class EventItemsController {
             let voteCount = itemDB?[DB.voteCount] as? Int ?? 0
             let positiveVoterUserIdDict = itemDB?[DB.positiveVoterUserID] as? NSDictionary ?? [:]
             let negativeVoterUserIdDict = itemDB?[DB.negativeVoterUserID] as? NSDictionary ?? [:]
+            let imageURL = itemDB?[DB.imageURL] as? String ?? ""
             
             var positiveVoterUserID: [String] = []
             var negativeVoterUserID: [String] = []
@@ -214,7 +215,7 @@ class EventItemsController {
                 negativeVoterUserID.append(userID)
             }
 
-            var newItem = Item(name: name, id: id, userID: userID, suggestorUserID: suggestorUserID, description: description, quantity: quantity, voteCount: voteCount, positiveVoterUserID: positiveVoterUserID, negativeVoterUserID: negativeVoterUserID)
+            let newItem = Item(name: name, id: id, userID: userID, suggestorUserID: suggestorUserID, description: description, quantity: quantity, voteCount: voteCount, positiveVoterUserID: positiveVoterUserID, negativeVoterUserID: negativeVoterUserID, imageURL: imageURL)
             
             if userID == "" {
                 newItem.userID = nil
@@ -269,6 +270,7 @@ class EventItemsController {
             let voteCount = itemDB?[DB.voteCount] as? Int ?? 0
             let positiveVoterUserIdDict = itemDB?[DB.positiveVoterUserID] as? NSDictionary ?? [:]
             let negativeVoterUserIdDict = itemDB?[DB.negativeVoterUserID] as? NSDictionary ?? [:]
+            let imageURL = itemDB?[DB.imageURL] as? String ?? ""
             
             var positiveVoterUserID: [String] = []
             var negativeVoterUserID: [String] = []
@@ -285,7 +287,7 @@ class EventItemsController {
             
             for i in 0..<self.items.count {
                 if self.items[i].id == id {
-                    var updatedItem = Item(name: name, id: id, userID: userID, suggestorUserID: suggestorUserID, description: description, quantity: quantity, voteCount: voteCount, positiveVoterUserID: positiveVoterUserID, negativeVoterUserID: negativeVoterUserID)
+                    let updatedItem = Item(name: name, id: id, userID: userID, suggestorUserID: suggestorUserID, description: description, quantity: quantity, voteCount: voteCount, positiveVoterUserID: positiveVoterUserID, negativeVoterUserID: negativeVoterUserID, imageURL: imageURL)
                     
                     if userID == "" {
                         updatedItem.userID = nil

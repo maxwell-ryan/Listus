@@ -20,7 +20,7 @@ class Item {
     var voteCount: Int
     var positiveVoterUserID: [String]
     var negativeVoterUserID: [String]
-    var picture: UIImage?
+    var imageURL: String?
     
     init(name: String, id: String, userID: String, voteCount: Int = 0, positiveVoterUserID: [String] = [String](), negativeVoterUserID: [String] = [String]()) {
         
@@ -56,7 +56,7 @@ class Item {
         self.negativeVoterUserID = negativeVoterUserID
     }
     
-    init(name: String, id: String, userID: String, suggestorUserID: String, description: String, quantity: Int, voteCount: Int = 0, positiveVoterUserID: [String] = [String](), negativeVoterUserID: [String] = [String]()) {
+    init(name: String, id: String, userID: String, suggestorUserID: String, description: String, quantity: Int, voteCount: Int = 0, positiveVoterUserID: [String] = [String](), negativeVoterUserID: [String] = [String](), imageURL: String) {
         
         self.name = name
         self.id = id
@@ -67,6 +67,7 @@ class Item {
         self.voteCount = voteCount
         self.positiveVoterUserID = positiveVoterUserID
         self.negativeVoterUserID = negativeVoterUserID
+        self.imageURL = imageURL
     }
     
     

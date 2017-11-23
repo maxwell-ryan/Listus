@@ -33,6 +33,7 @@ class ItemViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     var userID: String!
     
     var storageRef: StorageReference!
+    var imageURL: String?
 
     
     override func viewDidLoad() {
@@ -116,16 +117,17 @@ class ItemViewController: UIViewController, UIImagePickerControllerDelegate, UIN
                 let imageFile = contentEditingInput?.fullSizeImageURL
                 let filePath = Auth.auth().currentUser!.uid +
                 "/\(Int(Date.timeIntervalSinceReferenceDate * 1000))/\(imageFile!.lastPathComponent)"
-                // [START uploadimage]
+                
+                // upload image
                 self.storageRef.child(filePath)
                     .putFile(from: imageFile!, metadata: nil) { (metadata, error) in
                         if let error = error {
                             print("Error uploading: \(error)")
                             return
                         }
+
                         self.uploadSuccess(metadata!, storagePath: filePath)
                 }
-                // [END uploadimage]
             })
         } else {
             guard let image = info[UIImagePickerControllerOriginalImage] as? UIImage else { return }
@@ -146,9 +148,10 @@ class ItemViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     
     func uploadSuccess(_ metadata: StorageMetadata, storagePath: String) {
         print("Upload Succeeded!")
-        print (metadata.downloadURL()?.absoluteString)
         UserDefaults.standard.set(storagePath, forKey: "storagePath")
         UserDefaults.standard.synchronize()
+        imageURL = metadata.downloadURL()!.absoluteString
+        dismiss(animated: true, completion: nil)
     }
     
     override func didReceiveMemoryWarning() {
@@ -181,10 +184,21 @@ class ItemViewController: UIViewController, UIImagePickerControllerDelegate, UIN
             
             //if editIdx not nil, user requsted edit to existing item
             if let updateIdx = editIdx {
-                eventItemsController.editItem(item: eventItemsController.items[updateIdx], itemId: eventItemsController.items[updateIdx].id, name: itemNameTextField.text!, description: descriptionTextField.text!, quantity: Int(quantityStepper.value), eventId: currentEvent.id, voteCount: eventItemsController.items[updateIdx].voteCount)
+                if let imageUploaded = imageURL {
+                    eventItemsController.editItem(item: eventItemsController.items[updateIdx], itemId: eventItemsController.items[updateIdx].id, name: itemNameTextField.text!, description: descriptionTextField.text!, quantity: Int(quantityStepper.value), eventId: currentEvent.id, voteCount: eventItemsController.items[updateIdx].voteCount, imageURL: imageUploaded)
+                }
+                else {
+                    eventItemsController.editItem(item: eventItemsController.items[updateIdx], itemId: eventItemsController.items[updateIdx].id, name: itemNameTextField.text!, description: descriptionTextField.text!, quantity: Int(quantityStepper.value), eventId: currentEvent.id, voteCount: eventItemsController.items[updateIdx].voteCount, imageURL: "")
+                }
+                
             } else {
-                //add new item to corresponding event
-                eventItemsController.addItem(name: itemNameTextField.text!, suggestorUserID: self.userID, description: descriptionTextField.text!, quantity: Int(quantityStepper.value), eventId: currentEvent.id, voteCount: 0)
+                if let imageUploaded = imageURL {
+                    //add new item to corresponding event
+                    eventItemsController.addItem(name: itemNameTextField.text!, suggestorUserID: self.userID, description: descriptionTextField.text!, quantity: Int(quantityStepper.value), eventId: currentEvent.id, voteCount: 0, imageURL: imageUploaded)
+                }
+                else {
+                    eventItemsController.addItem(name: itemNameTextField.text!, suggestorUserID: self.userID, description: descriptionTextField.text!, quantity: Int(quantityStepper.value), eventId: currentEvent.id, voteCount: 0, imageURL: "")
+                }
             }
             
             //return to list which will now display recently added item
