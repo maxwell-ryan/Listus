@@ -8,8 +8,10 @@
 
 import UIKit
 import Firebase
+import PINRemoteImage
 
 class ItemListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+    
     
     var userController: UserController!
     var eventItemsController = EventItemsController()
@@ -17,6 +19,9 @@ class ItemListViewController: UIViewController, UITableViewDelegate, UITableView
     
     let navigationLauncher = NavigationLauncher()
     let menuLauncher = MenuLauncher()
+    
+    var newImageView: UIImageView!
+    var blurEffectView: UIVisualEffectView!
     
     @IBOutlet weak var listItemTableView: UITableView!
 
@@ -94,6 +99,16 @@ class ItemListViewController: UIViewController, UITableViewDelegate, UITableView
             listItemCell.itemNameLabel.text = eventItemsController.items[indexPath.row].name
             listItemCell.itemDescriptionLabel.text = eventItemsController.items[indexPath.row].description
             listItemCell.quantityLabel.text = "| Quantity needed: \(eventItemsController.items[indexPath.row].quantity!) |"
+            
+            //set image view
+            let image = "https://firebasestorage.googleapis.com/v0/b/grouplist-23248.appspot.com/o/DC8XAuxhv7Xnd0AFi9KKB5IjmYP2%2F532915232278.jpg?alt=media&token=c3c04d42-d419-43c4-8121-88bf9dc1fee6"
+            
+            //let image = "https://firebasestorage.googleapis.com/v0/b/grouplist-23248.appspot.com/o/B0JcVXa8DLaaGcwai1lwqXa3Vff1%2F533083136905.jpg?alt=media&token=4865f678-64e9-496c-a1bc-36e54e99a95a"
+            listItemCell.picture.pin_setImage(from: URL(string: image)!)
+            
+            //show larger image on image tapped
+            let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped))
+            listItemCell.picture.addGestureRecognizer(tapRecognizer)
             
             //append + to voteCount display, if positive
             print(self.eventItemsController.items[indexPath.row].voteCount)
@@ -174,6 +189,7 @@ class ItemListViewController: UIViewController, UITableViewDelegate, UITableView
             
             return listItemCell
     }
+    
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //no implementation of row selection yet
@@ -323,6 +339,38 @@ class ItemListViewController: UIViewController, UITableViewDelegate, UITableView
                 print("A logout error occured")
             }
         }
+    }
+    
+    @objc func imageTapped(sender: UITapGestureRecognizer) {
+        
+        let tapBackground = UITapGestureRecognizer(target: self, action: #selector(dismissFullscreenImage))
+        let tapImage = UITapGestureRecognizer(target: self, action: #selector(dismissFullscreenImage))
+        
+        let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.dark)
+        blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView.frame = view.bounds
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        blurEffectView.addGestureRecognizer(tapBackground)
+        view.addSubview(blurEffectView)
+        
+        let imageView = sender.view as! UIImageView
+        newImageView = UIImageView(image: imageView.image)
+        newImageView.frame = CGRect(x: 0, y: 50, width: 320, height: 480)
+        newImageView.contentMode = .scaleAspectFit
+        newImageView.isUserInteractionEnabled = true
+        newImageView.addGestureRecognizer(tapImage)
+        newImageView.center = self.view.center
+        
+        
+        self.view.addSubview(newImageView)
+        self.tabBarController?.tabBar.isHidden = true
+ 
+    }
+    
+    func dismissFullscreenImage(_ sender: UITapGestureRecognizer) {
+        self.tabBarController?.tabBar.isHidden = false
+        blurEffectView.removeFromSuperview()
+        newImageView.removeFromSuperview()
     }
     
     func claimItem(sender: UIButton) {

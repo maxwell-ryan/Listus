@@ -17,6 +17,7 @@ class ListItemTableViewCell: UITableViewCell {
     @IBOutlet weak var quantityLabel: UILabel!
     @IBOutlet weak var claimedByLabel: UILabel!
     @IBOutlet weak var voteCountLabel: UILabel!
+    @IBOutlet weak var picture: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()

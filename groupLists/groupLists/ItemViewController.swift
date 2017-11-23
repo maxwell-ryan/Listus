@@ -27,8 +27,6 @@ class ItemViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     
     @IBOutlet weak var submitNewItemBtn: UIButton!
     
-    @IBOutlet weak var imageView: UIImageView!
-    
     var eventItemsController: EventItemsController!
     var editIdx: Int?
     var currentEvent: Event!
@@ -41,7 +39,6 @@ class ItemViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         super.viewDidLoad()
     
         storageRef = Storage.storage().reference()
-        imageView.pin_setImage(from: URL(string: "https://firebasestorage.googleapis.com/v0/b/grouplist-23248.appspot.com/o/DC8XAuxhv7Xnd0AFi9KKB5IjmYP2%2F532915232278.jpg?alt=media&token=c3c04d42-d419-43c4-8121-88bf9dc1fee6")!)
         
         view.backgroundColor = colors.primaryColor1
         
