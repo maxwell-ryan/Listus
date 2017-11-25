@@ -107,9 +107,11 @@ class ItemListViewController: UIViewController, UITableViewDelegate, UITableView
                 //show larger image on image tapped
                 let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped))
                 listItemCell.picture.addGestureRecognizer(tapRecognizer)
+                listItemCell.picture.isUserInteractionEnabled = true
             }
             else {
                 listItemCell.picture.image = nil
+                listItemCell.picture.isUserInteractionEnabled = false
             }
             
             //obtain suggestor name from authorizedUsers struct array

@@ -10,8 +10,6 @@ import UIKit
 import Firebase
 import Photos
 import PINRemoteImage
-import SVProgressHUD
-
 
 class ItemViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
@@ -122,12 +120,12 @@ class ItemViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        dismiss(animated: true, completion: nil)
+        submitNewItemBtn.isEnabled = false
         
         //Boilerplate code taken from Firebase documentation
         //Upload photos taken from library
         if #available(iOS 8.0, *), let referenceUrl = info[UIImagePickerControllerPHAsset] as? PHAssetCollection {
-            //let assets = PHAsset.fetchAssets(withALAssetURLs: [referenceUrl], options: nil)
-            //SVProgressHUD.show()
             let assets = PHAsset.fetchAssets(in: referenceUrl, options: nil)
             let asset = assets.firstObject
             asset?.requestContentEditingInput(with: nil, completionHandler: { (contentEditingInput, info) in
@@ -167,8 +165,8 @@ class ItemViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     
     func uploadSuccess(_ metadata: StorageMetadata, storagePath: String) {
         print("Upload Succeeded!")
+        submitNewItemBtn.isEnabled = true
         imageURL = metadata.downloadURL()!.absoluteString
-        dismiss(animated: true, completion: nil)
     }
     
     override func didReceiveMemoryWarning() {
