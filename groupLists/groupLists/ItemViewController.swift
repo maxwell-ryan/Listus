@@ -10,6 +10,8 @@ import UIKit
 import Firebase
 import Photos
 import PINRemoteImage
+import SVProgressHUD
+
 
 class ItemViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
@@ -22,9 +24,9 @@ class ItemViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     @IBOutlet weak var quantityLabel: UILabel!
     @IBOutlet weak var quantityStepperLabel: UILabel!
     @IBOutlet weak var quantityStepper: UIStepper!
-
-    @IBOutlet weak var backBtn: UIButton!
+    @IBOutlet weak var uploadPhotoBtn: UIButton!
     
+    @IBOutlet weak var backBtn: UIButton!
     @IBOutlet weak var submitNewItemBtn: UIButton!
     
     var eventItemsController: EventItemsController!
@@ -65,6 +67,13 @@ class ItemViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         
         quantityStepperLabel.text = String(Int(quantityStepper.value))
         
+        //format claim button color and styling
+        uploadPhotoBtn.layer.cornerRadius = 3
+        uploadPhotoBtn.tintColor = colors.accentColor1
+        uploadPhotoBtn.layer.borderColor = uploadPhotoBtn.currentTitleColor.cgColor
+        uploadPhotoBtn.layer.borderWidth = 1
+        uploadPhotoBtn.contentEdgeInsets = UIEdgeInsets(top: 2, left: 6, bottom: 2, right: 6)
+        
         if let editIdxPassed = self.editIdx {
 
             //pre-populate the selected item (by row/tag) with the existing item information
@@ -79,6 +88,8 @@ class ItemViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     }
 
     @IBAction func photosButtonTapped(_ sender: Any) {
+        
+        //Boilerplate code taken from Firebase documentation
         let imagePicker = UIImagePickerController()
         imagePicker.delegate = self
         
@@ -86,6 +97,7 @@ class ItemViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         alertController.addAction(cancelAction)
         
+        //If allowed, give option to uploaded from camera
         if UIImagePickerController.isSourceTypeAvailable(.camera) {
             let cameraAction = UIAlertAction(title: "Camera", style: .default, handler: { action in
                     imagePicker.sourceType = .camera
@@ -95,23 +107,28 @@ class ItemViewController: UIViewController, UIImagePickerControllerDelegate, UIN
             alertController.addAction(cameraAction)
         }
         
+        //If allowed, give option to uploaded from photos library
         if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
-            let photoLibraryAction = UIAlertAction(title: "photo library", style: .default, handler: { action in
+            let photoLibraryAction = UIAlertAction(title: "Photo Library", style: .default, handler: { action in
                 imagePicker.sourceType = .photoLibrary
                 self.present(imagePicker, animated: true,
                 completion: nil)
             })
             alertController.addAction(photoLibraryAction)
         }
+        
         present(alertController, animated: true, completion: nil)
     }
     
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         
-        // if it's a photo from the library, not an image from the camera
-        if #available(iOS 8.0, *), let referenceUrl = info[UIImagePickerControllerPHAsset] as? URL {
-            let assets = PHAsset.fetchAssets(withALAssetURLs: [referenceUrl], options: nil)
+        //Boilerplate code taken from Firebase documentation
+        //Upload photos taken from library
+        if #available(iOS 8.0, *), let referenceUrl = info[UIImagePickerControllerPHAsset] as? PHAssetCollection {
+            //let assets = PHAsset.fetchAssets(withALAssetURLs: [referenceUrl], options: nil)
+            //SVProgressHUD.show()
+            let assets = PHAsset.fetchAssets(in: referenceUrl, options: nil)
             let asset = assets.firstObject
             asset?.requestContentEditingInput(with: nil, completionHandler: { (contentEditingInput, info) in
                 let imageFile = contentEditingInput?.fullSizeImageURL
@@ -125,11 +142,13 @@ class ItemViewController: UIViewController, UIImagePickerControllerDelegate, UIN
                             print("Error uploading: \(error)")
                             return
                         }
-
+                        //If uploaded, set the the image
                         self.uploadSuccess(metadata!, storagePath: filePath)
                 }
             })
-        } else {
+        }
+        //Upload photos taken from camera
+        else {
             guard let image = info[UIImagePickerControllerOriginalImage] as? UIImage else { return }
             guard let imageData = UIImageJPEGRepresentation(image, 0.8) else { return }
             let imagePath = Auth.auth().currentUser!.uid +
@@ -148,8 +167,6 @@ class ItemViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     
     func uploadSuccess(_ metadata: StorageMetadata, storagePath: String) {
         print("Upload Succeeded!")
-        UserDefaults.standard.set(storagePath, forKey: "storagePath")
-        UserDefaults.standard.synchronize()
         imageURL = metadata.downloadURL()!.absoluteString
         dismiss(animated: true, completion: nil)
     }

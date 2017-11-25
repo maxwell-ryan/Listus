@@ -12,6 +12,7 @@ pod 'Firebase/Database'
 pod 'Firebase/Auth'
 pod 'Firebase/Storage'
 pod 'PINRemoteImage', '3.0.0-beta.13'
+pod 'SVProgressHUD'
 
 pod 'GoogleToolboxForMac', '~> 2.1'
 
