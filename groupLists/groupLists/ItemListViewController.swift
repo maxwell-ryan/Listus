@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import PINRemoteImage
 
 class ItemListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
@@ -17,6 +18,9 @@ class ItemListViewController: UIViewController, UITableViewDelegate, UITableView
     
     let navigationLauncher = NavigationLauncher()
     let menuLauncher = MenuLauncher()
+    
+    var newImageView: UIImageView!
+    var blurEffectView: UIVisualEffectView!
     
     @IBOutlet weak var listItemTableView: UITableView!
 
@@ -89,11 +93,44 @@ class ItemListViewController: UIViewController, UITableViewDelegate, UITableView
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) ->
         UITableViewCell {
             let listItemCell = listItemTableView.dequeueReusableCell(withIdentifier: "itemCell", for: indexPath) as! ListItemTableViewCell
+            var cellText = ""
             
             //set cell label text fields
             listItemCell.itemNameLabel.text = eventItemsController.items[indexPath.row].name
             listItemCell.itemDescriptionLabel.text = eventItemsController.items[indexPath.row].description
-            listItemCell.quantityLabel.text = "| Quantity needed: \(eventItemsController.items[indexPath.row].quantity!) |"
+            cellText += "\(eventItemsController.items[indexPath.row].quantity!) Needed |"
+            
+            //if found, set image
+            if (eventItemsController.items[indexPath.row].imageURL != "") {
+                listItemCell.picture.pin_setImage(from: URL(string: eventItemsController.items[indexPath.row].imageURL!)!)
+                
+                //show larger image on image tapped
+                let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped))
+                listItemCell.picture.addGestureRecognizer(tapRecognizer)
+                listItemCell.picture.isUserInteractionEnabled = true
+            }
+            else {
+                listItemCell.picture.image = nil
+                listItemCell.picture.isUserInteractionEnabled = false
+            }
+            
+            //obtain suggestor name from authorizedUsers struct array
+            var suggestorName: String?
+            for user in currentEvent.authorizedUsers {
+                if user.userId == eventItemsController.items[indexPath.row].suggestorUserID {
+                    suggestorName = user.userName
+                    break
+                }
+            }
+            
+            //if found, display suggestor name
+            if suggestorName != nil {
+                cellText += " Suggested by \(suggestorName!) "
+                
+                //otherwise, display unknown name
+            } else {
+                cellText += " Suggested by unknown "
+            }
             
             //append + to voteCount display, if positive
             print(self.eventItemsController.items[indexPath.row].voteCount)
@@ -104,22 +141,14 @@ class ItemListViewController: UIViewController, UITableViewDelegate, UITableView
             }
             
             //verify if corresponding item has already been claimed and display to user
-            if eventItemsController.items[indexPath.row].userID == nil {
-                listItemCell.claimedByLabel.text = ""
-                listItemCell.claimedByLabel.isHidden = true
-
-            } else {
-                listItemCell.claimedByLabel.text = "\(eventItemsController.items[indexPath.row].userID!) already claimed"
-                listItemCell.claimedByLabel.isHidden = false
-
+            if eventItemsController.items[indexPath.row].userID != nil {
+                cellText += "| Claimed by \(eventItemsController.items[indexPath.row].userID!)"
             }
             
             //mark item index to button
             listItemCell.claimButton.tag = indexPath.row
             
             //add claim button targets based on claim status/state
-            print(eventItemsController.items[indexPath.row].userID)
-            
             //nobody has claimed item
             if eventItemsController.items[indexPath.row].userID == nil {
                 listItemCell.claimButton.isHidden = false
@@ -138,24 +167,9 @@ class ItemListViewController: UIViewController, UITableViewDelegate, UITableView
                 listItemCell.claimButton.setTitle("Unclaim", for: .normal)
                 listItemCell.claimButton.addTarget(self, action: #selector(unclaimItem), for: .touchUpInside)
             }
-
-            //obtain suggestor name from authorizedUsers struct array
-            var suggestorName: String?
-            for user in currentEvent.authorizedUsers {
-                if user.userId == eventItemsController.items[indexPath.row].suggestorUserID {
-                    suggestorName = user.userName
-                    break
-                }
-            }
             
-            //if found, display suggestor name
-            if suggestorName != nil {
-                listItemCell.itemUserLabel.text = "| Suggested by \(suggestorName!) |"
-            
-            //otherwise, display unknown name
-            } else {
-                listItemCell.itemUserLabel.text = "| Suggested by unknown |"
-            }
+            //set text field for quantity, suggestor, and claimed by
+            listItemCell.attributesLabel.text = cellText
             
             //format claim button color and styling
             listItemCell.claimButton.layer.cornerRadius = 3
@@ -167,13 +181,12 @@ class ItemListViewController: UIViewController, UITableViewDelegate, UITableView
             listItemCell.backgroundColor = colors.primaryColor1
             listItemCell.itemNameLabel.textColor = colors.primaryColor2
             listItemCell.itemDescriptionLabel.textColor = colors.primaryColor2
-            listItemCell.quantityLabel.textColor = colors.accentColor1
-            listItemCell.itemUserLabel.textColor = colors.accentColor1
-            listItemCell.claimedByLabel.textColor = colors.primaryColor2
+            listItemCell.attributesLabel.textColor = colors.accentColor1
             listItemCell.voteCountLabel.textColor = colors.accentColor1
             
             return listItemCell
     }
+    
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //no implementation of row selection yet
@@ -259,6 +272,7 @@ class ItemListViewController: UIViewController, UITableViewDelegate, UITableView
             destinationVC.currentEvent = self.currentEvent
             destinationVC.userID = self.userController.user.id
             destinationVC.eventItemsController = self.eventItemsController
+            destinationVC.imageURL = self.eventItemsController.items[selectedRow.tag].imageURL
             
             //maintain current item scope/idx
             destinationVC.editIdx = selectedRow.tag
@@ -323,6 +337,41 @@ class ItemListViewController: UIViewController, UITableViewDelegate, UITableView
                 print("A logout error occured")
             }
         }
+    }
+    
+    //Expand image size and blur the backgound
+    @objc func imageTapped(sender: UITapGestureRecognizer) {
+        //Add tap gestures for dismising subviews
+        let tapBackground = UITapGestureRecognizer(target: self, action: #selector(dismissFullscreenImage))
+        let tapImage = UITapGestureRecognizer(target: self, action: #selector(dismissFullscreenImage))
+        
+        //Add a blurred background
+        let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.dark)
+        blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView.frame = view.bounds
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        blurEffectView.addGestureRecognizer(tapBackground)
+        view.addSubview(blurEffectView)
+        
+        //Add an expanded image subview
+        let imageView = sender.view as! UIImageView
+        newImageView = UIImageView(image: imageView.image)
+        newImageView.frame = CGRect(x: 0, y: 50, width: 380, height: 380)
+        newImageView.contentMode = .scaleAspectFit
+        newImageView.isUserInteractionEnabled = true
+        newImageView.addGestureRecognizer(tapImage)
+        newImageView.center = self.view.center
+        self.view.addSubview(newImageView)
+        
+        //Hide tab bar
+        self.tabBarController?.tabBar.isHidden = true
+    }
+    
+    func dismissFullscreenImage(_ sender: UITapGestureRecognizer) {
+        //Show tab bar and dismiss subviews
+        self.tabBarController?.tabBar.isHidden = false
+        blurEffectView.removeFromSuperview()
+        newImageView.removeFromSuperview()
     }
     
     func claimItem(sender: UIButton) {
