@@ -7,9 +7,8 @@
 //
 
 import UIKit
-import Firebase
+import FirebaseStorage
 import Photos
-import PINRemoteImage
 
 class ItemViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
@@ -130,7 +129,7 @@ class ItemViewController: UIViewController, UIImagePickerControllerDelegate, UIN
             let asset = assets.firstObject
             asset?.requestContentEditingInput(with: nil, completionHandler: { (contentEditingInput, info) in
                 let imageFile = contentEditingInput?.fullSizeImageURL
-                let filePath = Auth.auth().currentUser!.uid +
+                let filePath = self.userID +
                 "/\(Int(Date.timeIntervalSinceReferenceDate * 1000))/\(imageFile!.lastPathComponent)"
                 
                 // upload image
@@ -149,7 +148,7 @@ class ItemViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         else {
             guard let image = info[UIImagePickerControllerOriginalImage] as? UIImage else { return }
             guard let imageData = UIImageJPEGRepresentation(image, 0.8) else { return }
-            let imagePath = Auth.auth().currentUser!.uid +
+            let imagePath = self.userID +
             "/\(Int(Date.timeIntervalSinceReferenceDate * 1000)).jpg"
             let metadata = StorageMetadata()
             metadata.contentType = "image/jpeg"
