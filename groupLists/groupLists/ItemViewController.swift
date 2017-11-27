@@ -9,6 +9,7 @@
 import UIKit
 import FirebaseStorage
 import Photos
+import SVProgressHUD
 
 class ItemViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
@@ -121,6 +122,7 @@ class ItemViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         dismiss(animated: true, completion: nil)
         submitNewItemBtn.isEnabled = false
+        SVProgressHUD.show()
         
         //Boilerplate code taken from Firebase documentation
         //Upload photos taken from library
@@ -166,6 +168,7 @@ class ItemViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         print("Upload Succeeded!")
         submitNewItemBtn.isEnabled = true
         imageURL = metadata.downloadURL()!.absoluteString
+        SVProgressHUD.dismiss()
     }
     
     override func didReceiveMemoryWarning() {
