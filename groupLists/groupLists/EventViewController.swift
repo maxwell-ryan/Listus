@@ -10,7 +10,7 @@ import Foundation
 import Firebase
 import UIKit
 
-class EventViewController: UIViewController {
+class EventViewController: UIViewController, UITextFieldDelegate {
     
     
     @IBOutlet weak var navBtn: UIButton!
@@ -39,6 +39,9 @@ class EventViewController: UIViewController {
     override func viewDidLoad() {
         
         super.viewDidLoad()
+        
+        eventNameTextField.delegate = self
+        eventDescTextField.delegate = self
         
         //format navigation button
         navBtn.showsTouchWhenHighlighted = true
@@ -186,4 +189,8 @@ class EventViewController: UIViewController {
         self.present(alertController, animated: true, completion: nil)
     }
     
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.endEditing(true)
+        return true
+    }
 }
