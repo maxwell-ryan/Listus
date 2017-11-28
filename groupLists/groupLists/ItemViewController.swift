@@ -11,7 +11,7 @@ import FirebaseStorage
 import Photos
 import SVProgressHUD
 
-class ItemViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class ItemViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
 
     @IBOutlet weak var itemNameLabel: UILabel!
     @IBOutlet weak var itemNameTextField: UITextField!
@@ -40,6 +40,9 @@ class ItemViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         super.viewDidLoad()
     
         storageRef = Storage.storage().reference()
+        
+        itemNameTextField.delegate = self
+        descriptionTextField.delegate = self
         
         view.backgroundColor = colors.primaryColor1
         
@@ -226,5 +229,10 @@ class ItemViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     
     func returnToList(){
         dismiss(animated: true) {}
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.endEditing(true)
+        return true
     }
 }

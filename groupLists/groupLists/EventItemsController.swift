@@ -184,7 +184,7 @@ class EventItemsController {
         }
     }
 
-    func getItemOnChildAdded(eventId: String, itemListTableView: UITableView) {
+    func getItemOnChildAdded(eventId: String, itemListTableView: UITableView, listInfoLabel: UILabel, eventCreatorName: String) {
         self.ref = Database.database().reference()
         let itemsRef = self.ref.child(DB.items).child(eventId)
         
@@ -227,12 +227,13 @@ class EventItemsController {
             self.items.append(newItem)
             
             //Reload table data
+            listInfoLabel.text = "Organized by \(eventCreatorName)    |    \((self.items.count)) items suggested"
             itemListTableView.reloadData()
         })
     }
     
     
-    func removeItemOnChildRemoved(eventId: String, itemListTableView: UITableView) {
+    func removeItemOnChildRemoved(eventId: String, itemListTableView: UITableView, listInfoLabel: UILabel, eventCreatorName: String) {
         self.ref = Database.database().reference()
         
         let itemsDB = self.ref.child(DB.items).child(eventId)
@@ -245,6 +246,7 @@ class EventItemsController {
                     self.items.remove(at: i)
                     
                     //Reload table data
+                    listInfoLabel.text = "Organized by \(eventCreatorName)    |    \((self.items.count)) items suggested"
                     itemListTableView.reloadData()
                     break
                 }
