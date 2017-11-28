@@ -459,7 +459,6 @@ class EventCollectionViewController: UIViewController, UICollectionViewDelegate,
         // Initialize Actions
         let okAction = UIAlertAction(title: "Ok", style: .default) { (action) -> Void in
             
-            print("user acknowledges")
         }
         
         // Add Actions
