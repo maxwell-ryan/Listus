@@ -108,7 +108,7 @@ class EventViewController: UIViewController {
                 print("A valid description must be provided before adding this event")
             }
             
-            //otherwise proceed with create new item/edit existing event
+        //otherwise proceed with create new item/edit existing event
         } else {
             
             //if editIdx not nil, user requsted edit to existing event
@@ -129,31 +129,33 @@ class EventViewController: UIViewController {
             
         }
     }
+    
     func displayMenu() {
-        
+        //pass self to menuLauncher and open menuLauncher
         menuLauncher.baseEventVC = self
         menuLauncher.showMenu()
     }
     
     func executeMenuOption(option: MenuOption) {
-        
+        //fire appropriate function/action based on MenuOption selected in self's menuLauncher
         if option.name == "Cancel" {
             dismiss(animated: true)
         }
     }
     
     func displayNav() {
-        
+        //pass self to navigationLauncher and open menuLauncher
         navigationLauncher.baseEventVC = self
         navigationLauncher.showMenu()
     }
     
     func executeNavOption(option: NavOption) {
-        
+        //fire appropriate function/action based on NavOption selected in self's NavOption
         if option.name == "Cancel" {
             //cancel selected, do nothing
         }
         else if option.name == "My Events" {
+            //already in events, simply dismiss NavigationLauncher
             dismiss(animated: true)
             
         } else if option.name == "Logout" {
