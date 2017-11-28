@@ -37,9 +37,20 @@ class ItemListViewController: UIViewController, UITableViewDelegate, UITableView
         listItemTableView.dataSource = self
         listItemTableView.delegate = self
         
+        //ensure new items count is displayed whenever view is shown
+        let creatorID = currentEvent.creator
+        var eventCreatorName : String = ""
+        
+        //iterate authorizedUsers, identify creator name to display
+        for user in currentEvent.authorizedUsers {
+            if user.userId == creatorID {
+                eventCreatorName = user.userName
+            }
+        }
+        
         // Startup firebase observers for getting, removing, and updating items
-        eventItemsController.getItemOnChildAdded(eventId: currentEvent.id, itemListTableView: listItemTableView)
-        eventItemsController.removeItemOnChildRemoved(eventId: currentEvent.id, itemListTableView: listItemTableView)
+        eventItemsController.getItemOnChildAdded(eventId: currentEvent.id, itemListTableView: listItemTableView, listInfoLabel: listInfoLabel, eventCreatorName: eventCreatorName)
+        eventItemsController.removeItemOnChildRemoved(eventId: currentEvent.id, itemListTableView: listItemTableView, listInfoLabel: listInfoLabel, eventCreatorName: eventCreatorName)
         eventItemsController.updateItemOnChildChanged(eventId: currentEvent.id, itemListTableView: listItemTableView)
         
         //view, nav, and menu styling and formatting
@@ -66,15 +77,7 @@ class ItemListViewController: UIViewController, UITableViewDelegate, UITableView
     
     override func viewWillAppear(_ animated: Bool) {
         
-        //ensure new items count is displayed whenever view is shown
-        let creatorID = currentEvent.creator
         
-        //iterate authorizedUsers, identify creator name to display
-        for user in currentEvent.authorizedUsers {
-            if user.userId == creatorID {
-                listInfoLabel.text = "Organized by \(user.userName)    |    \(eventItemsController.items.count) items suggested"
-            }
-        }
     }
 
     override func didReceiveMemoryWarning() {
