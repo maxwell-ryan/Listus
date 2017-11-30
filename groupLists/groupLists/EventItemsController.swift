@@ -311,4 +311,23 @@ class EventItemsController {
     func removeObservers(eventId: String) {
         self.ref.child(DB.items).child(eventId).removeAllObservers()
     }
+    
+    //check authorizedUser array for event passed, for userID passed
+    func verifyIfPrivilegedUser(userID: String, event: Event) -> Bool {
+        
+        for user in event.authorizedUsers {
+            //if userID found in event's authorizedUser array
+            if user.userId == userID {
+                //if the user has edit permissions, return true
+                if user.permissions == true {
+                    return true
+                } else {
+                    return false
+                }
+            }
+        }
+        
+        //if not found, return false
+        return false
+    }
 }

@@ -236,8 +236,18 @@ class ItemListViewController: UIViewController, UITableViewDelegate, UITableView
         })
         disagree.backgroundColor = UIColor.orange
         
-        //return array of leadingSwipe UIContextualActions
-        return UISwipeActionsConfiguration(actions: [disagree, delete])
+        //ensure user has privileged access before offering delete UIContextualAction
+        if (eventItemsController.verifyIfPrivilegedUser(userID: self.userController.user.id, event: currentEvent)) {
+            
+            //return array of leadingSwipe UIContextualActions, including delete ability
+            return UISwipeActionsConfiguration(actions: [disagree, delete])
+        
+        } else {
+            
+            //return array without delete ability
+            return UISwipeActionsConfiguration(actions: [disagree])
+        }
+
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
@@ -260,8 +270,19 @@ class ItemListViewController: UIViewController, UITableViewDelegate, UITableView
         })
         concur.backgroundColor = colors.accentColor1
         
-        //return array of trailingSwipe UIContextualActions
-        return UISwipeActionsConfiguration(actions: [concur, edit])
+        
+        //ensure user has privileged access before offering edit UIContextualAction
+        if (eventItemsController.verifyIfPrivilegedUser(userID: self.userController.user.id, event: currentEvent)) {
+            
+            //return array of trailingSwipe UIContextualActions, including edit ability
+            return UISwipeActionsConfiguration(actions: [concur, edit])
+            
+        } else {
+            
+            //return array without edit ability
+            return UISwipeActionsConfiguration(actions: [concur])
+        }
+        
     }
 
     
