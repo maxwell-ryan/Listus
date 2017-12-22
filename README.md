@@ -1,2 +1,9 @@
-# groupList
-An iOS application that aides creating, managing, and discussing lists for upcoming group events.
+# Listus
+
+Picture this.
+
+You would like to organize a group event, a block party for your neighborhood. As the coordinator of the event, you assume most of the work. So much work, that for many, it may actually dissuade you from having the event altogether. Event coordinators must decide what items are needed at the block party, as you cannot have one without food and entertainment. And don’t forget that key item, or your party might be a flop. What is a block party without speakers for the music?
+
+Not only do you need to determine what items are needed, but you must then figure out who in the neighborhood can bring each item. This requires talking to, or emailing, everyone coming to inquire what they are able/are willing to bring. You may even need to reconfirm these commitments shortly before the actual event date. You cannot risk someone forgetting to bring that key item. This can amount to a lot of work.
+
+Listus simplifies this entire process. Simply add your event to Listus and start adding items to your event. Get your friends/neighbors on the Listus application and grant their account access to your event so they can also add items. Who knows, maybe you overlooked something they think is important. Or maybe they have some item that you have never heard about, but they can bring it, and it makes your event that much better. You can even discuss the need for something specific, as every Listus event supports real-time messaging directly within the event view. Everyone with access to a Listus event can see what items are already being brought (‘claimed’) and which items still need to be claimed. Users can claim items directly in the application, no need for the coordinator to painstakingly talk to each person. By decentralizing much of the effort required to coordinate an event, Listus enables groups to more easily get together and partake in well thought out, well planned, events.
